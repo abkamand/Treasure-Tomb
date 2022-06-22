@@ -147,7 +147,6 @@ class Player:
                     return
         # checks if the adjacent room with the right name exists
         if user_input[0] == "go" and user_input[1] == "to":
-            print(self.current_location.name)
             if self.current_location.north_wall is not None and user_input[
                 2] == self.current_location.north_wall.name:
                 direction = "north"
