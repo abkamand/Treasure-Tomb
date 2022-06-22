@@ -171,7 +171,6 @@ class Player:
         """
         Adds an item to a player's inventory. Removes it from the current room
         """
-        if len()
         if not item.can_pick_up:
             print("cannot pick up item")
             return
