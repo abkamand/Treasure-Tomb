@@ -126,45 +126,55 @@ class Player:
             for items in self.inventory:
                 if items.name == user_input[2]:
                     print(items.description)
-                    input()
+                    input("Press Enter to return")
                     return
             for items in self.current_location.in_room:
                 if items.name == user_input[2]:
                     print(items.description)
-                    input()
+                    input("Press Enter to return")
                     return
             # iterate through your inventory
             if user_input[2] == "inventory":
                 self.look_at_inventory()
-                input()
+                input("Press Enter to return")
                 return
+            print("Item not found in current room or inventory")
+            return
         # checks room for item to pick up
         if user_input[0] == "pick" and user_input[1] == "up":
             for items in self.current_location.in_room:
                 if items.can_pick_up == True and items.name == user_input[2]:
                     self.add_to_inventory(items)
-                    input()
+                    input("Press Enter to return")
                     return
+                if items.name == user_input[2] and items.can_pick_up == False:
+                    print("item cannot be picked up")
+                    input("Press Enter to return")
+                    return
+            print("Item not found in room")
+            input("Press Enter to return")
+            return
         # checks if the adjacent room with the right name exists
         if user_input[0] == "go" and user_input[1] == "to":
             if self.current_location.north_wall is not None and user_input[
                 2] == self.current_location.north_wall.name:
                 direction = "north"
                 self.move_to_new_room(direction)
-            if self.current_location.south_wall is not None and user_input[
+            elif self.current_location.south_wall is not None and user_input[
                 2] == self.current_location.south_wall.name:
                 direction = "south"
                 self.move_to_new_room(direction)
-            if self.current_location.east_wall is not None and user_input[
+            elif self.current_location.east_wall is not None and user_input[
                 2] == self.current_location.east_wall.name:
                 direction = "east"
                 self.move_to_new_room(direction)
-            if self.current_location.west_wall is not None and user_input[
+            elif self.current_location.west_wall is not None and user_input[
                 2] == self.current_location.west_wall.name:
                 direction = "west"
                 self.move_to_new_room(direction)
             else:
                 print("room does not exist")
+                input("Press Enter to return")
 
     def add_to_inventory(self, item):
         """
@@ -174,6 +184,7 @@ class Player:
             print("cannot pick up item")
             return
         self.inventory.append(item)
+        print("picked up " + item.name)
         if item.on_floor:
             item.toggle_on_floor()
         self.current_location.remove_item_from_room(item)
@@ -275,3 +286,4 @@ class Item:
         """ Toggles whether or not you can pick up an item"""
         if not self.can_pick_up:
             self.can_pick_up = True
+
