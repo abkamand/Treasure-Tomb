@@ -1,5 +1,6 @@
 from classes_and_functions import *
 from build_board import *
+from conditions import *
 import time
 
 
@@ -44,6 +45,8 @@ def main():
         user_inputted_command = player.current_location.take_input()
         time.sleep(1)
         player.execute_input(user_inputted_command)
+        time.sleep(1)
+        check_conditions(player)
         time.sleep(1)
         # need to add options to class, option to add options and take away options as items are picked up an dropped
 

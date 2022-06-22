@@ -121,6 +121,9 @@ class Player:
         by using "go to room_name". It does this by checking if your current room has an adjacent room with the name
         you entered.
         """
+        if len(user_input) < 2:
+            print("wrong input")
+            return
         # check in inventory then the room for the item to look at
         if user_input[0] == "look" and user_input[1] == "at":
             for items in self.inventory:
