@@ -2,7 +2,7 @@ from classes_and_functions import *
 from build_board import *
 from conditions import *
 import time
-
+import pickle
 
 def main():
     #    TREASURE TOMB
@@ -41,24 +41,23 @@ def main():
             print("Game Over")
             return
         # You have now entered the temple.
-        ret_list = build_the_board()
-        player = ret_list[2]
-        objects = ret_list
+        player = build_the_board()
 
     if load:
         with open(save_name + ".pickle", 'rb') as f:
-            objects = pickle.load(f)
-            player = objects[2]
+            player = pickle.load(f)
 
     while True:
         player.current_location.build_description()
         time.sleep(1)
         user_inputted_command = player.current_location.take_input()
         time.sleep(1)
-        player.execute_input(user_inputted_command, objects, save_name)
+        player.execute_input(user_inputted_command, player, save_name)
         time.sleep(1)
         check_conditions(player)
         time.sleep(1)
+        if player.is_dead:
+            return
 
         # need to add options to class, option to add options and take away options as items are picked up an dropped
 

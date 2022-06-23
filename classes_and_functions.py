@@ -114,8 +114,9 @@ class Player:
         self.rooms_visited = []
         self.current_location = None
         self.save_location = None
+        self.is_dead = False
 
-    def execute_input(self, user_input, objects, save_name):
+    def execute_input(self, user_input, player, save_name):
         """ This function parses the input that the use typed in. If the user types in "look at x" the function
         first checks your inventory for x and reads its description. If its not in your inventory, it assumes that
         it is in the room that you are currently in and will read the description. If you type "look at inventory" it
@@ -130,8 +131,14 @@ class Player:
             print("wrong input")
             return
         if user_input[0] == "savegame":
-            self.save_game(objects, save_name)
+            self.save_game(player, save_name)
             return
+        if user_input[0] == "inventory":
+            self.look_at_inventory()
+            input("Press Enter to return")
+            return
+
+
         # check in inventory then the room for the item to look at
         if user_input[0] == "look" and user_input[1] == "at":
             for items in self.inventory:
@@ -187,12 +194,10 @@ class Player:
                 print("room does not exist")
                 input("Press Enter to return")
 
-    def save_game(self, objects, save_name):
+    def save_game(self, player, save_name):
         new_save_name = save_name + ".pickle"
         with open(new_save_name, 'wb') as f:
-            pickle.dump(objects, f)
-        with open(new_save_name, 'rb') as f:
-            new_obj = pickle.load(f)
+            pickle.dump(player, f)
         return
 
     def add_to_inventory(self, item):
