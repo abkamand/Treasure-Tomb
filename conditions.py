@@ -40,6 +40,9 @@ def check_conditions(player):
         player.current_location.shortened_description = "Room with a painting of man on a horse. Door on western " \
                                                         "wall. A new door has appeared on the northern wall. Your " \
                                                         "magical key is glowing "
+        print("The magic key exploded and you died. GAME OVER")
+        player.is_dead = True
+
 
         North_Room = Room("North_Room")
 
