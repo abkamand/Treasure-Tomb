@@ -1,3 +1,6 @@
+import pickle
+
+
 class Room:
     def __init__(self, name):
         """
@@ -112,7 +115,7 @@ class Player:
         self.current_location = None
         self.save_location = None
 
-    def execute_input(self, user_input):
+    def execute_input(self, user_input, objects, save_name):
         """ This function parses the input that the use typed in. If the user types in "look at x" the function
         first checks your inventory for x and reads its description. If its not in your inventory, it assumes that
         it is in the room that you are currently in and will read the description. If you type "look at inventory" it
@@ -121,8 +124,13 @@ class Player:
         by using "go to room_name". It does this by checking if your current room has an adjacent room with the name
         you entered.
         """
-        if len(user_input) < 2:
+        # hit, pull, open, activate, press, throw,
+        # look, drop, take, go
+        if len(user_input) < 1:
             print("wrong input")
+            return
+        if user_input[0] == "savegame":
+            self.save_game(objects, save_name)
             return
         # check in inventory then the room for the item to look at
         if user_input[0] == "look" and user_input[1] == "at":
@@ -178,6 +186,14 @@ class Player:
             else:
                 print("room does not exist")
                 input("Press Enter to return")
+
+    def save_game(self, objects, save_name):
+        new_save_name = save_name + ".pickle"
+        with open(new_save_name, 'wb') as f:
+            pickle.dump(objects, f)
+        with open(new_save_name, 'rb') as f:
+            new_obj = pickle.load(f)
+        return
 
     def add_to_inventory(self, item):
         """
@@ -289,4 +305,3 @@ class Item:
         """ Toggles whether or not you can pick up an item"""
         if not self.can_pick_up:
             self.can_pick_up = True
-

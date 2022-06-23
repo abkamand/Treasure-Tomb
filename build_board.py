@@ -2,8 +2,11 @@ from classes_and_functions import *
 
 
 def build_the_board():
+    #Items, Rooms, Player
+    ret_list = [[],[]]
     # create the room, using the name of the room as the argument
     Test_Room = Room("Test_Room")
+    ret_list[1].append(Test_Room)
 
     # create the long description of the room you just made, and then add it to the room
     description = "This is a test room. On the eastern wall there is a painting of a man on a horse.  There is a door " \
@@ -19,6 +22,7 @@ def build_the_board():
 
     # first we will create the book
     book = Item("book")
+    ret_list[0].append(book)
     # give the book a description
     book.add_description("This is a fake description for the book that was found on the table")
     # give the book an environmental description
@@ -28,6 +32,7 @@ def build_the_board():
 
     # now create the coffee mug
     mug = Item("mug")
+    ret_list[0].append(mug)
     # give mug a description
     mug.add_description("This is a test description for the coffee mug in the test room. Mug with carving of a dog on "
                         "it")
@@ -38,9 +43,11 @@ def build_the_board():
 
     # now create the painting
     painting = Item("painting")
+    ret_list[0].append(painting)
     # give the painting a description
     painting.add_description("This is a test description fo the painting of a man on a horse in the test room")
     # we don't need to give the painting an environmental description since we can't pick it up
+
 
     # now add the items into the room
     Test_Room.add_item_to_room(book)
@@ -57,6 +64,8 @@ def build_the_board():
 
     # create the room to the west of the test room
     West_Room = Room("West_Room")
+    ret_list[1].append(West_Room)
+
 
     # create the long description of the room you just made, and then add it to the room
     description = "This is the room to the west of the test room. There is a sarcophagus in the middle of the room. " \
@@ -72,12 +81,14 @@ def build_the_board():
 
     # first we will create the sarcophagus
     sarcophagus = Item("sarcophagus")
+    ret_list[0].append(sarcophagus)
     # give the sarcophagus a description
     sarcophagus.add_description("This is a fake description for the sarcophagus that was found in the western room")
     # since we can't pick it up we don't need an env description
 
     # now create the gold chalice
     chalice = Item("chalice")
+    ret_list[0].append(chalice)
     # give chalice a description
     chalice.add_description(
         "This is a test description for the chalice that you can pick up in the western room. Made of solid gold and "
@@ -89,6 +100,7 @@ def build_the_board():
 
     # now create the wall carvings
     carvings = Item("carvings")
+    ret_list[0].append(carvings)
     # give the carvings a description
     carvings.add_description(
         "This is a test description for the wall carvings. The carvings depict a pharaoh holding up a glowing "
@@ -106,6 +118,7 @@ def build_the_board():
 
     # now add the player to the room
     player = Player()
+    ret_list.append(player)
     player.current_location = Test_Room
 
-    return player
+    return ret_list
