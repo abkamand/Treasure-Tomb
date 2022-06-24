@@ -3,6 +3,11 @@ from build_board import *
 from conditions import *
 import time
 import pickle
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init()
+
 
 def main():
     #    TREASURE TOMB
@@ -56,6 +61,8 @@ def main():
         time.sleep(1)
         check_conditions(player)
         time.sleep(1)
+        if player.HP == 0:
+            player.is_dead = True
         if player.is_dead:
             return
 
