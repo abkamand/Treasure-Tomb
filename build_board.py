@@ -47,7 +47,7 @@ def build_the_board():
     painting = Item("painting")
 
     # give the painting a description
-    painting.add_description("This is a test description fo the painting of a man on a horse in the test room")
+    painting.add_description("This is a test description for the painting of a man on a horse in the test room")
     # we don't need to give the painting an environmental description since we can't pick it up
 
     # now create the torch
