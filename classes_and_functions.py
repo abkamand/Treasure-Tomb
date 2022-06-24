@@ -113,8 +113,8 @@ class Player:
         self.inventory = []
         self.rooms_visited = []
         self.current_location = None
-        self.save_location = None
         self.is_dead = False
+        self.HP = 100
 
     def execute_input(self, user_input, player, save_name):
         """ This function parses the input that the use typed in. If the user types in "look at x" the function
@@ -125,21 +125,30 @@ class Player:
         by using "go to room_name". It does this by checking if your current room has an adjacent room with the name
         you entered.
         """
-        # hit, pull, open, activate, press, throw,
-        # look, drop, take, go
+        # TO DO:
+        # attack, consume,
+        # DONE:
+        # look at, pick up, go to , drop, activate
+#----------------------------------------------------------------------------------------------------------------------------
+        # checking if input is at least one word
         if len(user_input) < 1:
-            print("wrong input")
+            print("Please enter an input")
+            input("Press Enter to return")
             return
+#------------------------------------------SAVE GAME-------------------------------------------------------------------------
+        # when user enters 'savegame' the game state is pickled into a file
         if user_input[0] == "savegame":
             self.save_game(player, save_name)
             return
+#-----------------------------------------INVENTORY--------------------------------------------------------------------------
+        # when the user enters 'inventory' a list of the items in the inventory is displayed
         if user_input[0] == "inventory":
             self.look_at_inventory()
             input("Press Enter to return")
             return
-
-
-        # check in inventory then the room for the item to look at
+#----------------------------------------LOOK AT--------------------------------------------------------------------------
+        # when the user enters 'look at item', first the inventory is checked for that item, and then the room is checked for
+        # that item. If it is found, the item's description is printed.
         if user_input[0] == "look" and user_input[1] == "at":
             for items in self.inventory:
                 if items.name == user_input[2]:
@@ -172,7 +181,55 @@ class Player:
             print("Item not found in room")
             input("Press Enter to return")
             return
-        # checks if the adjacent room with the right name exists
+#----------------------------------------------DROP---------------------------------------------------------------------------
+        # if the user enters 'drop item', the items is dropped from inventory onto the floor. It is added to the room's
+        # item list, and its on_floor status is toggled
+        if user_input[0] == "drop":
+            for items in self.inventory:
+                if items.can_pick_up == True and items.name == user_input[1]:
+                    self.drop_item(items)
+                    input("Press Enter to return")
+                    return
+
+
+#-------------------------------------------ACTIVATE-------------------------------------------------------------------------
+        #if the user enters 'activate item' this will toggle the item's ability attribute to True or False. Whatever the
+        # consequences of this action are will be determined by conditions.py file. First, we will check to see if the item
+        # is in your inventory. Then we will check to see if the item is in the room.
+        if user_input[0] == "activate":
+            for items in self.inventory:
+                if items.name == user_input[1] and items.can_activate_ability == True:
+                    items.toggle_ability()
+                    print(items.name + " activated")
+                    return
+                if items.name == user_input[1] and items.can_activate_ability == False:
+                    print(items.name + " cannot be activated")
+                    return
+
+#-----------------------------------CONSUME----------------------------------------------------------------------------
+        # this will check to see if there are any consumables in your inventory and in the room. If there are, it will have
+        # an effect on your HP
+        if user_input[0] == "consume":
+            for items in self.inventory:
+                if items.name == user_input[1] and items.can_consume == True:
+                    self.HP = self.HP + items.power
+                    self.inventory.remove(items)
+                    print("consumed" + items.name)
+                    return
+
+
+
+
+
+
+
+
+
+#--------------------------------------------GO TO ----------------------------------------------------------------------------
+
+        # If the user enters "go to room" they will enter a new room. This will check to see if that room exists on the
+        # specified wall and then check if the name of the room matches the input. If it does, the current location will
+        # be changed to the new room
         if user_input[0] == "go" and user_input[1] == "to":
             if self.current_location.north_wall is not None and user_input[
                 2] == self.current_location.north_wall.name:
@@ -193,6 +250,7 @@ class Player:
             else:
                 print("room does not exist")
                 input("Press Enter to return")
+        print("invalid command")
 
     def save_game(self, player, save_name):
         new_save_name = save_name + ".pickle"
@@ -222,6 +280,7 @@ class Player:
                 item.toggle_on_floor()
             self.current_location.add_item_to_room(item)
             self.inventory.remove(item)
+            print("dropped " + item.name)
         else:
             print("item not in inventory")
 
@@ -271,10 +330,17 @@ class Item:
     def __init__(self, name):
         self.name = name
         self.description = None
-        self.ability = False
-        self.on_floor = False
         self.e_description = None
+        self.on_floor = False
         self.can_pick_up = False
+
+        self.ability = False
+        self.can_activate_ability = False
+
+        self.can_consume = False
+        self.is_enemy = False
+        self.power = None
+        self.HP = None
 
     def add_description(self, description):
         """
