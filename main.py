@@ -3,6 +3,11 @@ from build_board import *
 from conditions import *
 import time
 import pickle
+import colorama
+from colorama import Fore, Back, Style
+
+colorama.init()
+
 
 def main():
     #    TREASURE TOMB
