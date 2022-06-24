@@ -47,11 +47,44 @@ def build_the_board():
     painting.add_description("This is a test description fo the painting of a man on a horse in the test room")
     # we don't need to give the painting an environmental description since we can't pick it up
 
+    # now create the torch
+    torch = Item("torch")
+
+    # give torch a description
+    torch.add_description("This is a torch that can be used to illuminate rooms that are dark")
+    # give the torch an environmental description
+    torch.add_env_description("There is a torch on the ground next to the table.")
+    # make it so we can pick up the torch
+    torch.toggle_can_pick_up()
+    # make it so we can activate ability
+    torch.can_activate_ability = True
+    torch.ability_on_description = "The torch has been lit and is glowing brightly"
+    torch.ability_off_description = "The torch has been put out"
+
+
+
+  # now create a sword
+    sword = Item("sword")
+
+    # give sword a description
+    sword.add_description("This is a sword that looks like it can do some damage")
+    # give the sword an environmental description
+    sword.add_env_description("There is a sword hanging up on the wall next to the painting")
+    # make it so we can pick up the sword
+    sword.toggle_can_pick_up()
+    # make the sword object a weapon
+    sword.is_weapon = True
+    # give the weapon some power
+    sword.weapon_power = 25
+
+
 
     # now add the items into the room
     Test_Room.add_item_to_room(book)
     Test_Room.add_item_to_room(mug)
     Test_Room.add_item_to_room(painting)
+    Test_Room.add_item_to_room(torch)
+    Test_Room.add_item_to_room(sword)
 
 
 
@@ -106,6 +139,9 @@ def build_the_board():
         "diamond. People are worshipping him")
     # we don't need to give the carvings an environmental description since we can't pick it up
 
+
+
+
     # now add the items into the room
     West_Room.add_item_to_room(sarcophagus)
     West_Room.add_item_to_room(chalice)
@@ -114,6 +150,34 @@ def build_the_board():
     # now we need to connect the Test Room and West Room
     Test_Room.add_adjacent_room("west", West_Room)
     West_Room.add_adjacent_room("east", Test_Room)
+
+
+    # create the enemy
+
+    mummy = Enemy("mummy")
+
+    # add description
+
+    mummy.add_description("A terrifying mummy wrapped in cloth. It is very scary and want to eat you")
+
+    # add e description
+
+    mummy.add_env_description("A mummy is standing in the middle of the room by the sarcophagus. It was probably his.")
+
+    # set its HP
+
+    mummy.set_HP(100)
+
+    # set its power
+
+    mummy.set_power(50)
+
+
+    # put the mummy in the West Room
+
+    West_Room.add_enemy_to_room(mummy)
+
+
 
     # now add the player to the room
     player = Player()

@@ -1,20 +1,26 @@
 import pickle
 
-
+# to do:
+# 1. comment everything
+# 2. make functions for everything
+# 3. make video explaining game
 class Room:
     def __init__(self, name):
         """
         Initialize an instance of a Room. Each room has a name and description. It also has a list of items that are
-        currently found in the room. This list (self.in_room) can have item objects added and removed from it. An item
+        currently found in the room . This list (self.in_room) can have item objects added and removed from it. An item
         will be added to the list if the player drops an item from their inventory in a room. An item will be removed
         when the player picks up an item and puts it into their inventory. Every room has 4 walls (north, south, east,
         west), and each wall can contain the entry to an adjacent room, if needed. The status of whether the room has
         been visited or not will also be kept track of, so that we know when to use the shorter description of the room.
+        Self.enemies is a list of enemies in the room, which consist of enemy objects
         """
         self.name = name
         self.long_description = None
         self.shortened_description = None
+        # this is for the items in the room
         self.in_room = []
+        # this is for the enemies in the room
         self.enemies = []
         self.north_wall = None
         self.east_wall = None
@@ -28,16 +34,21 @@ class Room:
         long form description. If he has, it will print the shorter description. It will then iterate through
          every item in the room, and check whether or not that item has been dropped on the floor. If the item has
          not been dropped on the floor (meaning it is in its original place), it will then read the item's description.
-         Finally, it will list all of the items that are on the floor and set the room as visited"""
+         It will list all of the items that are on the floor and set the room as visited. Finally, it will list
+         the enemies in the room and their environmental description
+         """
 
-        # print the correct description
+        # print the long or short description
         if not self.visited:
             print(self.long_description)
         if self.visited:
             print(self.shortened_description)
+
+        # print the items in the room that are not on the floor (original place)
         for items in self.in_room:
             if not items.on_floor and items.can_pick_up:
                 print(items.e_description)
+
         # print the items on the floor
         floor_items = []
         for items in self.in_room:
@@ -47,9 +58,12 @@ class Room:
             print("These items are on the floor:")
             for items in floor_items:
                 print(items)
-        # set the room as visited
+
+        # print the enemies in the room
         for enemies in self.enemies:
             print(enemies.e_description)
+
+        # set the room as visited
         self.visited = True
 
     def take_input(self):
@@ -83,6 +97,9 @@ class Room:
         This adds an item to a room.
         """
         self.in_room.append(item)
+
+    def add_enemy_to_room(self, enemy):
+        self.enemies.append(enemy)
 
     def remove_item_from_room(self, item):
         """
@@ -170,9 +187,12 @@ class Player:
                 input("Press Enter to return")
                 return
             for enemies in self.current_location.enemies:
-                print(enemies.description)
-                print("HP: " + enemies.HP)
-            print("Item not found in current room or inventory")
+                if enemies.name == user_input[2]:
+                    print(enemies.description)
+                    print("HP: " + enemies.HP)
+                    input("Press Enter to return")
+                    return
+            print("Not found in current room or inventory")
             return
         # --------------------------------------PICK UP ---------------------------------------------------------------------------
         # checks room for item to pick up
@@ -208,9 +228,15 @@ class Player:
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()
                     print(items.name + " activated")
+                    if items.ability:
+                        print(items.ability_on_description)
+                    if not items.ability:
+                        print(items.ability_off_description)
+                    input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.can_activate_ability == False:
                     print(items.name + " cannot be activated")
+                    input("Press Enter to return")
                     return
 
         # -----------------------------------CONSUME----------------------------------------------------------------------------
@@ -220,8 +246,8 @@ class Player:
             for items in self.inventory:
                 if items.name == user_input[1] and items.can_consume == True:
                     self.HP = self.HP + items.HP_gain_or_loss
-                    self.inventory.remove(items)
                     print("consumed " + items.name)
+                    self.inventory.remove(items)
                     return
                 if items.name == user_input[1] and items.can_consume == False:
                     print(items.name + " cannot be consumed")
@@ -248,24 +274,12 @@ class Player:
             for enemies in self.current_location.enemies:
                 if enemies.name == user_input[1]:
                     enemies.HP = enemies.HP - self.equipped.weapon_power
-                    print(enemies.name + " took " + self.equipped.weapon_power + "damage!")
-                    if enemies.HP == O or enemies.HP < 0:
+                    print(enemies.name + " took " + str(self.equipped.weapon_power) + "damage!")
+                    if enemies.HP == 0 or enemies.HP < 0:
                         print(enemies.name + " was defeated!")
                         self.current_location.enemies.remove(enemies)
                         return
                     return
-
-
-
-
-
-
-
-
-
-
-
-
 
         # --------------------------------------------GO TO ----------------------------------------------------------------------------
 
@@ -277,21 +291,26 @@ class Player:
                 2] == self.current_location.north_wall.name:
                 direction = "north"
                 self.move_to_new_room(direction)
+                return
             elif self.current_location.south_wall is not None and user_input[
                 2] == self.current_location.south_wall.name:
                 direction = "south"
                 self.move_to_new_room(direction)
+                return
             elif self.current_location.east_wall is not None and user_input[
                 2] == self.current_location.east_wall.name:
                 direction = "east"
                 self.move_to_new_room(direction)
+                return
             elif self.current_location.west_wall is not None and user_input[
                 2] == self.current_location.west_wall.name:
                 direction = "west"
                 self.move_to_new_room(direction)
+                return
             else:
                 print("room does not exist")
                 input("Press Enter to return")
+                return
         print("invalid command")
 
     def save_game(self, player, save_name):
@@ -378,6 +397,9 @@ class Item:
 
         self.ability = False
         self.can_activate_ability = False
+        self.ability_on_description = None
+        self.ability_off_description = None
+
 
         self.can_consume = False
         self.HP_gain_or_loss = None
@@ -423,7 +445,7 @@ class Item:
 
 class Enemy:
     """
-       Initialize an instance of an Item object. Each item has a name and description. The item may have an ability that
+       Initialize an instance of an Enemy object. Each item has a name and description. The item may have an ability that
        it can toggle on or off, and may be on the floor if dropped.
        """
 
