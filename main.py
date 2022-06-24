@@ -3,7 +3,9 @@ from build_board import *
 from conditions import *
 import time
 import pickle
-
+import colorama
+from colorama import Fore, Back, Style
+colorama.init()
 def main():
     #    TREASURE TOMB
     #  print the title and a graphic with ASCII art
