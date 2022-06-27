@@ -5,7 +5,6 @@ import time
 import pickle
 import colorama
 from colorama import Fore, Back, Style
-
 colorama.init()
 
 
@@ -54,16 +53,15 @@ def main():
 
     while True:
         player.current_location.build_description()
-        time.sleep(1)
-        user_inputted_command = player.current_location.take_input()
-        time.sleep(1)
+        user_inputted_command = player.current_location.take_input(player)
         player.execute_input(user_inputted_command, player, save_name)
-        time.sleep(1)
         check_conditions(player)
-        time.sleep(1)
         if player.HP == 0:
             player.is_dead = True
         if player.is_dead:
+            return
+        if player.has_won:
+            print("Congratulations, you have found the treasure and won the game!")
             return
 
         # need to add options to class, option to add options and take away options as items are picked up an dropped
