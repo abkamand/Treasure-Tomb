@@ -1,7 +1,10 @@
 import pickle
 import colorama
 from colorama import Fore, Back, Style
+
+
 colorama.init()
+
 
 # to do:
 # 1. comment everything
@@ -10,13 +13,12 @@ colorama.init()
 class Room:
     def __init__(self, name):
         """
-        Initialize an instance of a Room. Each room has a name and description. It also has a list of items that are
-        currently found in the room . This list (self.in_room) can have item objects added and removed from it. An item
-        will be added to the list if the player drops an item from their inventory in a room. An item will be removed
-        when the player picks up an item and puts it into their inventory. Every room has 4 walls (north, south, east,
-        west), and each wall can contain the entry to an adjacent room, if needed. The status of whether the room has
-        been visited or not will also be kept track of, so that we know when to use the shorter description of the room.
-        Self.enemies is a list of enemies in the room, which consist of enemy objects
+        Initialize and instance of a Room. Each room has a name, a long description, and a short description. It has a list
+        of item that are found in the room, which are in in_room. These will all be Item objects. It has a list of enemies
+        that are in the room, if any. These will be enemy objects. It will also have a field for each wall, which will
+        either be empty or another Room object. Finally, it will have a True or False value for whether the room was visited
+        or not.
+
         """
         self.name = name
         self.long_description = None
@@ -29,6 +31,7 @@ class Room:
         self.east_wall = None
         self.west_wall = None
         self.south_wall = None
+        self.center = None
         self.visited = False
 
     def build_description(self):
@@ -38,7 +41,7 @@ class Room:
          every item in the room, and check whether or not that item has been dropped on the floor. If the item has
          not been dropped on the floor (meaning it is in its original place), it will then read the item's description.
          It will list all of the items that are on the floor and set the room as visited. Finally, it will list
-         the enemies in the room and their environmental description
+         the enemies in the room and their environmental description.
          """
 
         # print the long or short description
@@ -64,12 +67,13 @@ class Room:
 
         # print the enemies in the room
         for enemies in self.enemies:
-            print(enemies.e_description)
+            if not enemies.is_dead:
+                print(enemies.e_description)
 
         # set the room as visited
         self.visited = True
 
-    def take_input(self):
+    def take_input(self, player):
         """
         After the player reads the description, he will have to take an action. This method receives the input that the
         user will type, and splits it into a list of strings. This list of strings will be returned to main.py, where it
@@ -77,6 +81,28 @@ class Room:
         """
         user_input = input()
         user_input = user_input.split()
+        if len(user_input) > 2 and user_input[0] == "go" and user_input[1] == "to":
+            if len(user_input) == 4:
+                user_input[2] = str(user_input[2]) + " " + str(user_input[3])
+                user_input.remove(user_input[3])
+            # the same concept described above applies for commands that make up 5 words. Example: pick up red rusted sword
+            if len(user_input) == 5:
+                user_input[2] = str(user_input[2]) + " " + str(user_input[3]) + " " + str(user_input[4])
+                user_input.remove(user_input[4])
+            user_input = self.check_room_conditions(player, user_input)
+        return user_input
+
+    def check_room_conditions(self, player, user_input):
+
+        # ----------------Connecting MAIN CHAMBER to ash cluster room 1 ---------------------------------
+
+        if player.current_location.name == "Main Chamber" and user_input[2] == "eastern door":
+            user_input[2] = "ash cluster room 1"
+        if player.current_location.name == "ash cluster room 1" and user_input[2] == "western door":
+            user_input[2] = "Main Chamber"
+
+        # -------------------------------------------------------------------------------------------------
+
         return user_input
 
     def add_long_description(self, description):
@@ -102,6 +128,9 @@ class Room:
         self.in_room.append(item)
 
     def add_enemy_to_room(self, enemy):
+        """
+        Adds an enemy object to a room
+        """
         self.enemies.append(enemy)
 
     def remove_item_from_room(self, item):
@@ -123,36 +152,30 @@ class Room:
             self.west_wall = room
         if direction == "east":
             self.east_wall = room
+        if direction == "center":
+            self.center = room
 
 
 class Player:
     """
-    Initialize an instance of a Person object. The person has a name and an inventory. Each object also keeps track of
-    the room the player visited, the current location of the player, and the location that the Player last saved in.
+    Initialize an instance of a Player object. The person has a name and an inventory full of Item objects. The current
+    location is kept track of. The death status is also kept track of. The player's Health Points (HP) is set to 100.
+    The currently equipped weapon is set to None. This will always be an Item object that is a weapon. When the player has
+    won the game, self.has_won will be set to True.
     """
 
     def __init__(self):
         self.name = None
         self.inventory = []
-        self.rooms_visited = []
         self.current_location = None
         self.is_dead = False
         self.HP = 100
         self.equipped = None
+        self.has_won = False
 
     def execute_input(self, user_input, player, save_name):
-        """ This function parses the input that the use typed in. If the user types in "look at x" the function
-        first checks your inventory for x and reads its description. If its not in your inventory, it assumes that
-        it is in the room that you are currently in and will read the description. If you type "look at inventory" it
-        will list all of the items in your inventory. If you type "pick up", this function will look at all of the items
-        in your current room and try to pick up the item you typed in. It will also allow you to travel between rooms
-        by using "go to room_name". It does this by checking if your current room has an adjacent room with the name
-        you entered.
+        """ This function parses the input that the use typed in.
         """
-        # TO DO:
-        #
-        # DONE:
-        # look at, pick up, go to , drop, activate, equip, consume, attack
         # ----------------------------------------------------------------------------------------------------------------------------
         # checking if input is at least one word
         if len(user_input) < 1:
@@ -160,11 +183,16 @@ class Player:
             input("Press Enter to return")
             return
 
+        # if the command is more than 3 words, for example "pick up red sword". In this case, user_input[2] = "red"
+        # and user_input[3] = "sword". For the purposes of this function, we need to combine these to make "red sword" in
+        # user_input[2]
         if len(user_input) == 4:
             user_input[2] = str(user_input[2]) + " " + str(user_input[3])
 
+        # the same concept described above applies for commands that make up 5 words. Example: pick up red rusted sword
         if len(user_input) == 5:
             user_input[2] = str(user_input[2]) + " " + str(user_input[3]) + " " + str(user_input[4])
+
         # ------------------------------------------SAVE GAME-------------------------------------------------------------------------
         # when user enters 'savegame' the game state is pickled into a file
         if user_input[0] == "savegame":
@@ -183,7 +211,10 @@ class Player:
             self.look_at_inventory()
             input("Press Enter to return")
             return
+        # --------------------------------------------------------------------------------------------------------------
 
+        # since we have made it past all of the one-word commands, we know that if the user enters any other one-word
+        # commands, it will be an invalid input
         if len(user_input) < 2:
             print("invalid input")
             input("Press Enter to return")
@@ -194,28 +225,23 @@ class Player:
         # that item. If it is found, the item's description is printed.
         if user_input[0] == "look" and user_input[1] == "at":
             if len(user_input) < 3:
-                print("invalid input")
+                print("invalid input")  # if the user types only "look at" its invalid
                 input("Press Enter to return")
                 return
-            for items in self.inventory:
+            for items in self.inventory:  # first iterate through inventory to see if you can look at an item
                 if items.name == user_input[2]:
                     print(items.description)
                     input("Press Enter to return")
                     return
-            for items in self.current_location.in_room:
+            for items in self.current_location.in_room:  # then check the room to see if the item is there
                 if items.name == user_input[2]:
                     print(items.description)
                     input("Press Enter to return")
                     return
-            # iterate through your inventory
-            if user_input[2] == "inventory":
-                self.look_at_inventory()
-                input("Press Enter to return")
-                return
-            for enemies in self.current_location.enemies:
+            for enemies in self.current_location.enemies:  # check to see if you are looking at an enemy in the room
                 if enemies.name == user_input[2]:
                     print(enemies.description)
-                    print("HP: " + str(enemies.HP))
+                    print("HP: " + str(enemies.HP))  # if so, print out its HP
                     input("Press Enter to return")
                     return
             print("Not found in current room or inventory")
@@ -223,17 +249,17 @@ class Player:
         # --------------------------------------PICK UP ---------------------------------------------------------------------------
         # checks room for item to pick up
         if user_input[0] == "pick" and user_input[1] == "up":
-            if len(user_input) < 3:
+            if len(user_input) < 3:  # check for invalid input
                 print("invalid input")
                 input("Press Enter to return")
                 return
-            for items in self.current_location.in_room:
+            for items in self.current_location.in_room:  # check current room for item to pick up
                 if items.can_pick_up == True and items.name == user_input[2]:
                     self.add_to_inventory(items)
                     input("Press Enter to return")
                     return
                 if items.name == user_input[2] and items.can_pick_up == False:
-                    print("item cannot be picked up")
+                    print("item cannot be picked up")  # lets user know that the item can't be picked up
                     input("Press Enter to return")
                     return
             print("Item not found in room")
@@ -254,21 +280,21 @@ class Player:
         # consequences of this action are will be determined by conditions.py file. First, we will check to see if the item
         # is in your inventory. Then we will check to see if the item is in the room.
         if user_input[0] == "activate":
-            for items in self.inventory:
+            for items in self.inventory:  # we are checking the inventory to see if you are activating one of your items
                 if items.name == user_input[1] and items.can_activate_ability == True:
-                    items.toggle_ability()
+                    items.toggle_ability()  # toggle whether the ability is on or off
                     print(items.name + " activated")
                     if items.ability:
-                        print(items.ability_on_description)
-                    if not items.ability:
+                        print(items.ability_on_description)  # print the description when the ability is turned on or
+                    if not items.ability:  # off. Ex: Torch was lit and is glowing brightly
                         print(items.ability_off_description)
                     input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.can_activate_ability == False:
-                    print(items.name + " cannot be activated")
+                    print(items.name + " cannot be activated")  # name matches but item does not have an ability
                     input("Press Enter to return")
                     return
-            for items in self.current_location.in_room:
+            for items in self.current_location.in_room:  # this does the same as above but for items in the room, for example, if you want to pull a lever or press a button
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()
                     print(items.name + " activated")
@@ -284,14 +310,15 @@ class Player:
                     return
 
         # -----------------------------------CONSUME----------------------------------------------------------------------------
-        # this will check to see if there are any consumables in your inventory. If there are, it will have
+        # this will let you consume a consumable item only if it is in your inventory. If there are, it will have
         # an effect on your HP
         if user_input[0] == "consume":
             for items in self.inventory:
-                if items.name == user_input[1] and items.can_consume == True:
-                    self.HP = self.HP + items.HP_gain_or_loss
+                if items.name == user_input[
+                    1] and items.can_consume == True:  # check if the items name matches and is consumable
+                    self.HP = self.HP + items.HP_gain_or_loss  # add or lose your HP
                     print("consumed " + items.name)
-                    self.inventory.remove(items)
+                    self.inventory.remove(items)  # remove consumable from you inventory
                     return
                 if items.name == user_input[1] and items.can_consume == False:
                     print(items.name + " cannot be consumed")
@@ -302,13 +329,28 @@ class Player:
 
         if user_input[0] == "equip":
             for items in self.inventory:
-                if items.name == user_input[1] and items.is_weapon == True:
-                    self.equipped = items
+                if items.name == user_input[1] and items.is_weapon == True:  # check name matches and if it is a weapon
+                    self.equipped = items  # equip it
                     print("equipped " + items.name)
                     return
                 if items.name == user_input[1] and items.is_weapon == False:
                     print(items.name + " is not a weapon")
                     return
+
+        # --------------------------UNEQUIP ---------------------------------------------------------------------------
+
+        if len(user_input) < 2:
+            print("invalid command")
+            return
+        if user_input[0] == "unequip":
+            if user_input[1] == self.equipped.name:
+                print("Unequipped " + self.equipped.name)
+                self.equipped = None
+                return
+            if user_input[1] != self.equipped.name:
+                print("item not equipped")
+                return
+
 
         # -------------------------- ATTACK -----------------------------------------------------------------------------
         # this will use whatever the player has equipped to attack and enemy object. If nothing is equipped the player
@@ -318,24 +360,23 @@ class Player:
             for enemies in self.current_location.enemies:
                 if enemies.name == user_input[1]:
                     if self.equipped is not None:
-                        enemies.HP = enemies.HP - self.equipped.weapon_power
-                        print(enemies.name + " took " + str(self.equipped.weapon_power) + "damage!")
-                        if enemies.HP == 0 or enemies.HP < 0:
+                        enemies.HP = enemies.HP - self.equipped.weapon_power  # enemy takes damage equal to weapon power
+                        print(enemies.name + " took " + str(self.equipped.weapon_power) + " damage!")
+                        if enemies.HP == 0 or enemies.HP < 0:  # if enemy HP is 0 or less, it dies
                             print(enemies.name + " was defeated!")
-                            self.current_location.enemies.remove(enemies)
+                            enemies.is_dead = True
+                            #self.current_location.enemies.remove(enemies)
                             return
                         return
                     if self.equipped is None:
-                        enemies.HP = enemies.HP - 5         # unarmed combat damage
+                        enemies.HP = enemies.HP - 5  # unarmed combat damage
                         print(enemies.name + " took 5 damage!")
                         if enemies.HP == 0 or enemies.HP < 0:
                             print(enemies.name + " was defeated!")
-                            self.current_location.enemies.remove(enemies)
+                            enemies.is_dead = True
+                            #self.current_location.enemies.remove(enemies)
                             return
                         return
-
-
-
 
         # --------------------------------------------GO TO ----------------------------------------------------------------------------
 
@@ -367,6 +408,11 @@ class Player:
                 direction = "west"
                 self.move_to_new_room(direction)
                 return
+            elif self.current_location.center is not None and user_input[
+                2] == self.current_location.center.name:
+                direction = "center"
+                self.move_to_new_room(direction)
+                return
             else:
                 print("room does not exist")
                 input("Press Enter to return")
@@ -374,15 +420,23 @@ class Player:
         print("invalid command")
 
     def save_game(self, player, save_name):
+        """
+        Saves the game. Uses Python pickle package to save the player object into a file. That file will be used
+        later to load the game data
+        """
         new_save_name = save_name + ".pickle"
         with open(new_save_name, 'wb') as f:
             pickle.dump(player, f)
         return
 
     def help_screen(self):
+        """
+        When the player types in "help", this help screen is displayed
+        """
         print("Welcome to Treasure Tomb, a text-based treasure hunting game!")
-        print("The objective of this game is to get to the treasure by making your way through a dangerous, haunted tomb.")
-        print("If you make the wrong decision or your HP goes to 0, you will die, so be careful!")
+        print(
+            "The objective of this game is to get to the treasure by making your way through a dangerous, haunted tomb.")
+        print("If you make the wrong decision and your HP goes to 0, you will die, so be careful!")
         print("\n")
         print("In each room, you will be presented with a description of your surroundings.")
         print("Items and Enemies that may be interacted with are color-coded: ")
@@ -394,17 +448,20 @@ class Player:
         print("\n")
         print("You may interact with certain objects in your environment using player-inputted commands.")
         print("Warning: commands must be inputted exactly as they are listed here")
-        print("List of supported commands:") #look at, pick up, go to , drop, activate, equip, consume, attack
+        print("List of supported commands:")
         print("look at _____  :  Allows you to see a description of any item or enemy in the room.")
         print("pick up _____  : Allows you to pick up an item, as long as that item can be picked up. It "
               "will be placed in your inventory")
         print("go to _____ : Allows you to go into a new room, which will be highlighted yellow")
         print("drop _____   : Allows you to drop an item from your inventory onto the floor")
         print("activate ______   : Allows you to interact with any item in your current room or in your inventory.")
-        print("equip ______    :  Allows you to equip an item, only if it is a weapon. Equipped weapons can be used to attack enemies")
-        print("attack ______  :   Must be directed towards an enemy, which is highlighted in red. If a weapon is not equipped, you will attack with your hands")
-        print("consume _____ :  Allows you to consume a consumable item, which is highlighted in blue. Consumable items have an effect on your HP  ")
-
+        print(
+            "equip ______    :  Allows you to equip an item, only if it is a weapon. Equipped weapons can be used to attack enemies")
+        print("unequip ______  : Allows you to unequip and item. You will be unarmed unless you equip a weapon.")
+        print(
+            "attack ______  :   Must be directed towards an enemy, which is highlighted in red. If a weapon is not equipped, you will attack with your hands")
+        print(
+            "consume _____ :  Allows you to consume a consumable item, which is highlighted in blue. Consumable items have an effect on your HP  ")
 
     def add_to_inventory(self, item):
         """
@@ -425,9 +482,11 @@ class Player:
         """
         if item in self.inventory:
             if not item.on_floor:
-                item.toggle_on_floor()
-            self.current_location.add_item_to_room(item)
+                item.toggle_on_floor()  # item is now on the floor
+            self.current_location.add_item_to_room(item)  # item is now in the room
             self.inventory.remove(item)
+            if self.equipped == item:  # if you are dropping a weapon item you have equipped, you are now unarmed
+                self.equipped = None
             print("dropped " + item.name)
         else:
             print("item not in inventory")
@@ -439,58 +498,59 @@ class Player:
         for items in self.inventory:
             print(items.name)
 
-    def look_at_item_in_room(self, item):
-        """
-        Look at an item in the room and see its description
-        """
-        if item in self.current_location.in_room:
-            print(item.description)
-        else:
-            print("item not in room")
-
     def move_to_new_room(self, direction):
         """
         This function is used when the Player enters one of the adjacent rooms. It sets the player's current location
-        to the new room, and then it uses the entering_room() function from the Player class to print the description
-        of the new room and list what is on the floor. It also adds the new room to the "rooms_visited" list of the
-        Player
+        to the new room.
         """
         if direction == "north":
             self.current_location = self.current_location.north_wall
-            self.rooms_visited.append(self.current_location)
         if direction == "south":
             self.current_location = self.current_location.south_wall
-            self.rooms_visited.append(self.current_location)
         if direction == "east":
             self.current_location = self.current_location.east_wall
-            self.rooms_visited.append(self.current_location)
         if direction == "west":
             self.current_location = self.current_location.west_wall
-            self.rooms_visited.append(self.current_location)
+        if direction == "center":
+            self.current_location = self.current_location.center
+
 
 
 class Item:
     """
-    Initialize an instance of an Item object. Each item has a name and description. The item may have an ability that
-    it can toggle on or off, and may be on the floor if dropped.
+    Initialize an instance of an Item object. Each item has a name, description, and an e_description. The description
+    will be printed when the player looks at the item. The e_description is the description that will be printed when
+    the room is described. The can_pick_up attribute must be set to True if the item can be picked up. An item will be
+    on the floor if the item has been dropped.
+
+    If the item has an ability, set can_activate_ability to True. Then, you need to create the ability_on_description
+    and ability_off_description, that will be printed when the ability is turned on or off.
+
+    If the item is a consumable, set can_consume to True. Then set the HP_gain_or_loss to an integer.
+
+    If the item is a weapon, set is_weapon to True, then set the weapon_power to a positive integer
     """
 
     def __init__(self, name):
         self.name = name
         self.description = None
-        self.e_description = None
-        self.on_floor = False
-        self.can_pick_up = False
 
-        self.ability = False
+        # if the item can be picked up
+        self.e_description = None
+        self.can_pick_up = False
+        self.on_floor = False
+
+        # if the item has an ability
         self.can_activate_ability = False
+        self.ability = False
         self.ability_on_description = None
         self.ability_off_description = None
 
-
+        # if the item is a consumable
         self.can_consume = False
         self.HP_gain_or_loss = None
 
+        # if the item is a weapon
         self.is_weapon = False
         self.weapon_power = None
 
@@ -506,6 +566,32 @@ class Item:
         """
         self.e_description = description
 
+    def toggle_can_pick_up(self):
+        """ Toggles whether or not you can pick up an item"""
+        if not self.can_pick_up:
+            self.can_pick_up = True
+        else:
+            if self.can_pick_up:
+                self.can_pick_up = False
+
+    def toggle_on_floor(self):
+        """ Toggles whether an item is on the floor"""
+        if not self.on_floor:
+            self.on_floor = True
+        else:
+            if self.on_floor:
+                self.on_floor = False
+
+    def toggle_can_activate_ability(self):
+        """
+        Make it so an item has an ability
+        """
+        if not self.can_activate_ability:
+            self.can_activate_ability = True
+        else:
+            if self.can_activate_ability:
+                self.can_activate_ability = False
+
     def toggle_ability(self):
         """
         Toggles the ability
@@ -516,30 +602,62 @@ class Item:
             if self.ability:
                 self.ability = False
 
-    def toggle_on_floor(self):
-        """ Toggles whether an item is on the floor"""
-        if not self.on_floor:
-            self.on_floor = True
-        else:
-            if self.on_floor:
-                self.on_floor = False
+    def add_ability_on_description(self, description):
+        """ add description that is printed when an ability is turned on"""
+        self.ability_on_description = description
 
-    def toggle_can_pick_up(self):
-        """ Toggles whether or not you can pick up an item"""
-        if not self.can_pick_up:
-            self.can_pick_up = True
+    def add_ability_off_description(self, description):
+        """ add description that is printed when an ability is turned on"""
+        self.ability_off_description = description
+
+    def toggle_can_consume(self):
+        """
+        Toggle whether an item is a consumable
+        """
+        if not self.can_consume:
+            self.can_consume = True
+        else:
+            if self.can_consume:
+                self.can_consume = False
+
+    def set_consumable_effect(self, integer):
+        """
+        Set the positive or negative effect of the consumable on player HP
+        """
+        self.HP_gain_or_loss = integer
+
+    def toggle_is_weapon(self):
+        """
+        Toggle whether an item is a weapon
+        """
+        if not self.is_weapon:
+            self.is_weapon = True
+        else:
+            if self.is_weapon:
+                self.is_weapon = False
+
+    def set_weapon_power(self, integer):
+        """
+        Sets the power of the weapon. Must be a positive integer
+        """
+        if integer < 0:
+            print("power must be a positive integer")
+            return
+        self.weapon_power = integer
 
 
 class Enemy:
     """
-       Initialize an instance of an Enemy object. Each item has a name and description. The item may have an ability that
-       it can toggle on or off, and may be on the floor if dropped.
-       """
+       Initialize an instance of an Enemy object. Each enemy has a description, and e_description, HP, and power. When
+       the HP is depleted to 0 or less from player attacks, the enemy dies. The power is the damage that the enemy will
+       do to the player
+    """
 
     def __init__(self, name):
         self.name = name
         self.description = None
         self.e_description = None
+        self.is_dead = False
         self.HP = None
         self.power = None
 
@@ -566,3 +684,5 @@ class Enemy:
         Used to add an environmental description
         """
         self.power = int
+
+

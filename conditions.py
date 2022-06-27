@@ -1,63 +1,57 @@
 from classes_and_functions import *
 from build_board import *
-from conditions import *
 import colorama
 from colorama import Fore, Back, Style
+
 colorama.init()
+
+# This is the conditions file that will be run during every gameplay loop in order to change the board
+# if anything happens. The function check_conditions is the main function in this file. Since there will
+# undoubtedly be many,many conditions that can happen in this game, we will be putting each condition in
+# its own function, which will then be run within check_conditions (similar to the main function of a C program).
+
+# If you look at check_conditions, you will see an example of a function diamond_from_dead_mummy that is an example of
+# this structure.
+
+# This is just one example, but using similar strategies that are tons of different things you can do by manipulating
+# different objects. For example, you can make a room dark to begin with, and then check to see if the player has
+# activated a torch. If he/she has, you can change the description of the room to have more information.
 
 
 def check_conditions(player):
-    has_mug = False
-    has_book = False
-    has_chalice = False
-    for items in player.inventory:
-        if items.name == "mug":
-            has_mug = True
-        if items.name == "book":
-            has_book = True
-        if items.name == "chalice":
-            has_chalice = True
-    if has_mug == True and has_book == True and has_chalice == True:
-        print(
-            "You have collected all of the magical items. They will be removed from you inventory and replaced with a "
-            "magical key")
-        for items in player.inventory:
-            if items.name == "mug":
-                player.inventory.remove(items)
-        for items in player.inventory:
-            if items.name == "book":
-                player.inventory.remove(items)
-        for items in player.inventory:
-            if items.name == "chalice":
-                player.inventory.remove(items)
-        magic_key = Item("magic key")
-        magic_key.add_description("a magical key. If you go into the Test Room with this key, a new door will appear")
-        player.inventory.append(magic_key)
-
-    has_magic_key = False
-    for items in player.inventory:
-        if items.name == "magic key":
-            has_magic_key = True
-
-    if has_magic_key == True and player.current_location.name == "Test_Room":
-        player.current_location.shortened_description = "Room with a painting of man on a horse. Door on western " \
-                                                        "wall. A new door has appeared on the northern wall. Your " \
-                                                        "magical key is glowing "
-        print("The magic key exploded and you died. GAME OVER")
-        player.is_dead = True
+    diamond_from_dead_mummy(player)
+    return
 
 
-        North_Room = Room("North_Room")
+# ------------------------------ASH's CLUSTER CONDITIONS ------------------------------------------------------
 
-        # create the long description of the room you just made, and then add it to the room
-        description = "This is the room to the North of the Test Room that just opened from the magical key. Its full " \
-                      "of treasure. There are chanedliers dangling from the ceiling. There are golden statues " \
-                      "everywhere and more gold than a king would have. "
-        North_Room.add_long_description(description)
+def diamond_from_dead_mummy(player):
+    """
+    Once you kill the mummy that is in "ash cluster room 1", he will say a warning and a diamond will fall from his
+    chest. You can now pick up that diamond
+    """
+    if player.current_location.name == "ash cluster room 1":  # check to see if the player is in the right room
+        for enemies in player.current_location.enemies:  # iterate through enemies to see if the mummy is dead
+            if enemies.name == "mummy" and enemies.is_dead == True:  # name must match and must be dead
+                print('As the mummy vanishes into dust, he screeches, "You will not make it out of this tomb alive!" As his body disintegrates, he reaches into his rotting chest and pulls out a diamond from it.')
+                print('The diamond falls from his grasp onto the floor.')
+                # now remove the mummy from the room so that this condition does not trigger again next time you
+                # enter this room
+                player.current_location.enemies.remove(enemies)
+                # create the diamond that fell from the mummy, and change attributes as needed
+                diamond = Item("diamond")
+                diamond.add_description("A red diamond that fell from the body of a mummy after you defeated it.")
+                diamond.toggle_can_pick_up()
+                diamond.toggle_on_floor()
+                # add the diamond to the room
+                player.current_location.add_item_to_room(diamond)
+                return
 
-        # create the shortened description for the room, will be displayed when you are visiting a room you have been to
-        description = "Room containing a wealth of treasures"
-        North_Room.add_shorter_description(description)
 
-        player.current_location.add_adjacent_room("north", North_Room)
-        North_Room.add_adjacent_room("south", player.current_location)
+
+
+
+
+
+
+
