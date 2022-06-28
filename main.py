@@ -7,7 +7,6 @@ import colorama
 from colorama import Fore, Back, Style
 colorama.init()
 
-
 def main():
     #    TREASURE TOMB
     #  print the title and a graphic with ASCII art
@@ -18,10 +17,30 @@ def main():
     game = input()
 
     load = False
+    gn = False
 
     if game == "1":
         print("Please enter the name of your new save")
         save_name = input()
+        # cannot have a new file named 'new' since we use new.pickle to load every new game from
+        while save_name == "new":
+            print("Please choose a different name for your save ")
+            print("Please enter the name of your new save")
+            save_name = input()
+        while not gn:
+            try:
+                with open(save_name + ".pickle", 'rb') as f:
+                    gn = False
+                    print("File already exists with this save name.")
+                    print("Please enter a different save name")
+                    save_name = input()
+            except OSError:
+                gn = True
+
+
+
+
+
     if game == "2":
         print("Please enter the name of your saved game")
         save_name = input()
@@ -47,15 +66,32 @@ def main():
         # You have now entered the temple.
         player = build_the_board()
 
+    lf = False
+
     if load:
-        with open(save_name + ".pickle", 'rb') as f:
-            player = pickle.load(f)
+        while not lf:
+            try:
+                with open(save_name + ".pickle", 'rb') as f:
+                    player = pickle.load(f)
+                    lf = True
+            except OSError:
+                print("save file not found")
+                print("Please enter the name of your saved game")
+                save_name = input()
+
+
+
 
     while True:
+        print("\n")
         player.current_location.build_description()
+        time.sleep(.25)
         user_inputted_command = player.current_location.take_input(player)
+        time.sleep(.25)
         player.execute_input(user_inputted_command, player, save_name)
+        time.sleep(.25)
         check_conditions(player)
+        time.sleep(.25)
         if player.HP == 0:
             player.is_dead = True
         if player.is_dead:
@@ -63,8 +99,11 @@ def main():
         if player.has_won:
             print("Congratulations, you have found the treasure and won the game!")
             return
+        if player.exit:
+            print("exiting game")
+            return
 
-        # need to add options to class, option to add options and take away options as items are picked up an dropped
+
 
 
 main()
