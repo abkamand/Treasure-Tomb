@@ -5,11 +5,6 @@ from colorama import Fore, Back, Style
 
 colorama.init()
 
-
-# to do:
-# 1. comment everything
-# 2. make functions for everything
-# 3. make video explaining game
 class Room:
     def __init__(self, name):
         """
@@ -209,6 +204,12 @@ class Player:
         # when the user enters 'inventory' a list of the items in the inventory is displayed
         if user_input[0] == "inventory":
             self.look_at_inventory()
+            input("Press Enter to return")
+            return
+
+        #----------------------------------------------- HP ---------------------------------------------------------
+        if user_input[0] == "HP":
+            print(" HP : " + str(self.HP))
             input("Press Enter to return")
             return
         # --------------------------------------------------------------------------------------------------------------
@@ -433,6 +434,7 @@ class Player:
         """
         When the player types in "help", this help screen is displayed
         """
+        print("\n")
         print("Welcome to Treasure Tomb, a text-based treasure hunting game!")
         print(
             "The objective of this game is to get to the treasure by making your way through a dangerous, haunted tomb.")

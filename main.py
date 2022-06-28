@@ -7,7 +7,10 @@ import colorama
 from colorama import Fore, Back, Style
 colorama.init()
 
-
+# TO DO:
+# save game parsing
+# appropriate sleeps
+# when to prompt press Enter
 def main():
     #    TREASURE TOMB
     #  print the title and a graphic with ASCII art
@@ -64,7 +67,7 @@ def main():
             print("Congratulations, you have found the treasure and won the game!")
             return
 
-        # need to add options to class, option to add options and take away options as items are picked up an dropped
+
 
 
 main()
