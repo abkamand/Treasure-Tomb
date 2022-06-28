@@ -38,14 +38,22 @@ def main():
 
         print("1) Go inside")
         print("2) Turn back")
+        done = False
 
-        decision = input()
-
-        if decision == "2":
-            print("Game Over")
-            return
-        # You have now entered the temple.
-        player = build_the_board()
+        #put the input inside a loop to check for correct input only
+        while done != True:
+            decision = input()
+            if decision == "2":
+                print("Game Over")
+                done = True
+                return
+            elif decision == "1":
+                # You have now entered the temple.
+                done = True
+                player = build_the_board()
+            else:
+                print("Command not recognized!")
+                print("Please enter 1 or 2!")
 
     if load:
         with open(save_name + ".pickle", 'rb') as f:
