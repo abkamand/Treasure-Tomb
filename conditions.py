@@ -2,6 +2,7 @@ from classes_and_functions import *
 from build_board import *
 import colorama
 from colorama import Fore, Back, Style
+import random
 
 colorama.init()
 
