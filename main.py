@@ -96,6 +96,7 @@ def main():
         if player.in_combat is not None:
             player.fight(player.in_combat)
             input("Press Enter to return")
+            print("What will you do?")
         time.sleep(.25)
         user_inputted_command = player.current_location.take_input(player)
         time.sleep(.25)

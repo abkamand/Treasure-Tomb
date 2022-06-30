@@ -82,6 +82,10 @@ class Room:
         will be used in a function to execute the command that was typed
         """
         user_input = input()
+        while len(user_input) == 0:
+            print("invalid command")
+            input("Press Enter to return")
+            user_input = input()
         user_input = user_input.split()
         if len(user_input) > 2 and user_input[0] == "go" and user_input[1] == "to":
             if len(user_input) == 4:
