@@ -1,9 +1,11 @@
 from classes_and_functions import *
 import colorama
 from colorama import Fore, Back, Style
+import random
 
 colorama.init()
 
+# change items from WHITE to a different color
 
 # This tutorial will show how to build the game board, piece by piece. The game essentially consists
 # of a bunch of room objects, filled with a bunch of item objects or enemy objects. The player object
@@ -47,7 +49,7 @@ def build_the_board():
     description = "After hours of trekking through the dank and dangerous caverns, you finally arrive at the tomb  you've been looking for.\nYou walk into a large chamber, filled with ornate decorations and paintings on the ceiling.\nThere appears to be giant " + (
                 Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
                               Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
-                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door.\nThis one has the image of a sphinx carved into it (" + (
+                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
                               Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
                               Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
     # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
@@ -57,7 +59,7 @@ def build_the_board():
     description = "A vast room full of ornate decorations.\nThere appears to be giant " + (
                 Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
                               Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
-                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door.\nThis one has the image of a sphinx carved into it (" + (
+                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
                               Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
                               Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
     # now add the description to the shortened_description attribute of the room
@@ -149,6 +151,7 @@ def build_the_board():
     # STEP 3: ADD THE ITEMS INTO THE ROOM
 
     # now add the items into the room
+    # items are read in the order added
     Main_Chamber.add_item_to_room(mosaic)
     Main_Chamber.add_item_to_room(corpse)
     Main_Chamber.add_item_to_room(sword)
@@ -194,8 +197,11 @@ def build_the_board():
         "A " + (Fore.RED + "mummy") + '\033[39m' + " is standing in the middle of the room by the sarcophagus.\nIt was probably his.\nHe begins sauntering towards you.")
     # set its HP
     mummy.set_HP(100)
-    # set its power. This is how much damage you will take if he hits you
-    mummy.set_power(50)
+    # set its moves and the moves'
+    mummy.set_moves_and_power(1, "The mummy lunges at you with his sword, slashing downward with its withered hands!", 10)
+    mummy.set_moves_and_power(2, "The mummy throws you against the wall!", 10)
+    mummy.set_moves_and_power(3, "The mummy swings his dull sword at you, damaging you!", 10)
+    mummy.set_moves_and_power(4, "The mummy bashes you on head with the hilt of his sword!", 10)
 
     # STEP 7: ADD THE ITEMS AND ENEMY INTO THE ROOM
 
