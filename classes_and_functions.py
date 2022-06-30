@@ -1,9 +1,10 @@
 import pickle
 import colorama
 from colorama import Fore, Back, Style
-
+import random
 
 colorama.init()
+
 
 class Room:
     def __init__(self, name):
@@ -57,8 +58,14 @@ class Room:
                 floor_items.append(items.name)
         if len(floor_items) > 0:
             print("These items are on the floor:")
-            for items in floor_items:
-                print(items)
+            for items in self.in_room:
+                if items.on_floor:
+                    if items.is_weapon:
+                        print((Fore.MAGENTA + items.name) + '\033[39m')
+                    if items.can_consume:
+                        print((Fore.BLUE + items.name) + '\033[39m')
+                    else:
+                        print((Fore.WHITE + items.name) + '\033[39m')
 
         # print the enemies in the room
         for enemies in self.enemies:
@@ -95,9 +102,7 @@ class Room:
             user_input[2] = "ash cluster room 1"
         if player.current_location.name == "ash cluster room 1" and user_input[2] == "western door":
             user_input[2] = "Main Chamber"
-
         # -------------------------------------------------------------------------------------------------
-
         return user_input
 
     def add_long_description(self, description):
@@ -168,6 +173,7 @@ class Player:
         self.equipped = None
         self.has_won = False
         self.exit = False
+        self.in_combat = None
 
     def execute_input(self, user_input, player, save_name):
         """ This function parses the input that the use typed in.
@@ -216,7 +222,7 @@ class Player:
             input("Press Enter to return")
             return
 
-        #----------------------------------------------- HP ---------------------------------------------------------
+        # ----------------------------------------------- HP ---------------------------------------------------------
         if user_input[0] == "HP":
             print(" HP : " + str(self.HP))
             input("Press Enter to return")
@@ -290,11 +296,10 @@ class Player:
         # if the user enters 'activate item' this will toggle the item's ability attribute to True or False. Whatever the
         # consequences of this action are will be determined by conditions.py file. First, we will check to see if the item
         # is in your inventory. Then we will check to see if the item is in the room.
-        if user_input[0] == "activate":
+        if user_input[0] == "activate" or user_input[0] == "deactivate":
             for items in self.inventory:  # we are checking the inventory to see if you are activating one of your items
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()  # toggle whether the ability is on or off
-                    print(items.name + " activated")
                     if items.ability:
                         print(items.ability_on_description)  # print the description when the ability is turned on or
                     if not items.ability:  # off. Ex: Torch was lit and is glowing brightly
@@ -308,7 +313,6 @@ class Player:
             for items in self.current_location.in_room:  # this does the same as above but for items in the room, for example, if you want to pull a lever or press a button
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()
-                    print(items.name + " activated")
                     if items.ability:
                         print(items.ability_on_description)
                     if not items.ability:
@@ -369,30 +373,36 @@ class Player:
                 input("Press Enter to return")
                 return
 
-
         # -------------------------- ATTACK -----------------------------------------------------------------------------
         # this will use whatever the player has equipped to attack and enemy object. If nothing is equipped the player
         # will fight with his hands, which will do very little damage
 
         if user_input[0] == "attack":
+            if self.in_combat is None:
+                for enemies in self.current_location.enemies:
+                    if enemies.name == user_input[1]:
+                        self.in_combat = enemies
+                        print("You are now fighting the " + enemies.name + "!")
             for enemies in self.current_location.enemies:
                 if enemies.name == user_input[1]:
                     if self.equipped is not None:
                         enemies.HP = enemies.HP - self.equipped.weapon_power  # enemy takes damage equal to weapon power
-                        print(enemies.name + " took " + str(self.equipped.weapon_power) + " damage!")
+                        print(enemies.name + " took " + str(self.equipped.weapon_power) + " damage! HP: " + str(enemies.HP))
                         if enemies.HP == 0 or enemies.HP < 0:  # if enemy HP is 0 or less, it dies
                             print(enemies.name + " was defeated!")
                             enemies.is_dead = True
+                            self.in_combat = None
                             input("Press Enter to return")
                             return
                         input("Press Enter to return")
                         return
                     if self.equipped is None:
                         enemies.HP = enemies.HP - 5  # unarmed combat damage
-                        print(enemies.name + " took 5 damage!")
+                        print(enemies.name + " took 5 damage! HP: " + str(enemies.HP))
                         if enemies.HP == 0 or enemies.HP < 0:
                             print(enemies.name + " was defeated!")
                             enemies.is_dead = True
+                            self.in_combat = None
                             input("Press Enter to return")
                             return
                         input("Press Enter to return")
@@ -480,7 +490,8 @@ class Player:
               "will be placed in your inventory")
         print("go to _____ : Allows you to go into a new room, which will be highlighted yellow")
         print("drop _____   : Allows you to drop an item from your inventory onto the floor")
-        print("activate ______   : Allows you to interact with any item in your current room or in your inventory.")
+        print("activate ______   : Allows you to 'turn on' any item in your current room or in your inventory.")
+        print("deactivate _______ : Allows you to 'turn off' any item in your current room or inventory ")
         print(
             "equip ______    :  Allows you to equip an item, only if it is a weapon. Equipped weapons can be used to attack enemies")
         print("unequip ______  : Allows you to unequip and item. You will be unarmed unless you equip a weapon.")
@@ -540,6 +551,31 @@ class Player:
         if direction == "center":
             self.current_location = self.current_location.center
 
+    def fight(self, enemy):
+        odds = random.randint(1, 4)
+        if odds == 1:
+            print(enemy.move_1)
+            print("You took " + str(enemy.move_1_power) + " damage!")
+            self.HP = self.HP - enemy.move_1_power
+            print("HP: " + str(self.HP))
+        if odds == 2:
+            print(enemy.move_2)
+            print("You took " + str(enemy.move_2_power) + " damage!")
+            self.HP = self.HP - enemy.move_2_power
+            print("HP: " + str(self.HP))
+        if odds == 3:
+            print(enemy.move_3)
+            print("You took " + str(enemy.move_3_power) + " damage!")
+            self.HP = self.HP - enemy.move_3_power
+            print("HP: " + str(self.HP))
+        if odds == 4:
+            print(enemy.move_4)
+            print("You took " + str(enemy.move_4_power) + " damage!")
+            self.HP = self.HP - enemy.move_4_power
+            print("HP: " + str(self.HP))
+        if self.HP == 0 or self.HP < 0:
+            print("You have died")
+            print("GAME OVER")
 
 
 class Item:
@@ -685,7 +721,19 @@ class Enemy:
         self.e_description = None
         self.is_dead = False
         self.HP = None
-        self.power = None
+        # moves
+        # move 1
+        self.move_1 = None
+        self.move_1_power = None
+        # move 2
+        self.move_2 = None
+        self.move_2_power = None
+        # move 3
+        self.move_3 = None
+        self.move_3_power = None
+        # move 4
+        self.move_4 = None
+        self.move_4_power = None
 
     def add_description(self, description):
         """
@@ -705,10 +753,19 @@ class Enemy:
         """
         self.HP = int
 
-    def set_power(self, int):
+    def set_moves_and_power(self, move_num, description, power):
         """
-        Used to add an environmental description
+        Used to set move descriptions and powers
         """
-        self.power = int
-
-
+        if move_num == 1:
+            self.move_1 = description
+            self.move_1_power = power
+        if move_num == 2:
+            self.move_2 = description
+            self.move_2_power = power
+        if move_num == 3:
+            self.move_3 = description
+            self.move_3_power = power
+        if move_num == 4:
+            self.move_4 = description
+            self.move_4_power = power
