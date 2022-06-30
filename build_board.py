@@ -34,6 +34,8 @@ def build_the_board():
     Main_Chamber = Room("Main Chamber")
 
     # create the long description of the room you just made
+    # its important that you add a newline character at appropriate places so that the text does not go too far
+    # off of the screen.
     # you need to make sure that items are color coded appropriately. See color key at beginning of this file
     # you can color code using this format " first part of sentence" + (Fore.Color + "item") + '\033[39m' + " rest of the sentence"
 
@@ -42,21 +44,21 @@ def build_the_board():
     # in the description is an item that can't be picked up. The rooms that are connected to the current room are also described
     # in the description.
 
-    description = "After hours of trekking through the dank and dangerous caverns, you finally arrive at the tomb  you've been looking for.  You walk into a large chamber, filled with ornate decorations and paintings on the ceiling, There appears to be giant " + (
-                Fore.WHITE + "mosaic") + '\033[39m' + " on the floor. On the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
-                              Fore.YELLOW + "eastern door") + '\033[39m' + "). On the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
-                              Fore.YELLOW + "northern staircase") + '\033[39m' + "). On the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
-                              Fore.YELLOW + "western door") + '\033[39m' + "). What appears to be the " + (
+    description = "After hours of trekking through the dank and dangerous caverns, you finally arrive at the tomb  you've been looking for.\nYou walk into a large chamber, filled with ornate decorations and paintings on the ceiling.\nThere appears to be giant " + (
+                Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
+                              Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
+                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door.\nThis one has the image of a sphinx carved into it (" + (
+                              Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
                               Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
     # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
     Main_Chamber.add_long_description(description)
 
     # create the shortened description for the room, will be displayed when you are visiting a room you have been to
-    description = "A vast room full of ornate decorations. There appears to be giant " + (
-                Fore.WHITE + "mosaic") + '\033[39m' + " on the floor. On the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
-                              Fore.YELLOW + "eastern door") + '\033[39m' + "). On the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
-                              Fore.YELLOW + "northern staircase") + '\033[39m' + "). On the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
-                              Fore.YELLOW + "western door") + '\033[39m' + "). What appears to be the " + (
+    description = "A vast room full of ornate decorations.\nThere appears to be giant " + (
+                Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy,golden door with a depiction of a eagle on it (" + (
+                              Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
+                              Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door.\nThis one has the image of a sphinx carved into it (" + (
+                              Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
                               Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
     # now add the description to the shortened_description attribute of the room
     Main_Chamber.add_shorter_description(description)
@@ -77,21 +79,21 @@ def build_the_board():
     mosaic = Item("mosaic")
     # give the mosaic a description
     mosaic.add_description(
-        " This mosaic depicts a pharaoh standing on a stage above his subordinates. He his holding a large, red diamond above his head. The crowd amassed at his feet appears to be worshiping him. Above the diamond, there are 3 indentations in the shape of an eagle, a crocodile, and a sphinx. It looks like you could fill in those indentations with the right piece of the mosaic...")
+        " This mosaic depicts a pharaoh standing on a stage above his subordinates.\nHe his holding a large, red diamond above his head.\nThe crowd amassed at his feet appears to be worshiping him.\nAbove the diamond, there are 3 indentations in the shape of an eagle, a crocodile, and a sphinx.\nIt looks like you could fill in those indentations with the right piece of the mosaic...")
     # since the mosaic cannot be picked up, we don't need to give it an e_description
 
     # Now let's do the corpse
     corpse = Item("corpse")
     # give the corpse a description
     corpse.add_description(
-        "The corpse appears to have been here for a long time. The body has rotten and all that remains is a skeleton. I hope I don't end up like that guy.")
+        "The corpse appears to have been here for a long time.\nThe body has rotten and all that remains is a skeleton.\nI hope I don't end up like that guy.")
     # since the corpse cannot be picked up, we don't need to give it an e_description
 
     # Now create the note
     note = Item("note")
     # give the note a description
     note.add_description(
-        "This is a note that was laying next to the corpse in the Main Chamber. It says TURN BACK OR YOU WILL DIE! ")
+        "This is a note that was laying next to the corpse in the Main Chamber.\nIt says TURN BACK OR YOU WILL DIE! ")
     # We need to give this note an environmental description, since it can be picked up
     # Keep in mind that we need to color code the word "note" in the env description, so the player knows they can interact with it
     note.add_env_description("On the ground next to the corpse there is a " + (
@@ -103,7 +105,7 @@ def build_the_board():
     sword = Item("sword")
     # give the sword a description. Since it is a weapon, make sure to include its power in the description
     sword.add_description(
-        "This is a sword. Kind of outdated, but it looks like it could do some serious damage. Power: 25")
+        "This is a sword. Kind of outdated, but it looks like it could do some serious damage.\nPower: 25")
     # give the sword an environmental description since it can be picked up. Make sure to color-code
     sword.add_env_description(
         "There is a " + (Fore.MAGENTA + "sword") + '\033[39m' + " impaled in the skeleton of the corpse.")
@@ -133,7 +135,7 @@ def build_the_board():
     # Now create the painkillers. This is a consumable
     painkillers = Item("painkillers")
     # give the painkillers a description. Make sure to include the effect on HP in the description
-    painkillers.add_description("Looks like a bottle of painkillers. HP +15")
+    painkillers.add_description("Looks like a bottle of painkillers.\nHP +15")
     # give the painkillers an environmental description since they can be picked up
     painkillers.add_env_description(
         "Looks like there is a bottle of " + (Fore.BLUE + "painkillers") + '\033[39m' + " in the corpse's pocket.")
@@ -160,8 +162,8 @@ def build_the_board():
     Ash_Room_1 = Room("ash cluster room 1")
 
     # create the long description of the room you just made, and then add it to the room
-    description = "This is the room to the east of the Main Chamber. It's very dimly lit. There is an open " + (
-                Fore.WHITE + "sarcophagus") + '\033[39m' + " in the middle of the room. There is a door on the western wall (" + (
+    description = "This is the room to the east of the Main Chamber.\nIt's very dimly lit.\nThere is an open " + (
+                Fore.WHITE + "sarcophagus") + '\033[39m' + " in the middle of the room.\nThere is a door on the western wall (" + (
                               Fore.YELLOW + "western door") + '\033[39m' + ")."
     Ash_Room_1.add_long_description(description)
 
@@ -169,7 +171,7 @@ def build_the_board():
     # don't forget to include you color coding, even for the shortened description
     # also don't forget to describe the door to the room that you come from. In this case is the western door that will
     # lead back into the Main Chamber
-    description = "Room containing an open " + (Fore.WHITE + "sarcophagus") + '\033[39m' + ". There is a door on the western wall (" + (Fore.YELLOW + "western door") + '\033[39m' + ")."
+    description = "Room containing an open " + (Fore.WHITE + "sarcophagus") + '\033[39m' + ".\nThere is a door on the western wall (" + (Fore.YELLOW + "western door") + '\033[39m' + ")."
     Ash_Room_1.add_shorter_description(description)
 
     # STEP 5: CREATE ITEMS FOR ADJACENT ROOM
@@ -178,7 +180,7 @@ def build_the_board():
     sarcophagus = Item("sarcophagus")
 
     # give the sarcophagus a description
-    sarcophagus.add_description("The sarcophagus is open. Whatever was inside is now gone")
+    sarcophagus.add_description("The sarcophagus is open.\nWhatever was inside is now gone")
     # since we can't pick it up we don't need an env description
 
     # STEP 6: CREATE THE ENEMY
@@ -186,10 +188,10 @@ def build_the_board():
     # create the mummy
     mummy = Enemy("mummy")
     # add description
-    mummy.add_description("A terrifying mummy wrapped in cloth. It is very scary and want to eat you")
+    mummy.add_description("A terrifying mummy wrapped in cloth.\nIt is very scary and want to eat you")
     # add an environmental description
     mummy.add_env_description(
-        "A " + (Fore.RED + "mummy") + '\033[39m' + " is standing in the middle of the room by the sarcophagus. It was probably his. He begins sauntering towards you.")
+        "A " + (Fore.RED + "mummy") + '\033[39m' + " is standing in the middle of the room by the sarcophagus.\nIt was probably his.\nHe begins sauntering towards you.")
     # set its HP
     mummy.set_HP(100)
     # set its power. This is how much damage you will take if he hits you

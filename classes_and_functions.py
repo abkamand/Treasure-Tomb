@@ -5,11 +5,6 @@ from colorama import Fore, Back, Style
 
 colorama.init()
 
-
-# to do:
-# 1. comment everything
-# 2. make functions for everything
-# 3. make video explaining game
 class Room:
     def __init__(self, name):
         """
@@ -172,6 +167,7 @@ class Player:
         self.HP = 100
         self.equipped = None
         self.has_won = False
+        self.exit = False
 
     def execute_input(self, user_input, player, save_name):
         """ This function parses the input that the use typed in.
@@ -197,6 +193,8 @@ class Player:
         # when user enters 'savegame' the game state is pickled into a file
         if user_input[0] == "savegame":
             self.save_game(player, save_name)
+            print("game saved")
+            input("Press Enter to return to game")
             return
         # ---------------------------------------- HELP -------------------------------------------------------------------------
         # when user enters 'help' the help screen is printed
@@ -205,10 +203,22 @@ class Player:
             input("Press Enter to return to game")
             return
 
+        # ---------------------------------------- EXIT -----------------------------------------------------------------------
+        # if player wants to exit the game without using the stop button on Python
+        if user_input[0] == "exit":
+            self.exit = True
+            return
+
         # -----------------------------------------INVENTORY--------------------------------------------------------------------------
         # when the user enters 'inventory' a list of the items in the inventory is displayed
         if user_input[0] == "inventory":
             self.look_at_inventory()
+            input("Press Enter to return")
+            return
+
+        #----------------------------------------------- HP ---------------------------------------------------------
+        if user_input[0] == "HP":
+            print(" HP : " + str(self.HP))
             input("Press Enter to return")
             return
         # --------------------------------------------------------------------------------------------------------------
@@ -245,6 +255,7 @@ class Player:
                     input("Press Enter to return")
                     return
             print("Not found in current room or inventory")
+            input("Press Enter to return to game")
             return
         # --------------------------------------PICK UP ---------------------------------------------------------------------------
         # checks room for item to pick up
@@ -319,9 +330,11 @@ class Player:
                     self.HP = self.HP + items.HP_gain_or_loss  # add or lose your HP
                     print("consumed " + items.name)
                     self.inventory.remove(items)  # remove consumable from you inventory
+                    input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.can_consume == False:
                     print(items.name + " cannot be consumed")
+                    input("Press Enter to return")
                     return
 
         # ---------------------------- EQUIP ------------------------------------------------------------------------------
@@ -332,23 +345,28 @@ class Player:
                 if items.name == user_input[1] and items.is_weapon == True:  # check name matches and if it is a weapon
                     self.equipped = items  # equip it
                     print("equipped " + items.name)
+                    input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.is_weapon == False:
                     print(items.name + " is not a weapon")
+                    input("Press Enter to return")
                     return
 
         # --------------------------UNEQUIP ---------------------------------------------------------------------------
 
         if len(user_input) < 2:
             print("invalid command")
+            input("Press Enter to return")
             return
         if user_input[0] == "unequip":
             if user_input[1] == self.equipped.name:
                 print("Unequipped " + self.equipped.name)
                 self.equipped = None
+                input("Press Enter to return")
                 return
             if user_input[1] != self.equipped.name:
                 print("item not equipped")
+                input("Press Enter to return")
                 return
 
 
@@ -365,8 +383,9 @@ class Player:
                         if enemies.HP == 0 or enemies.HP < 0:  # if enemy HP is 0 or less, it dies
                             print(enemies.name + " was defeated!")
                             enemies.is_dead = True
-                            #self.current_location.enemies.remove(enemies)
+                            input("Press Enter to return")
                             return
+                        input("Press Enter to return")
                         return
                     if self.equipped is None:
                         enemies.HP = enemies.HP - 5  # unarmed combat damage
@@ -374,8 +393,9 @@ class Player:
                         if enemies.HP == 0 or enemies.HP < 0:
                             print(enemies.name + " was defeated!")
                             enemies.is_dead = True
-                            #self.current_location.enemies.remove(enemies)
+                            input("Press Enter to return")
                             return
+                        input("Press Enter to return")
                         return
 
         # --------------------------------------------GO TO ----------------------------------------------------------------------------
@@ -433,6 +453,7 @@ class Player:
         """
         When the player types in "help", this help screen is displayed
         """
+        print("\n")
         print("Welcome to Treasure Tomb, a text-based treasure hunting game!")
         print(
             "The objective of this game is to get to the treasure by making your way through a dangerous, haunted tomb.")
@@ -449,6 +470,11 @@ class Player:
         print("You may interact with certain objects in your environment using player-inputted commands.")
         print("Warning: commands must be inputted exactly as they are listed here")
         print("List of supported commands:")
+        print("savegame   : saves the current state of the game")
+        print("help    : shows this help screen")
+        print("inventory    : shows you the items in your inventory")
+        print("exit     : exits the game. Make sure to save before using this command")
+        print("HP     : shows you your current HP")
         print("look at _____  :  Allows you to see a description of any item or enemy in the room.")
         print("pick up _____  : Allows you to pick up an item, as long as that item can be picked up. It "
               "will be placed in your inventory")
