@@ -4,8 +4,14 @@ from conditions import *
 import time
 import pickle
 import colorama
+import random
 from colorama import Fore, Back, Style
+
 colorama.init()
+
+
+# locked in combat
+
 
 def main():
     #    TREASURE TOMB
@@ -15,6 +21,16 @@ def main():
     print("Press 1 to start a new game")
     print("Press 2 to load a saved game")
     game = input()
+
+    gn = False
+
+    while not gn:
+        if game != "1" and game != "2":
+            print("Press 1 to start a new game")
+            print("Press 2 to load a saved game")
+            game = input()
+        else:
+            gn = True
 
     load = False
     gn = False
@@ -36,11 +52,6 @@ def main():
                     save_name = input()
             except OSError:
                 gn = True
-
-
-
-
-
     if game == "2":
         print("Please enter the name of your saved game")
         save_name = input()
@@ -58,23 +69,11 @@ def main():
         print("1) Go inside")
         print("2) Turn back")
 
-        done = False
-        
-        #put the input inside a loop to check for correct input only
-        while done != True:
-            decision = input()
-            if decision == "2":
-                print("Game Over")
-                done = True
-                return
-            elif decision == "1":
-                # You have now entered the temple.
-                done = True
-                player = build_the_board()
-            else:
-                print("Command not recognized!")
-                print("Please enter 1 or 2!")
-                
+        decision = input()
+
+        if decision == "2":
+            print("Game Over")
+            return
         # You have now entered the temple.
         player = build_the_board()
 
@@ -90,13 +89,14 @@ def main():
                 print("save file not found")
                 print("Please enter the name of your saved game")
                 save_name = input()
-
-
-
-
     while True:
         print("\n")
-        player.current_location.build_description()
+        if player.in_combat is None:
+            player.current_location.build_description()
+        if player.in_combat is not None:
+            player.fight(player.in_combat)
+            input("Press Enter to return")
+            print("What will you do?")
         time.sleep(.25)
         user_inputted_command = player.current_location.take_input(player)
         time.sleep(.25)
@@ -114,8 +114,6 @@ def main():
         if player.exit:
             print("exiting game")
             return
-
-
 
 
 main()
