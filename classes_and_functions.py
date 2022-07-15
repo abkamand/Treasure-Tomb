@@ -62,7 +62,7 @@ class Room:
                 if items.on_floor:
                     if items.is_weapon:
                         print((Fore.MAGENTA + items.name) + '\033[39m')
-                    if items.can_consume:
+                    elif items.can_consume:
                         print((Fore.BLUE + items.name) + '\033[39m')
                     else:
                         print((Fore.WHITE + items.name) + '\033[39m')
@@ -103,8 +103,8 @@ class Room:
         # ----------------Connecting MAIN CHAMBER to ash cluster room 1 ---------------------------------
 
         if player.current_location.name == "Main Chamber" and user_input[2] == "eastern door":
-            user_input[2] = "ash cluster room 1"
-        if player.current_location.name == "ash cluster room 1" and user_input[2] == "western door":
+            user_input[2] = "Water Room"
+        if player.current_location.name == "Water Room" and user_input[2] == "western door":
             user_input[2] = "Main Chamber"
         # -------------------------------------------------------------------------------------------------
         return user_input
@@ -305,9 +305,11 @@ class Player:
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()  # toggle whether the ability is on or off
                     if items.ability:
-                        print(items.ability_on_description)  # print the description when the ability is turned on or
-                    if not items.ability:  # off. Ex: Torch was lit and is glowing brightly
-                        print(items.ability_off_description)
+                        if items.ability_on_description is not None:
+                            print(items.ability_on_description)  # print the description when the ability is turned on or
+                    if not items.ability:
+                        if items.ability_off_description is not None:
+                            print(items.ability_off_description)
                     input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.can_activate_ability == False:
@@ -318,13 +320,30 @@ class Player:
                 if items.name == user_input[1] and items.can_activate_ability == True:
                     items.toggle_ability()
                     if items.ability:
-                        print(items.ability_on_description)
+                        if items.ability_on_description is not None:
+                            print(items.ability_on_description)
                     if not items.ability:
-                        print(items.ability_off_description)
+                        if items.ability_off_description is not None:
+                            print(items.ability_off_description)
                     input("Press Enter to return")
                     return
                 if items.name == user_input[1] and items.can_activate_ability == False:
                     print(items.name + " cannot be activated")
+                    input("Press Enter to return")
+                    return
+            for enemies in self.current_location.enemies:
+                if enemies.name == user_input[1] and enemies.can_activate_ability == True:
+                    enemies.toggle_ability()
+                    if enemies.ability:
+                        if enemies.ability_on_description is not None:
+                            print(enemies.ability_on_description)
+                    if not enemies.ability:
+                        if enemies.ability_off_description is not None:
+                            print(enemies.ability_off_description)
+                    input("Press Enter to return")
+                    return
+                if enemies.name == user_input[1] and enemies.can_activate_ability == False:
+                    print(enemies.name + " cannot be activated")
                     input("Press Enter to return")
                     return
 
@@ -725,16 +744,27 @@ class Enemy:
         self.e_description = None
         self.is_dead = False
         self.HP = None
+
+        # if the enemy has an ability
+        self.can_activate_ability = False
+        self.ability = False
+        self.ability_on_description = None
+        self.ability_off_description = None
+
+
         # moves
         # move 1
         self.move_1 = None
         self.move_1_power = None
+
         # move 2
         self.move_2 = None
         self.move_2_power = None
+
         # move 3
         self.move_3 = None
         self.move_3_power = None
+
         # move 4
         self.move_4 = None
         self.move_4_power = None
@@ -750,6 +780,38 @@ class Enemy:
         Used to add an environmental description
         """
         self.e_description = description
+
+
+
+    def toggle_can_activate_ability(self):
+        """
+        Make it so an enemy has an ability
+        """
+        if not self.can_activate_ability:
+            self.can_activate_ability = True
+        else:
+            if self.can_activate_ability:
+                self.can_activate_ability = False
+
+    def toggle_ability(self):
+        """
+        Toggles the ability
+        """
+        if not self.ability:
+            self.ability = True
+        else:
+            if self.ability:
+                self.ability = False
+
+    def add_ability_on_description(self, description):
+        """ add description that is printed when an ability is turned on"""
+        self.ability_on_description = description
+
+    def add_ability_off_description(self, description):
+        """ add description that is printed when an ability is turned on"""
+        self.ability_off_description = description
+
+
 
     def set_HP(self, int):
         """
