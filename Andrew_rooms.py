@@ -5,15 +5,6 @@ import random
 
 colorama.init()
 
-# *** REFERENCE: ROOM TEMPLATE AND COMMENTS FOR ROOM 1-2 CREATED BY ASHWIN THIRUPPATHI ***
-# core template in build_board.py
-
-# change items from WHITE to a different color
-
-# This tutorial will show how to build the game board, piece by piece. The game essentially consists
-# of a bunch of room objects, filled with a bunch of item objects or enemy objects. The player object
-# navigates these rooms until they find the treasure, then the game ends.
-
 # If you take a look at main.py, you will see the gameplay loop is basically
 #   1. print the room description
 #   2. get the user's typed input
@@ -22,9 +13,7 @@ colorama.init()
 #   5. check to see if the player has died or won the game
 
 # This loop continues until the game ends. However, before the game can begin the board must be
-# built. Each one of use will create our clusters and connect it to the Main Chamber (or whatever we want to call it)
-# That is what this tutorial is for.
-
+# built. Each one of us will create our clusters and connect it to the Main Chamber (or whatever we want to call it)
 
 #  regular items are white
 #  consumable items are blue
@@ -33,18 +22,16 @@ colorama.init()
 #  enemies are red
 
 
-def build_west_one():
-    #  STEP 1:  CREATE A ROOM
+def build_the_board():
+    # -----------------------------------------------------------------------------------------------------------------------------------------
+    # Andrew Room 1
+    # Fairly standard room:
+    # Eastern Wall blocked by giant stone boulder than can be blown up by dynamite
+    # Northern Wall leads to room 2, which is pitch black and contains the dynamite
+    # Room contains some coffins, upon inspecting one, the player can pick up a red ruby, PURPOSE UNDECIDED !!!
+    West_one = Room("Andrew room cluster 1")
 
-    # create the room, using the name of the room as the argument
-    West_one = Room("Main Chamber")
-
-    # create the long description of the room you just made
-    # its important that you add a newline character at appropriate places so that the text does not go too far
-    # off of the screen.
-    # you need to make sure that items are color coded appropriately. See color key at beginning of this file
     # you can color code using this format " first part of sentence" + (Fore.Color + "item") + '\033[39m' + " rest of the sentence"
-
     # keep in mind that any item that can be removed from the room (can be picked up) should not be contained in this
     # description. Their description will be in their own e_description of their own object. Notice how the mosaic described
     # in the description is an item that can't be picked up. The rooms that are connected to the current room are also described
@@ -67,7 +54,7 @@ def build_west_one():
         + "\nOn the eastern wall, there is a stone boulder blocking what appears to be a doorway ("
         + (Fore.YELLOW + "eastern door")
         + "\033[39m"
-        # player needs torch active to see northern room
+        # darkness puzzle room
         + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
@@ -101,7 +88,7 @@ def build_west_one():
     West_one.add_shorter_description(description)
 
     # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    # STEP 2: CREATE THE ITEM OBJECTS THAT YOU ARE GOING TO BE PUTTING INTO THE ROOM
+    # create items
 
     wooden_coffin = Item("wooden coffin")
     # give the wooden coffin a description
@@ -110,16 +97,11 @@ def build_west_one():
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
     metallic_coffin = Item("metallic coffin")
-    # give the metallic coffin
+    # give the metallic coffin a description
     metallic_coffin.add_description(
         "The coffin is coated in a metal of some sort... gold... silver.. platinum? It's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
     )
-    # since the metallic coffin cannot be picked up, we don't need to give it an e_description
-
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     small_coffin = Item("small coffin")
     # give the small coffin a description
@@ -128,9 +110,6 @@ def build_west_one():
         + (Fore.WHITE + "ruby")
         + "\033[39m calls to you..."
     )
-    # since the small coffin cannot be picked up, we don't need to give it an e_description
-
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     # Now create the red ruby
     red_ruby = Item("red ruby")
@@ -148,10 +127,6 @@ def build_west_one():
     # allow ruby to be picked up
     red_ruby.toggle_can_pick_up()
 
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    # STEP 3: ADD THE ITEMS INTO THE ROOM
-
     # now add the items into the room
     # items are read in the order added
     West_one.add_item_to_room(wooden_coffin)
@@ -159,40 +134,36 @@ def build_west_one():
     West_one.add_item_to_room(small_coffin)
     West_one.add_item_to_room(red_ruby)
 
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    # STEP 4: CREATE AN ADJACENT ROOM
+    # -----------------------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 2
+    # Pitch black chamber, contains darkness puzzle
+    # crux of the puzzle still undecided
+    # after completing puzzle, player can pick up dynamite
 
-    # Now, we're going to create the room to the east that we mentioned. We're going to add an enemy to the room
     West_two = Room("Andrew room cluster 2")
 
-    # create the long description of the room you just made, and then add it to the room
+    # create long description + add it to the room
     description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\n Perhaps there is an item that can provide some light..."
 
     West_two.add_long_description(description)
 
-    # create the shortened description for the room, will be displayed when you are visiting a room you have been to
-    # don't forget to include you color coding, even for the shortened description
-    # also don't forget to describe the door to the room that you come from. In this case is the western door that will
-    # lead back into the Main Chamber
+    # create shortened description + add it to the room
     description = (
         "Darkness surrounds you. Perhaps there is an item that can light up the room..."
     )
     West_two.add_shorter_description(description)
 
-    # STEP 5: CREATE ITEMS FOR ADJACENT ROOM
-
-    # create the sarcophagus
+    # -----------------------------------------------------------------------------------------------------------------------------------------
+    # create items
+    # create dynamite
     dynamite = Item("dynamite")
 
-    # give the sarcophagus a description
+    # give dynamite a description
     dynamite.add_description(
         "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it..."
     )
 
-    # We need to give this ruby an environmental description, since it can be picked up
-    # "red ruby" is colored so the player knows they can interact with the item
+    # create environmental description
     dynamite.add_env_description(
         "A stick of explosive "
         + (Fore.WHITE + "dynamite")
@@ -201,12 +172,12 @@ def build_west_one():
 
     dynamite.toggle_can_pick_up()
 
-    # STEP 7: ADD THE ITEMS AND ENEMY INTO THE ROOM
     West_two.add_item_to_room(dynamite)
 
     # ------------------------------------------------------------------------------------------------------------------------------
-    # create Andrew's room 3
+    # Andrew's room 3
     # JUMPING PUZZLE ROOM, need to implement "jump" action
+    # Player must jump onto small pillar --> medium pillar --> box --> large pillar in that order to progress to next room
     West_three = Room("Andrew room cluster 3")
 
     description = (
@@ -294,6 +265,11 @@ def build_west_one():
 
     # ---------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room #4
+    # Animal/Predator puzzle room
+    # Contains carvings of a python, alligator, and eagle
+    # Beneath each is a pedestal which depicts said animal, but dead, with a figurine held on top of said pedestal
+    # The player must pickup and place the figurines on the "correct" pedestals to solve the puzzle and receive a diamond key
+    # Correct pedestal pairings: Python figurine - Alligator pedestal | Alligator figurine - Eagle pedestal | Eagle figurine - Python pedestal
 
     West_four = Room("Andrew room cluster 4")
 
@@ -319,7 +295,8 @@ def build_west_one():
 
     # ---------------------------------------------------------------------------------------------------------------------------------------
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle to be implemented in conditions.py
-    # Player must pick up the python, alligator, and eagle figurines. Player must place the eagle figurine on the Python pedestal, the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
+    # Player must pick up the python, alligator, and eagle figurines. Player must place the eagle figurine on the Python pedestal,
+    # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
 
     # create python wall carving item object
     python_carving = Item("python_carving")
@@ -411,9 +388,8 @@ def build_west_one():
         "On the ground lies a key with a large diamond in the handle."
     )"""
 
-    # ---------------------------------------------------------------------------------------------------------------------------------------
     # add items to the room
-    West_four.add_item_to_room(diamond_key)
+    # West_four.add_item_to_room(diamond_key)
     West_four.add_item_to_room(eagle_pedestal)
     West_four.add_item_to_room(eagle_figurine)
     West_four.add_item_to_room(eagle_carving)
@@ -424,15 +400,16 @@ def build_west_one():
     West_four.add_item_to_room(python_figurine)
     West_four.add_item_to_room(python_carving)
 
-    # STEP 8: CONNECT THE MAIN CHAMBER WITH West_two
+    # -----------------------------------------------------------------------------------------------------------------------------------------
+    # Connect all the rooms together
 
-    # use the add_adjacent_room function to add West_two as the room on the east wall of the Main Chamber
-    West_one.add_adjacent_room("east", West_two)
-    # since West_two is on the east wall of the main chamber, that means the Main Chamber is on the west all of
-    # West_two. So make sure to set it both ways.
-    West_two.add_adjacent_room("west", West_one)
+    West_one.add_adjacent_room("east", West_three)
+    West_one.add_adjacent_room("north", West_two)
 
-    # connect west two, three, and four
+    West_two.add_adjacent_room("south", West_one)
+
+    West_three.add_adjacent_room("north", West_four)
+    West_four.add_adjacent_room("south", West_three)
 
     # IMPORTANT NOTE!!!!! :
     # There is one more step that you need to take in order to connect the rooms. The game needs to know that when you

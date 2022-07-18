@@ -1,5 +1,7 @@
 from classes_and_functions import *
 from build_board import *
+
+# from Andrew_rooms import *
 from conditions import *
 import time
 import pickle
@@ -8,9 +10,6 @@ import random
 from colorama import Fore, Back, Style
 
 colorama.init()
-
-
-# locked in combat
 
 
 def main():
@@ -45,7 +44,7 @@ def main():
             save_name = input()
         while not gn:
             try:
-                with open(save_name + ".pickle", 'rb') as f:
+                with open(save_name + ".pickle", "rb") as f:
                     gn = False
                     print("File already exists with this save name.")
                     print("Please enter a different save name")
@@ -60,10 +59,12 @@ def main():
     if not load:
         print(
             "You have finally arrived at the temple. It's a tall, stone structure with stairs leading up to a dark "
-            "entryway.")
+            "entryway."
+        )
         print(
             "You'd been following the clues and you are ready to retrieve the treasure. Thunder rolls ominously in "
-            "the distance.")
+            "the distance."
+        )
         print("It's your last chance to turn back.")
 
         print("1) Go inside")
@@ -82,7 +83,7 @@ def main():
     if load:
         while not lf:
             try:
-                with open(save_name + ".pickle", 'rb') as f:
+                with open(save_name + ".pickle", "rb") as f:
                     player = pickle.load(f)
                     lf = True
             except OSError:
@@ -97,13 +98,13 @@ def main():
             player.fight(player.in_combat)
             input("Press Enter to return")
             print("What will you do?")
-        time.sleep(.25)
+        time.sleep(0.25)
         user_inputted_command = player.current_location.take_input(player)
-        time.sleep(.25)
+        time.sleep(0.25)
         player.execute_input(user_inputted_command, player, save_name)
-        time.sleep(.25)
+        time.sleep(0.25)
         check_conditions(player)
-        time.sleep(.25)
+        time.sleep(0.25)
         if player.HP == 0:
             player.is_dead = True
         if player.is_dead:

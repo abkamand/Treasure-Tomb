@@ -20,39 +20,134 @@ colorama.init()
 
 
 def check_conditions(player):
-    diamond_from_dead_mummy(player)
+    water_room_mummy(player)
+    water_room_conditions(player)
     return
+
+
+# ------------------------------Andrew's CLUSTER CONDITIONS ------------------------------------------------------
+# Andrew room 3
+# player must jump onto small pillar, medium pillar, box, large pillar in that order to progress to next room
+def jump_puzzle(player):
+    return True
+
+
+# Andrew room 1
+# blow up the stone blocking a door in room 1 by lighting dynamite on the rock
+def explode_rock(player):
+    return True
+
+
+# Andrew room 4
+# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
+def animal_puzzle(player):
+    return True
+
+
+# Andrew room 2
+# still undecided on the crux of this puzzle
+def darkness_puzzle(player):
+    return True
 
 
 # ------------------------------ASH's CLUSTER CONDITIONS ------------------------------------------------------
 
-def diamond_from_dead_mummy(player):
+
+def water_room_mummy(player):
     """
-    Once you kill the mummy that is in "ash cluster room 1", he will say a warning and a diamond will fall from his
-    chest. You can now pick up that diamond
+    When you enter the water room, you will immediately be attacked by the mummy with the axe. When he dies, he will
+    drop the axe.
     """
-    if player.current_location.name == "ash cluster room 1":  # check to see if the player is in the right room
-        for enemies in player.current_location.enemies:  # iterate through enemies to see if the mummy is dead
-            if enemies.name == "mummy" and enemies.is_dead == True:  # name must match and must be dead
-                print('As the mummy vanishes into dust, he screeches, "You will not make it out of this tomb alive!" As his body disintegrates, he reaches into his rotting chest and pulls out a diamond from it.')
-                print('The diamond falls from his grasp onto the floor.')
-                # now remove the mummy from the room so that this condition does not trigger again next time you
-                # enter this room
+    if (
+        player.current_location.name == "Water Room"
+        and player.current_location.visited == True
+    ):
+        for (
+            enemies
+        ) in (
+            player.current_location.enemies
+        ):  # iterate through enemies to see if the mummy is dead
+            if enemies.name == "mummy" and enemies.is_dead == False:
+                player.in_combat = enemies
+            if enemies.name == "mummy" and enemies.is_dead == True:
+                print(
+                    "As the defeated mummy vanishes into dust, he drops his axe to the floor."
+                )
+                print("Press Enter to return")
+                input()
                 player.current_location.enemies.remove(enemies)
-                # create the diamond that fell from the mummy, and change attributes as needed
-                diamond = Item("diamond")
-                diamond.add_description("A red diamond that fell from the body of a mummy after you defeated it.")
-                diamond.toggle_can_pick_up()
-                diamond.toggle_on_floor()
-                # add the diamond to the room
-                player.current_location.add_item_to_room(diamond)
+                axe = Item("axe")
+                axe.add_description(
+                    "A powerful axe that fell from a vanquished mummy. Might come in handy. \n Power: 35"
+                )
+                axe.toggle_can_pick_up()
+                axe.toggle_on_floor()
+                axe.toggle_is_weapon()
+                axe.set_weapon_power(35)
+                player.current_location.add_item_to_room(axe)
                 return
 
 
-
-
-
-
-
-
-
+def water_room_conditions(player):
+    """
+    If you have the chalice in your inventory and you activate the sink, the chalice will be filled with water
+    Then, if you activate the statue with the chalice that now has water in it, you will pour water into the mouth of
+    the statue.
+    If this happens, the room will fill with water and you can swim to the southern door.
+    """
+    chalice_in_inventory = False
+    chalice_ability = False
+    for items in player.inventory:
+        if items.name == "chalice":
+            chalice_in_inventory = True
+    for items in player.current_location.in_room:
+        if items.name == "sink":
+            if items.ability and chalice_in_inventory == True:
+                print("The chalice has been filled with a few drops from the sink.")
+                print("Press Enter to return")
+                input()
+                items.ability = False
+                for i in player.inventory:
+                    if i.name == "chalice":
+                        i.ability = True
+                        chalice_ability = True
+    for items in player.inventory:
+        if items.name == "chalice":
+            items.ability = True
+            chalice_ability = True
+    for items in player.current_location.in_room:
+        if items.name == "statue":
+            if items.ability and chalice_ability:
+                print(
+                    "You pour the water from the chalice into the mouth of the statue of Khnum."
+                )
+                print(
+                    "Suddenly, you hear a rush of water coming from beneath you! The sink begins to overflow with water! "
+                )
+                print(
+                    "Water begins pouring through the cracks of the limestone walls, flooding the room!"
+                )
+                print(
+                    "The flooding causes the water level of the room to rise, taking you with it."
+                )
+                print(
+                    "Finally, the flooding stops. You are now able to reach the door on the southern wall ("
+                    + (Fore.YELLOW + "southern door")
+                    + "\033[39m"
+                    + ")."
+                )
+                player.current_location.long_description = (
+                    "The room has been flooded. All that remains is a pool of glistening water. You can now swim to the door on the southern wall("
+                    + (Fore.YELLOW + "southern door")
+                    + "\033[39m"
+                    + ")."
+                )
+                player.current_location.shortened_description = (
+                    "The room has been flooded. All that remains is a pool of glistening water. You can now swim to the door on the southern wall("
+                    + (Fore.YELLOW + "southern door")
+                    + "\033[39m"
+                    + ")."
+                )
+                items.ability = False
+                print("Press Enter to return")
+                input()
