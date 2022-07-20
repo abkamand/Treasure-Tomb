@@ -1,5 +1,6 @@
 from classes_and_functions import *
 from build_board import *
+from Andrew_rooms import *
 import colorama
 from colorama import Fore, Back, Style
 import random
@@ -22,32 +23,135 @@ colorama.init()
 def check_conditions(player):
     water_room_mummy(player)
     water_room_conditions(player)
+
+    # Andrew's Rooms
+    explode_boulder(player)
+    jump_puzzle(player)
+
     return
 
 
 # ------------------------------Andrew's CLUSTER CONDITIONS ------------------------------------------------------
+# Andrew room 1
+def check_coffin(player):
+    # add coffin ability, can toggle
+    # put ruby description in coffin, color code
+    # check if ruby is in player inventory, if so update description
+    return
+
+
 # Andrew room 3
 # player must jump onto small pillar, medium pillar, box, large pillar in that order to progress to next room
 def jump_puzzle(player):
-    return True
+    in_room = False
+    short_pillar = False
+    medium_pillar = False
+    large_pillar = False
+
+    if player.current_location.name == "Andrew 3":
+        in_room = True
+    for items in player.current_location.in_room:
+        if items.name == "short_pillar" and items.ability == True:
+            short_pillar = True
+        elif items.name == "medium_pillar" and items.ability == True:
+            medium_pillar = True
+        elif items.name == "large_pillar" and items.ability == True:
+            large_pillar = True
+
+    if in_room == True and (
+        short_pillar == True or medium_pillar == True or large_pillar == True
+    ):
+        if short_pillar == False:
+            print("You jump and fall back to the floor, ouch")
+            # lower player HP
+            return
+
+        print("You are standing on top of the short pillar")
+        print("What will you do next?")
+        response = input()
+        if response != "activate medium_pillar":
+            print("You jump and fall back to the floor, ouch")
+            return
+
+        print("You are standing on top of the medium pillar")
+        print("What will you do next?")
+        response = input()
+        if response != "activate large_pillar":
+            print("You jump and fall back to the floor, ouch")
+            return
+
+        print(
+            "You made it to the roof chamber. You find a rope nearby and lower it so you can slide down quickly... not sure you have the strength to climb back up the rope though."
+        )
+        # move the player into the next room
+        for items in player.current_location.in_room:
+            items.ability = False
+        player.current_location = player.current_location.north_wall
+
+
+# if player lights the dynamite and throws it at the wrong object (dynamite bounces back and blows you up)
+def dead_to_dynamite(player):
+    return
 
 
 # Andrew room 1
 # blow up the stone blocking a door in room 1 by lighting dynamite on the rock
-def explode_rock(player):
-    return True
+def explode_boulder(player):
+    print(player.current_location.name)
+    if player.current_location.name == "Andrew 1":
+        for items in player.current_location.in_room:
+            print(items.name)
+            if items.name == "boulder":
+                for i in items.contains:
+                    print(i.name)
+                    print(i.ability)
+                    if i.name == "dynamite" and i.ability == True:
+                        print(
+                            "You place the stick of dynamite near the rock, and run. The rock explodes, leaving an open doorway. \nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings in the northern room... \nit must be in complete disarray."
+                        )
+                        player.current_location.in_room.remove(items)
+
+                        """for items in player.current_location.in_room:
+                            if items.name == "boulder":
+                                player.current_location.in_room.remove(items)"""
+
+                        # CONNECT west_three to west_one now that the boulder is gone
+                        # create the shortened description for the room, will be displayed when you are visiting a room you have been to
+                        description = (
+                            "A dark room with a pile of coffins and treaures in the corner. One appears"
+                            + (Fore.WHITE + "wooden")
+                            + "\033[39m"
+                            + "and ripped open, one appears"
+                            + (Fore.WHITE + "metallic")
+                            + "\033[39m"
+                            + ", and the third appears to be"
+                            + (Fore.WHITE + "small")
+                            + "\033[39m"
+                            + "and molded over."
+                            + "\nPerhaps you should take a closer look at the coffins for anything useful?"
+                            + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
+                            + (Fore.YELLOW + "northern corridor")
+                            + "\033[39m"
+                            + ")."
+                            + "On the eastern wall, there is a newly revealed passage to an "
+                            + (Fore.YELLOW + "eastern")
+                            + "\033[39m ."
+                            + " chamber."
+                        )
+                        # now add the description to the shortened_description attribute of the room
+                        player.current_location.add_shorter_description(description)
 
 
 # Andrew room 4
 # Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
 def animal_puzzle(player):
-    return True
+    return
 
 
 # Andrew room 2
 # still undecided on the crux of this puzzle
 def darkness_puzzle(player):
-    return True
+    return
 
 
 # ------------------------------ASH's CLUSTER CONDITIONS ------------------------------------------------------

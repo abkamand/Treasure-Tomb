@@ -1,7 +1,7 @@
 from classes_and_functions import *
-from build_board import *
 
-# from Andrew_rooms import *
+# from build_board import *
+from Andrew_rooms import *
 from conditions import *
 import time
 import pickle

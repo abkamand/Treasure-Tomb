@@ -29,7 +29,7 @@ def build_the_board():
     # Eastern Wall blocked by giant stone boulder than can be blown up by dynamite
     # Northern Wall leads to room 2, which is pitch black and contains the dynamite
     # Room contains some coffins, upon inspecting one, the player can pick up a red ruby, PURPOSE UNDECIDED !!!
-    West_one = Room("Andrew room cluster 1")
+    West_one = Room("Andrew 1")
 
     # you can color code using this format " first part of sentence" + (Fore.Color + "item") + '\033[39m' + " rest of the sentence"
     # keep in mind that any item that can be removed from the room (can be picked up) should not be contained in this
@@ -50,15 +50,15 @@ def build_the_board():
         + "\033[39m"
         + "and molded over."
         + "\nPerhaps you should take a closer look at the coffins for anything useful?"
-        # plan is player can blow this up with dynamite
-        + "\nOn the eastern wall, there is a stone boulder blocking what appears to be a doorway ("
-        + (Fore.YELLOW + "eastern door")
-        + "\033[39m"
         # darkness puzzle room
         + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
         + ")."
+        + "A giant"
+        + (Fore.GREEN + "boulder")
+        + "\033[39m"
+        + " blocks the way to the eastern chamber. You'll need some way of removing it... explosives?"
     )
     # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
     West_one.add_long_description(description)
@@ -76,13 +76,13 @@ def build_the_board():
         + "\033[39m"
         + "and molded over."
         + "\nPerhaps you should take a closer look at the coffins for anything useful?"
-        + "\nOn the eastern wall, there is a stone boulder blocking what appears to be a doorway ("
-        + (Fore.YELLOW + "eastern door")
-        + "\033[39m"
         + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
         + ")."
+        + (Fore.WHITE + "boulder")
+        + "\033[39m ."
+        + " blocks the way to the eastern chamber."
     )
     # now add the description to the shortened_description attribute of the room
     West_one.add_shorter_description(description)
@@ -127,12 +127,19 @@ def build_the_board():
     # allow ruby to be picked up
     red_ruby.toggle_can_pick_up()
 
+    # create boulder
+    boulder = Item("boulder")
+    boulder.add_description = "A giant boulder."
+    # boulder.can_activate_ability = True
+    boulder.can_contain = True
+
     # now add the items into the room
     # items are read in the order added
     West_one.add_item_to_room(wooden_coffin)
     West_one.add_item_to_room(metallic_coffin)
     West_one.add_item_to_room(small_coffin)
     West_one.add_item_to_room(red_ruby)
+    West_one.add_item_to_room(boulder)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 2
@@ -140,7 +147,7 @@ def build_the_board():
     # crux of the puzzle still undecided
     # after completing puzzle, player can pick up dynamite
 
-    West_two = Room("Andrew room cluster 2")
+    West_two = Room("Andrew 2")
 
     # create long description + add it to the room
     description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\n Perhaps there is an item that can provide some light..."
@@ -170,7 +177,15 @@ def build_the_board():
         + "\033[39m lies on the floor. Better be careful with flames around it... "
     )
 
+    # allow dynamite to be picked up
     dynamite.toggle_can_pick_up()
+    # add ability to dynamite
+    # DOUBLE CHECK THIS WITH ASHWIN !!!
+    dynamite.can_activate_ability = True
+    dynamite.ability_on_description = (
+        "The dynamite is lit, quick, throw it at something!"
+    )
+    dynamite.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
 
     West_two.add_item_to_room(dynamite)
 
@@ -178,11 +193,12 @@ def build_the_board():
     # Andrew's room 3
     # JUMPING PUZZLE ROOM, need to implement "jump" action
     # Player must jump onto small pillar --> medium pillar --> box --> large pillar in that order to progress to next room
-    West_three = Room("Andrew room cluster 3")
+    West_three = Room("Andrew 3")
 
     description = (
         "The dynamite you used earlier has left half this room in shambles. You cough as a cloud of ash and dust greets you.\nThere's rubble and dust everywhere."
-        + "Interstingly enough, the explosion seems to have opened a hole in the roof of the chamber towards the northern end, leading to another chamber."
+        + "Interstingly enough, the explosion seems to have opened a hole "
+        + "in the roof of the chamber towards the northern end, leading to another chamber."
         + "\nThere's a "
         + (Fore.WHITE + "short pillar")
         + "\033[39m"
@@ -235,6 +251,7 @@ def build_the_board():
     short_pillar.add_description(
         "A short pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
+    short_pillar.can_activate_ability = True
 
     # create medium pillar
     medium_pillar = Item("medium_pillar")
@@ -242,6 +259,7 @@ def build_the_board():
     medium_pillar.add_description(
         "A medium pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
+    medium_pillar.can_activate_ability = True
 
     # create large pillar
     large_pillar = Item("large_pillar")
@@ -249,16 +267,9 @@ def build_the_board():
     large_pillar.add_description(
         "A large pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
-
-    # create box
-    box = Item("box")
-    # add description
-    box.add_description(
-        "A box stands out among the rubble, looks particularly sturdy if someone were to jump on..."
-    )
+    large_pillar.can_activate_ability = True
 
     # add items to room
-    West_three.add_item_to_room(box)
     West_three.add_item_to_room(short_pillar)
     West_three.add_item_to_room(medium_pillar)
     West_three.add_item_to_room(large_pillar)
@@ -271,7 +282,7 @@ def build_the_board():
     # The player must pickup and place the figurines on the "correct" pedestals to solve the puzzle and receive a diamond key
     # Correct pedestal pairings: Python figurine - Alligator pedestal | Alligator figurine - Eagle pedestal | Eagle figurine - Python pedestal
 
-    West_four = Room("Andrew room cluster 4")
+    West_four = Room("Andrew 4")
 
     description = (
         "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here.\n On each wall, you see an artistic carving."
@@ -403,7 +414,9 @@ def build_the_board():
     # -----------------------------------------------------------------------------------------------------------------------------------------
     # Connect all the rooms together
 
+    # this room is blocked until the player blows up the boulder, connect it in conditions?
     West_one.add_adjacent_room("east", West_three)
+
     West_one.add_adjacent_room("north", West_two)
 
     West_two.add_adjacent_room("south", West_one)

@@ -117,7 +117,44 @@ class Room:
             and user_input[2] == "western door"
         ):
             user_input[2] = "Main Chamber"
-        # -------------------------------------------------------------------------------------------------
+        # ----------------Connecting Andrew 1 to Andrew 2 ---------------------------------
+        if (
+            player.current_location.name == "Andrew 1"
+            and user_input[2] == "northern corridor"
+        ):
+            user_input[2] = "Andrew 2"
+        if (
+            player.current_location.name == "Andrew 2"
+            and user_input[2] == "southern corridor"
+            or user_input[2] == "back"
+        ):
+            user_input[2] = "Andrew 1"
+        # ----------------Connecting Andrew 1 to Andrew 3 ---------------------------------
+        if (
+            player.current_location.name == "Andrew 1"
+            and user_input[2] == "eastern corridor"
+        ):
+            user_input[2] = "Andrew 3"
+        if (
+            player.current_location.name == "Andrew 3"
+            and user_input[2] == "western corridor"
+            or user_input[2] == "back"
+        ):
+            user_input[2] = "Andrew 1"
+        # ----------------Connecting Andrew 3 to Andrew 4 ---------------------------------
+        # this should be tied to jumping puzzle
+        if (
+            player.current_location.name == "Andrew 3"
+            and user_input[2] == "northern corridor"
+        ):
+            user_input[2] = "Andrew 4"
+        if (
+            player.current_location.name == "Andrew 4"
+            and user_input[2] == "southern corridor"
+            or user_input[2] == "back"
+        ):
+            user_input[2] = "Andrew 3"
+
         return user_input
 
     def add_long_description(self, description):
