@@ -97,14 +97,15 @@ def dead_to_dynamite(player):
 # Andrew room 1
 # blow up the stone blocking a door in room 1 by lighting dynamite on the rock
 def explode_boulder(player):
-    print(player.current_location.name)
     if player.current_location.name == "Andrew 1":
         for items in player.current_location.in_room:
-            print(items.name)
             if items.name == "boulder":
                 for i in items.contains:
-                    print(i.name)
-                    print(i.ability)
+                    if i.name == "dynamite" and i.ability == False:
+                        return
+                        # ask ashwin!
+                        # add dynamite back to player inventory
+                        # print "maybe you should light the dynamite first"
                     if i.name == "dynamite" and i.ability == True:
                         print(
                             "You place the stick of dynamite near the rock, and run. The rock explodes, leaving an open doorway. \nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings in the northern room... \nit must be in complete disarray."
@@ -118,25 +119,23 @@ def explode_boulder(player):
                         # CONNECT west_three to west_one now that the boulder is gone
                         # create the shortened description for the room, will be displayed when you are visiting a room you have been to
                         description = (
-                            "A dark room with a pile of coffins and treaures in the corner. One appears"
-                            + (Fore.WHITE + "wooden")
+                            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears"
+                            + (Fore.MAGENTA + " wooden")
                             + "\033[39m"
-                            + "and ripped open, one appears"
-                            + (Fore.WHITE + "metallic")
+                            + " and ripped open, one appears"
+                            + (Fore.MAGENTA + " metallic")
                             + "\033[39m"
                             + ", and the third appears to be"
-                            + (Fore.WHITE + "small")
+                            + (Fore.MAGENTA + " small")
                             + "\033[39m"
-                            + "and molded over."
+                            + " and molded over."
                             + "\nPerhaps you should take a closer look at the coffins for anything useful?"
-                            + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
+                            + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
                             + (Fore.YELLOW + "northern corridor")
                             + "\033[39m"
-                            + ")."
-                            + "On the eastern wall, there is a newly revealed passage to an "
-                            + (Fore.YELLOW + "eastern")
-                            + "\033[39m ."
-                            + " chamber."
+                            + ").\nOn the eastern wall, where the boulder used to be, you spot a newly revealed eastern passage"
+                            + (Fore.YELLOW + " (eastern corridor).")
+                            + "\033[39m"
                         )
                         # now add the description to the shortened_description attribute of the room
                         player.current_location.add_shorter_description(description)

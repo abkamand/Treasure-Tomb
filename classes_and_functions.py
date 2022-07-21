@@ -150,7 +150,7 @@ class Room:
             user_input[2] = "Andrew 4"
         if (
             player.current_location.name == "Andrew 4"
-            and user_input[2] == "southern corridor"
+            and user_input[2] == "southern hole"
             or user_input[2] == "back"
         ):
             user_input[2] = "Andrew 3"

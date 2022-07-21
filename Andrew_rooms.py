@@ -40,48 +40,48 @@ def build_the_board():
     description = (
         "You find yourself in a dark chamber with coffins strewn about. There are cobwebs everywhere and the walls are covered with dust and mold."
         + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears"
-        + (Fore.WHITE + "wooden")
+        + (Fore.MAGENTA + " wooden")
         + "\033[39m"
-        + "and ripped open, one appears"
-        + (Fore.WHITE + "metallic")
+        + " and ripped open, one is"
+        + (Fore.MAGENTA + " metallic")
         + "\033[39m"
-        + ", and the third appears to be"
-        + (Fore.WHITE + "small")
+        + ", and the third is"
+        + (Fore.MAGENTA + " small")
         + "\033[39m"
-        + "and molded over."
+        + " and molded over."
         + "\nPerhaps you should take a closer look at the coffins for anything useful?"
         # darkness puzzle room
-        + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
+        + "\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
         + ")."
-        + "A giant"
-        + (Fore.GREEN + "boulder")
+        + " A giant"
+        + (Fore.MAGENTA + " boulder")
         + "\033[39m"
-        + " blocks the way to the eastern chamber. You'll need some way of removing it... explosives?"
+        + " blocks the way to the eastern chamber.\nYou'll need some way of removing it... explosives?"
     )
     # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
     West_one.add_long_description(description)
 
     # create the shortened description for the room, will be displayed when you are visiting a room you have been to
     description = (
-        "A dark room with a pile of coffins and treaures in the corner. One appears"
-        + (Fore.WHITE + "wooden")
+        "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears"
+        + (Fore.MAGENTA + " wooden")
         + "\033[39m"
-        + "and ripped open, one appears"
-        + (Fore.WHITE + "metallic")
+        + " and ripped open, one appears"
+        + (Fore.MAGENTA + " metallic")
         + "\033[39m"
         + ", and the third appears to be"
-        + (Fore.WHITE + "small")
+        + (Fore.MAGENTA + " small")
         + "\033[39m"
-        + "and molded over."
+        + " and molded over."
         + "\nPerhaps you should take a closer look at the coffins for anything useful?"
-        + ").\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
+        + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
-        + ")."
-        + (Fore.WHITE + "boulder")
-        + "\033[39m ."
+        + "). A "
+        + (Fore.CYAN + "boulder")
+        + "\033[39m"
         + " blocks the way to the eastern chamber."
     )
     # now add the description to the shortened_description attribute of the room
@@ -107,7 +107,7 @@ def build_the_board():
     # give the small coffin a description
     small_coffin.add_description(
         "The coffin is similar in construction to the cracked, wooden coffin, albeit its much smaller... wait, does that mean its just a Box?\nIt appears to contain an assortment of golden platewear and a shiny red ruby. Something about the"
-        + (Fore.WHITE + "ruby")
+        + (Fore.MAGENTA + "ruby")
         + "\033[39m calls to you..."
     )
 
@@ -121,8 +121,8 @@ def build_the_board():
     # "red ruby" is colored so the player knows they can interact with the item
     red_ruby.add_env_description(
         "Among the golden treasures resides a shiny "
-        + (Fore.WHITE + "red ruby")
-        + "\033[39m ."
+        + (Fore.MAGENTA + "red ruby.")
+        + "\033[39m"
     )
     # allow ruby to be picked up
     red_ruby.toggle_can_pick_up()
@@ -150,13 +150,21 @@ def build_the_board():
     West_two = Room("Andrew 2")
 
     # create long description + add it to the room
-    description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\n Perhaps there is an item that can provide some light..."
+    description = (
+        "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?"
+        + "\nPerhaps there is an item that can provide some light...\nTo the south lies a doorway to the coffin room"
+        + (Fore.YELLOW + " (southern corridor).")
+        + "\033[39m"
+    )
 
     West_two.add_long_description(description)
 
     # create shortened description + add it to the room
     description = (
         "Darkness surrounds you. Perhaps there is an item that can light up the room..."
+        + "\nTo the south lies a doorway to the coffin room"
+        + (Fore.YELLOW + " (southern corridor).")
+        + "\033[39m"
     )
     West_two.add_shorter_description(description)
 
@@ -173,7 +181,7 @@ def build_the_board():
     # create environmental description
     dynamite.add_env_description(
         "A stick of explosive "
-        + (Fore.WHITE + "dynamite")
+        + (Fore.MAGENTA + "dynamite")
         + "\033[39m lies on the floor. Better be careful with flames around it... "
     )
 
@@ -196,25 +204,22 @@ def build_the_board():
     West_three = Room("Andrew 3")
 
     description = (
-        "The dynamite you used earlier has left half this room in shambles. You cough as a cloud of ash and dust greets you.\nThere's rubble and dust everywhere."
-        + "Interstingly enough, the explosion seems to have opened a hole "
+        "The dynamite you used earlier has left half this room in shambles. You cough as a smoky cloud of ash and dust greet you.\nThere's rubble everywhere."
+        + " The explosion seems to have opened a hole "
         + "in the roof of the chamber towards the northern end, leading to another chamber."
         + "\nThere's a "
-        + (Fore.WHITE + "short pillar")
+        + (Fore.MAGENTA + "short pillar")
         + "\033[39m"
         + ", a"
-        + (Fore.WHITE + "medium pillar")
+        + (Fore.MAGENTA + " medium pillar")
         + "\033[39m"
-        + ", and a"
-        + (Fore.WHITE + "box")
+        + ", and a third"
+        + (Fore.MAGENTA + " large pillar")
         + "\033[39m"
-        + "in between a third"
-        + (Fore.WHITE + "large pillar")
+        + " leading straight to the newly revealed chamber."
+        + "\nTo the west lies a passage to the coffin room"
+        + (Fore.YELLOW + " (western corridor).")
         + "\033[39m"
-        + "leading straight to the"
-        + (Fore.YELLOW + "upper northern chamber")
-        + "\033[39m"
-        + "."
     )
 
     West_three.add_long_description(description)
@@ -223,21 +228,18 @@ def build_the_board():
         "There's rubble and dust everywhere."
         + "A hole in the northern roof of the chamber leads to another room."
         + "\nThere's a "
-        + (Fore.WHITE + "short pillar")
+        + (Fore.MAGENTA + "short pillar")
         + "\033[39m"
         + ", a"
-        + (Fore.WHITE + "medium pillar")
+        + (Fore.MAGENTA + " medium pillar")
         + "\033[39m"
-        + ", and a"
-        + (Fore.WHITE + "box")
+        + ", and a third"
+        + (Fore.MAGENTA + " large pillar")
         + "\033[39m"
-        + "in between a third"
-        + (Fore.WHITE + "large pillar")
+        + " leading straight to thenewly revealed chamber."
+        + "\nTo the west lies a passage to the coffin room"
+        + (Fore.YELLOW + " (western corridor).")
         + "\033[39m"
-        + "leading straight to the"
-        + (Fore.YELLOW + "upper northern chamber")
-        + "\033[39m"
-        + "."
     )
 
     West_three.add_shorter_description(description)
@@ -285,21 +287,33 @@ def build_the_board():
     West_four = Room("Andrew 4")
 
     description = (
-        "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here.\n On each wall, you see an artistic carving."
-        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving. Perhaps you should"
-        + (Fore.GREEN + "inspect ")
+        "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here.\nOn each wall, you see an artistic carving."
+        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving"
+        + (Fore.CYAN + "(bird pedestal, snake pedestal, and alligator pedestal).")
+        + "\033[39m"
+        + "Perhaps you should"
+        + (Fore.MAGENTA + " inspect ")
         + "\033[39m"
         + "these drawings further."
+        + "\nTo the south lies a passage to the coffin room"
+        + (Fore.YELLOW + " (southern hole).")
+        + "\033[39m"
     )
 
     West_four.add_long_description(description)
 
     description = (
         "On each wall, you see an artistic carving."
-        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving. Perhaps you should"
-        + (Fore.GREEN + "inspect ")
+        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving"
+        + (Fore.CYAN + "(bird pedestal, snake pedestal, and alligator pedestal).")
+        + "\033[39m"
+        + "Perhaps you should"
+        + (Fore.MAGENTA + "inspect ")
         + "\033[39m"
         + "these drawings further."
+        + "\nTo the south lies a passage to the coffin room"
+        + (Fore.YELLOW + " (southern hole).")
+        + "\033[39m"
     )
 
     West_four.add_shorter_description(description)
@@ -310,49 +324,58 @@ def build_the_board():
     # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
 
     # create python wall carving item object
-    python_carving = Item("python_carving")
+    python_carving = Item("python carving")
     # add description
     python_carving.add_description(
-        "A mystical light illuminates the wall, depicting an ancient carving of a very large Snake, a python."
+        "A mystical light illuminates the wall, depicting an ancient carving of a very large snake, a python."
     )
 
     # create python figurine object
-    python_figurine = Item("python_figurine")
+    python_figurine = Item("python figurine")
     # add description
     python_figurine.add_description(
         "An ornate figurine of a very large snake, presumably a python or anaconda."
     )
 
     # create python pedestal
-    python_pedestal = Item("python_pedestal")
+    python_pedestal = Item("python pedestal")
     # add description
     python_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead python with a prominent skull front and center."
     )
+    python_figurine.add_env_description(
+        "In one corner of the room there rests a figurine of a long and menacing python"
+        + (Fore.MAGENTA + " (python_figurine)")
+        + "\033[39m"
+        + ", resting on a suspicious pedestal of a dead python... ironic."
+    )
 
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
     # create alligator wall carving item object
-    alligator_carving = Item("alligator_carving")
+    alligator_carving = Item("alligator carving")
     # add description
     alligator_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of a very large reptile, an alligator."
     )
 
     # create alligator figurine object
-    alligator_figurine = Item("alligator_figurine")
+    alligator_figurine = Item("alligator figurine")
     # add description
     alligator_figurine.add_description(
         "An ornate figurine of a very large reptile, presumably an alligator or crocodile."
     )
     # add environmental description
     alligator_figurine.add_env_description(
-        "In one corner of the room there rests a figurine of a powerful lively alligator, resting on a suspicious pedestal of a dead alligator... ironic."
+        "In one corner of the room there rests a figurine of a powerful lively alligator"
+        + (Fore.MAGENTA + " (alligator figurine)")
+        + "\033[39m"
+        + ", resting on a suspicious pedestal of a dead alligator... ironic."
     )
 
     alligator_figurine.toggle_can_pick_up()
 
     # create alligator pedestal
-    alligator_pedestal = Item("alligator_pedestal")
+    alligator_pedestal = Item("alligator pedestal")
     # add description
     alligator_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead alligator with a prominent skull front and center."
@@ -360,27 +383,30 @@ def build_the_board():
 
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
     # create eagle wall carving item object
-    eagle_carving = Item("eagle_carving")
+    eagle_carving = Item("eagle carving")
     # add description
     eagle_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of a very large bird, an eagle."
     )
 
     # create eagle figurine object
-    eagle_figurine = Item("eagle_figurine")
+    eagle_figurine = Item("eagle figurine")
     # add description
     eagle_figurine.add_description(
         "An ornate figurine of a very large eagle, presumably an eagle."
     )
     # add environmental description
     eagle_figurine.add_env_description(
-        "In one corner of the room there rests a figurine of a proud tall eagle, resting on a suspicious pedestal of a dead eagle... ironic."
+        "In one corner of the room there rests a figurine of a proud tall eagle"
+        + (Fore.MAGENTA + " (eagle figurine)")
+        + "\033[39m"
+        + ", resting on a suspicious pedestal of a dead eagle... ironic."
     )
 
     eagle_figurine.toggle_can_pick_up()
 
     # create eagle pedestal
-    eagle_pedestal = Item("eagle_pedestal")
+    eagle_pedestal = Item("eagle pedestal")
     # add description
     eagle_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead eagle with a prominent skull front and center."
