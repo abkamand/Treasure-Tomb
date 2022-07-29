@@ -150,52 +150,23 @@ def build_the_board():
     West_two = Room("Andrew 2")
 
     # create long description + add it to the room
-    description = (
-        "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?"
-        + "\nPerhaps there is an item that can provide some light...\nTo the south lies a doorway to the coffin room"
-        + (Fore.YELLOW + " (southern corridor).")
-        + "\033[39m"
-    )
+    description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
 
     West_two.add_long_description(description)
 
     # create shortened description + add it to the room
-    description = (
-        "Darkness surrounds you. Perhaps there is an item that can light up the room..."
-        + "\nTo the south lies a doorway to the coffin room"
-        + (Fore.YELLOW + " (southern corridor).")
-        + "\033[39m"
-    )
+    description = "Darkness is everywhere. I need to move!"
     West_two.add_shorter_description(description)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------
     # create items
+    # moved dynamite to conditions.py
     # create dynamite
-    dynamite = Item("dynamite")
 
-    # give dynamite a description
-    dynamite.add_description(
-        "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it..."
-    )
+    # required to put in 1 hidden item placeholder to make darkness_puzzle fire off correctly in conditions.py
+    item_placeholder = Item("item_placeholder")
 
-    # create environmental description
-    dynamite.add_env_description(
-        "A stick of explosive "
-        + (Fore.MAGENTA + "dynamite")
-        + "\033[39m lies on the floor. Better be careful with flames around it... "
-    )
-
-    # allow dynamite to be picked up
-    dynamite.toggle_can_pick_up()
-    # add ability to dynamite
-    # DOUBLE CHECK THIS WITH ASHWIN !!!
-    dynamite.can_activate_ability = True
-    dynamite.ability_on_description = (
-        "The dynamite is lit, quick, throw it at something!"
-    )
-    dynamite.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
-
-    West_two.add_item_to_room(dynamite)
+    West_two.add_item_to_room(item_placeholder)
 
     # ------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 3

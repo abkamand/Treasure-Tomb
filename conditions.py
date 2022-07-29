@@ -7,24 +7,11 @@ import random
 
 colorama.init()
 
-# This is the conditions file that will be run during every gameplay loop in order to change the board
-# if anything happens. The function check_conditions is the main function in this file. Since there will
-# undoubtedly be many,many conditions that can happen in this game, we will be putting each condition in
-# its own function, which will then be run within check_conditions (similar to the main function of a C program).
-
-# If you look at check_conditions, you will see an example of a function diamond_from_dead_mummy that is an example of
-# this structure.
-
-# This is just one example, but using similar strategies that are tons of different things you can do by manipulating
-# different objects. For example, you can make a room dark to begin with, and then check to see if the player has
-# activated a torch. If he/she has, you can change the description of the room to have more information.
-
 
 def check_conditions(player):
-    water_room_mummy(player)
-    water_room_conditions(player)
 
     # Andrew's Rooms
+    darkness_puzzle(player)
     explode_boulder(player)
     jump_puzzle(player)
 
@@ -32,12 +19,178 @@ def check_conditions(player):
 
 
 # ------------------------------Andrew's CLUSTER CONDITIONS ------------------------------------------------------
-# Andrew room 1
-def check_coffin(player):
-    # add coffin ability, can toggle
-    # put ruby description in coffin, color code
-    # check if ruby is in player inventory, if so update description
+# Andrew to-do list:
+# if player lights the dynamite and throws it at the wrong object (dynamite bounces back and blows you up)
+def dead_to_dynamite(player):
     return
+
+
+# Andrew room 4
+# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
+def animal_puzzle(player):
+    return
+
+
+# Andrew room 2
+def blow_out_torch(player):
+    """Mystical gust of winds blows out torch in room 2 if already lit, or if player attempts to light torch in room 2."""
+    return
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+
+def darkness_puzzle(player):
+    def valid(curr, prev, mov, board):
+        """Checks if a player movement is valid or not, to be used down below in the crux of the darkness_puzzle gameplay loop."""
+        update_row = curr[0] + mov[0]
+        update_col = curr[1] + mov[1]
+        prev = curr
+        curr = (update_row, update_col)
+
+        curr_row = curr[0]
+        curr_col = curr[1]
+
+        # movement is invalid, player hits a wall
+        if curr_row < 0 or curr_col < 0 or board[curr_row][curr_col] == 1:
+            print("You run into something hard, ouch! Can't move that way.")
+            curr = prev
+            return curr
+
+        # movement is valid, player makes progress
+        elif board[curr_row][curr_col] == 0:
+            print(
+                "You successfully move a few paces into the darkness. How will you move next?"
+            )
+            return curr
+
+        # player completes the labrynth
+        elif board[curr_row][curr_col] == 2:
+            print("You successfully move a few paces into the darkness.")
+            return curr
+
+    # check if player is in Andrew room 2
+    if player.current_location.name == "Andrew 2":
+        for items in player.current_location.in_room:
+            # check if player has already completed the darkness puzzle, if so, break out of function
+            if items.name == "darkness_solved":
+                return
+
+        # create board to represent player position
+        # 0 = can move, 1 = wall, 2 = destination
+        # start = (0, 0)
+        board = [
+            [0, 1, 0, 0, 0],
+            [0, 0, 0, 1, 0],
+            [0, 1, 0, 0, 1],
+            [0, 1, 0, 0, 1],
+            [1, 1, 0, 0, 2],
+        ]
+
+        # create directional movement representations
+        right = (1, 0)
+        left = (-1, 0)
+        up = (0, 1)
+        down = (0, -1)
+
+        # create tuples representing current player location, previous, destination
+        prev_location = (0, 0)
+        curr_location = (0, 0)
+        destination = (4, 4)
+
+        # print gameplay prompt for the user
+        print(
+            "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
+        )
+        print(
+            "Perhaps you can make your way through the black labrynth off touch, feeling alone. You're blinded, not deaf or immaterial."
+            + "\nShould I"
+            + (Fore.YELLOW + " move")
+            + "\033[39m to the "
+            + (Fore.YELLOW + "right")
+            + "\033[39m, "
+            + (Fore.YELLOW + "left")
+            + "\033[39m, "
+            + (Fore.YELLOW + "up")
+            + "\033[39m, or"
+            + (Fore.YELLOW + " down")
+            + "\033[39m to begin?"
+        )
+
+        # core darkness puzzle gameplay loop, loops until they reach destination
+        while curr_location != destination:
+            response = input()
+
+            # player moves right
+            if response == "move right":
+                curr_location = valid(curr_location, prev_location, right, board)
+
+            # player moves left
+            elif response == "move left":
+                curr_location = valid(curr_location, prev_location, left, board)
+
+            # player moves down
+            elif response == "move down":
+                curr_location = valid(curr_location, prev_location, down, board)
+
+            # player moves up
+            elif response == "move up":
+                curr_location = valid(curr_location, prev_location, up, board)
+
+            # player input is invalid
+            else:
+                print("Invalid movement.")
+
+        # labrynth complete
+        print(
+            "\nYou hear a clicking noise. Suddenly, a bright light blinds you and the room is illuminated and you hear the southern doorway rumble open once more."
+        )
+
+        # create dynamite
+        dynamite = Item("dynamite")
+
+        # give dynamite a description
+        dynamite.add_description(
+            "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it..."
+        )
+
+        # create environmental description
+        dynamite.add_env_description(
+            "A stick of explosive "
+            + (Fore.MAGENTA + "dynamite")
+            + "\033[39m lies on the floor in front of you. Better be careful not to accidentally light it without a purpose... "
+        )
+
+        # allow dynamite to be picked up
+        dynamite.toggle_can_pick_up()
+        # add ability to dynamite
+        dynamite.can_activate_ability = True
+        dynamite.ability_on_description = (
+            "The dynamite is lit, quick, throw it at something!"
+        )
+        dynamite.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
+        player.current_location.add_item_to_room(dynamite)
+
+        # create darkness puzzle item to act as a pseudo breakout of the function so player doesn't have to replay this minigame
+        darkness_solved = Item("darkness_solved")
+        player.current_location.add_item_to_room(darkness_solved)
+
+        # update room description post-gameplay completion, room is now illuminated
+        description = (
+            "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird."
+            + "\nTo the south lies a doorway to the coffin room"
+            + (Fore.YELLOW + " (southern corridor).")
+            + "\033[39m"
+        )
+        player.current_location.add_long_description(description)
+
+        description = (
+            "You're in a room illuminated by a mystical light source."
+            + "\nTo the south lies a doorway to the coffin room"
+            + (Fore.YELLOW + " (southern corridor).")
+            + "\033[39m"
+        )
+        player.current_location.add_shorter_description(description)
 
 
 # Andrew room 3
@@ -89,11 +242,6 @@ def jump_puzzle(player):
         player.current_location = player.current_location.north_wall
 
 
-# if player lights the dynamite and throws it at the wrong object (dynamite bounces back and blows you up)
-def dead_to_dynamite(player):
-    return
-
-
 # Andrew room 1
 # blow up the stone blocking a door in room 1 by lighting dynamite on the rock
 def explode_boulder(player):
@@ -139,118 +287,3 @@ def explode_boulder(player):
                         )
                         # now add the description to the shortened_description attribute of the room
                         player.current_location.add_shorter_description(description)
-
-
-# Andrew room 4
-# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
-def animal_puzzle(player):
-    return
-
-
-# Andrew room 2
-# still undecided on the crux of this puzzle
-def darkness_puzzle(player):
-    return
-
-
-# ------------------------------ASH's CLUSTER CONDITIONS ------------------------------------------------------
-
-
-def water_room_mummy(player):
-    """
-    When you enter the water room, you will immediately be attacked by the mummy with the axe. When he dies, he will
-    drop the axe.
-    """
-    if (
-        player.current_location.name == "Water Room"
-        and player.current_location.visited == True
-    ):
-        for (
-            enemies
-        ) in (
-            player.current_location.enemies
-        ):  # iterate through enemies to see if the mummy is dead
-            if enemies.name == "mummy" and enemies.is_dead == False:
-                player.in_combat = enemies
-            if enemies.name == "mummy" and enemies.is_dead == True:
-                print(
-                    "As the defeated mummy vanishes into dust, he drops his axe to the floor."
-                )
-                print("Press Enter to return")
-                input()
-                player.current_location.enemies.remove(enemies)
-                axe = Item("axe")
-                axe.add_description(
-                    "A powerful axe that fell from a vanquished mummy. Might come in handy. \n Power: 35"
-                )
-                axe.toggle_can_pick_up()
-                axe.toggle_on_floor()
-                axe.toggle_is_weapon()
-                axe.set_weapon_power(35)
-                player.current_location.add_item_to_room(axe)
-                return
-
-
-def water_room_conditions(player):
-    """
-    If you have the chalice in your inventory and you activate the sink, the chalice will be filled with water
-    Then, if you activate the statue with the chalice that now has water in it, you will pour water into the mouth of
-    the statue.
-    If this happens, the room will fill with water and you can swim to the southern door.
-    """
-    chalice_in_inventory = False
-    chalice_ability = False
-    for items in player.inventory:
-        if items.name == "chalice":
-            chalice_in_inventory = True
-    for items in player.current_location.in_room:
-        if items.name == "sink":
-            if items.ability and chalice_in_inventory == True:
-                print("The chalice has been filled with a few drops from the sink.")
-                print("Press Enter to return")
-                input()
-                items.ability = False
-                for i in player.inventory:
-                    if i.name == "chalice":
-                        i.ability = True
-                        chalice_ability = True
-    for items in player.inventory:
-        if items.name == "chalice":
-            items.ability = True
-            chalice_ability = True
-    for items in player.current_location.in_room:
-        if items.name == "statue":
-            if items.ability and chalice_ability:
-                print(
-                    "You pour the water from the chalice into the mouth of the statue of Khnum."
-                )
-                print(
-                    "Suddenly, you hear a rush of water coming from beneath you! The sink begins to overflow with water! "
-                )
-                print(
-                    "Water begins pouring through the cracks of the limestone walls, flooding the room!"
-                )
-                print(
-                    "The flooding causes the water level of the room to rise, taking you with it."
-                )
-                print(
-                    "Finally, the flooding stops. You are now able to reach the door on the southern wall ("
-                    + (Fore.YELLOW + "southern door")
-                    + "\033[39m"
-                    + ")."
-                )
-                player.current_location.long_description = (
-                    "The room has been flooded. All that remains is a pool of glistening water. You can now swim to the door on the southern wall("
-                    + (Fore.YELLOW + "southern door")
-                    + "\033[39m"
-                    + ")."
-                )
-                player.current_location.shortened_description = (
-                    "The room has been flooded. All that remains is a pool of glistening water. You can now swim to the door on the southern wall("
-                    + (Fore.YELLOW + "southern door")
-                    + "\033[39m"
-                    + ")."
-                )
-                items.ability = False
-                print("Press Enter to return")
-                input()
