@@ -9,13 +9,10 @@ from colorama import Fore, Back, Style
 
 colorama.init()
 
-# add comments and help functions
-# create tutorial
-# clean up conditions for water room
-# fix multiple word commands for put_in_
+
 # finish my rooms, help with other rooms
 # language parser
-# combat
+# pick up/ take
 
 
 
