@@ -16,6 +16,7 @@ def check_conditions(player):
     jump_puzzle(player)
     animal_puzzle(player)
     dead_to_dynamite(player)
+    blow_out_torch(player)
 
     return
 
@@ -36,7 +37,13 @@ def dead_to_dynamite(player):
 # Andrew room 2
 def blow_out_torch(player):
     """Mystical gust of winds blows out torch in room 2 if already lit, or if player attempts to light torch in room 2."""
-    return
+    if player.current_location.name != "Andrew 2":
+        for i in player.inventory:
+            if i.name == "torch" and i.ability == True:
+                print(
+                    "A mystical gust of wind blows out your torch... creepy. You'll just have to feel your way through the darkness."
+                )
+                i.ability = False
 
 
 # Andrew room 4
@@ -65,6 +72,8 @@ def animal_puzzle(player):
                         )
                         print("You lost 5 HP points.")
                         player.HP -= 5
+                        player.current_location.add_item_to_room(i)
+                        items.remove_item_from_container(i)
 
                     elif i.name == "eagle figurine":
                         print(
@@ -73,6 +82,7 @@ def animal_puzzle(player):
                         python_solved = Item("python_solved")
                         player.current_location.add_item_to_room(python_solved)
                         python_puzzle = True
+                        i.toggle_can_pick_up()
 
             if items.name == "eagle pedestal" and eagle_puzzle == False:
                 for i in items.contains:
@@ -82,6 +92,8 @@ def animal_puzzle(player):
                         )
                         print("You lost 5 HP points.")
                         player.HP -= 5
+                        player.current_location.add_item_to_room(i)
+                        items.remove_item_from_container(i)
 
                     elif i.name == "alligator figurine":
                         print(
@@ -90,6 +102,7 @@ def animal_puzzle(player):
                         eagle_solved = Item("eagle_solved")
                         player.current_location.add_item_to_room(eagle_solved)
                         eagle_puzzle = True
+                        i.toggle_can_pick_up()
 
             if items.name == "alligator pedestal" and alligator_puzzle == False:
                 for i in items.contains:
@@ -99,6 +112,8 @@ def animal_puzzle(player):
                         )
                         print("You lost 5 HP points.")
                         player.HP -= 5
+                        player.current_location.add_item_to_room(i)
+                        items.remove_item_from_container(i)
 
                     elif i.name == "python figurine":
                         print(
@@ -107,6 +122,7 @@ def animal_puzzle(player):
                         alligator_solved = Item("alligator_solved")
                         player.current_location.add_item_to_room(alligator_solved)
                         alligator_puzzle = True
+                        i.toggle_can_pick_up()
 
     if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True:
         print(
@@ -269,6 +285,9 @@ def darkness_puzzle(player):
         # update room description post-gameplay completion, room is now illuminated
         description = (
             "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird."
+            + "There appears to be a "
+            + (Fore.MAGENTA + "mural")
+            + "\033[39m on the wall. I should probably inspect it before leaving."
             + "\nTo the south lies a doorway to the coffin room"
             + (Fore.YELLOW + " (southern corridor).")
             + "\033[39m"
@@ -277,11 +296,25 @@ def darkness_puzzle(player):
 
         description = (
             "You're in a room illuminated by a mystical light source."
+            + "There appears to be a "
+            + (Fore.MAGENTA + "mural")
+            + "\033[39m on the wall. I should probably inspect it before leaving."
             + "\nTo the south lies a doorway to the coffin room"
             + (Fore.YELLOW + " (southern corridor).")
             + "\033[39m"
         )
         player.current_location.add_shorter_description(description)
+
+        # create boulder carving item and add to room
+        # create boulder_carving
+        boulder_carving = Item("mural")
+
+        # give boulder_carving a description
+        boulder_carving.add_description(
+            "There are two murals on the wall, one, on the left, depicts a stick of dynamite placed on a giant boulder on the left, \nand on the right a mural depicts an open doorway with the boulder shattered to smithereens. Something to keep in mind..."
+        )
+
+        player.current_location.add_item_to_room(boulder_carving)
 
 
 # Andrew room 3
