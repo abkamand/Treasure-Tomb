@@ -258,14 +258,13 @@ def build_the_board():
     West_four = Room("Andrew 4")
 
     description = (
-        "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here.\nOn each wall, you see an artistic carving."
-        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving"
-        + (Fore.CYAN + "(bird pedestal, snake pedestal, and alligator pedestal).")
+        "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
+        + "From afar, you spot what appears to be an "
+        + (Fore.CYAN + "animal carving")
+        + "\033[39m on the wall. Perhaps you should inspect this further?"
+        + "\nPedestals lie in front of each carving"
+        + (Fore.CYAN + "(eagle pedestal, snake pedestal, and alligator pedestal).")
         + "\033[39m"
-        + "Perhaps you should"
-        + (Fore.MAGENTA + " inspect ")
-        + "\033[39m"
-        + "these drawings further."
         + "\nTo the south lies a passage to the coffin room"
         + (Fore.YELLOW + " (southern hole).")
         + "\033[39m"
@@ -274,14 +273,12 @@ def build_the_board():
     West_four.add_long_description(description)
 
     description = (
-        "On each wall, you see an artistic carving."
-        + "From afar, you spot what appers to be a bird carving on one side, a snake carving on another, and an alligator on another. \nPedestals lie in front of each carving"
-        + (Fore.CYAN + "(bird pedestal, snake pedestal, and alligator pedestal).")
+        "You spot what appears to be an "
+        + (Fore.CYAN + "animal carving")
+        + "\033[39m on the wall. Perhaps you should inspect this further?"
+        + "\nPedestals lie across the room"
+        + (Fore.CYAN + "(eagle pedestal, python pedestal, and alligator pedestal).")
         + "\033[39m"
-        + "Perhaps you should"
-        + (Fore.MAGENTA + "inspect ")
-        + "\033[39m"
-        + "these drawings further."
         + "\nTo the south lies a passage to the coffin room"
         + (Fore.YELLOW + " (southern hole).")
         + "\033[39m"
@@ -295,10 +292,10 @@ def build_the_board():
     # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
 
     # create python wall carving item object
-    python_carving = Item("python carving")
+    animal_carving = Item("python carving")
     # add description
-    python_carving.add_description(
-        "A mystical light illuminates the wall, depicting an ancient carving of a very large snake, a python."
+    animal_carving.add_description(
+        "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator, an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
     )
 
     # create python figurine object
@@ -307,6 +304,14 @@ def build_the_board():
     python_figurine.add_description(
         "An ornate figurine of a very large snake, presumably a python or anaconda."
     )
+    python_figurine.add_env_description(
+        "A figurine of a long and menacing python"
+        + (Fore.MAGENTA + " (python_figurine)")
+        + "\033[39m"
+        + ", rests on the floor."
+    )
+
+    python_figurine.toggle_can_pick_up()
 
     # create python pedestal
     python_pedestal = Item("python pedestal")
@@ -314,20 +319,9 @@ def build_the_board():
     python_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead python with a prominent skull front and center."
     )
-    python_figurine.add_env_description(
-        "In one corner of the room there rests a figurine of a long and menacing python"
-        + (Fore.MAGENTA + " (python_figurine)")
-        + "\033[39m"
-        + ", resting on a suspicious pedestal of a dead python... ironic."
-    )
+    python_pedestal.can_contain = True
 
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
-    # create alligator wall carving item object
-    alligator_carving = Item("alligator carving")
-    # add description
-    alligator_carving.add_description(
-        "A mystical light illuminates the wall, depicting an ancient carving of a very large reptile, an alligator."
-    )
 
     # create alligator figurine object
     alligator_figurine = Item("alligator figurine")
@@ -337,10 +331,10 @@ def build_the_board():
     )
     # add environmental description
     alligator_figurine.add_env_description(
-        "In one corner of the room there rests a figurine of a powerful lively alligator"
+        "A figurine of a powerful lively alligator"
         + (Fore.MAGENTA + " (alligator figurine)")
         + "\033[39m"
-        + ", resting on a suspicious pedestal of a dead alligator... ironic."
+        + " rests on the floor."
     )
 
     alligator_figurine.toggle_can_pick_up()
@@ -351,14 +345,9 @@ def build_the_board():
     alligator_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead alligator with a prominent skull front and center."
     )
+    alligator_pedestal.can_contain = True
 
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
-    # create eagle wall carving item object
-    eagle_carving = Item("eagle carving")
-    # add description
-    eagle_carving.add_description(
-        "A mystical light illuminates the wall, depicting an ancient carving of a very large bird, an eagle."
-    )
 
     # create eagle figurine object
     eagle_figurine = Item("eagle figurine")
@@ -368,10 +357,10 @@ def build_the_board():
     )
     # add environmental description
     eagle_figurine.add_env_description(
-        "In one corner of the room there rests a figurine of a proud tall eagle"
+        "A figurine of a proud tall eagle"
         + (Fore.MAGENTA + " (eagle figurine)")
         + "\033[39m"
-        + ", resting on a suspicious pedestal of a dead eagle... ironic."
+        + ", rests on the floor."
     )
 
     eagle_figurine.toggle_can_pick_up()
@@ -382,6 +371,7 @@ def build_the_board():
     eagle_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead eagle with a prominent skull front and center."
     )
+    eagle_pedestal.can_contain = True
 
     """
     # find a way to place this behind door that unlocks after completing puzzle, probably just plop it in player inventory in a conditions loop
@@ -400,13 +390,11 @@ def build_the_board():
     # West_four.add_item_to_room(diamond_key)
     West_four.add_item_to_room(eagle_pedestal)
     West_four.add_item_to_room(eagle_figurine)
-    West_four.add_item_to_room(eagle_carving)
+    West_four.add_item_to_room(animal_carving)
     West_four.add_item_to_room(alligator_pedestal)
     West_four.add_item_to_room(alligator_figurine)
-    West_four.add_item_to_room(alligator_carving)
     West_four.add_item_to_room(python_pedestal)
     West_four.add_item_to_room(python_figurine)
-    West_four.add_item_to_room(python_carving)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------
     # Connect all the rooms together

@@ -849,6 +849,12 @@ class Item:
         self.is_weapon = False
         self.weapon_power = None
 
+    def remove_item_from_container(self, item):
+        """
+        Used to remove an item from its item container."""
+        if item in self.contains:
+            self.contains.remove(item)
+
     def add_description(self, description):
         """
         Used to add a description

@@ -14,6 +14,8 @@ def check_conditions(player):
     darkness_puzzle(player)
     explode_boulder(player)
     jump_puzzle(player)
+    animal_puzzle(player)
+    dead_to_dynamite(player)
 
     return
 
@@ -22,19 +24,108 @@ def check_conditions(player):
 # Andrew to-do list:
 # if player lights the dynamite and throws it at the wrong object (dynamite bounces back and blows you up)
 def dead_to_dynamite(player):
-    return
-
-
-# Andrew room 4
-# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
-def animal_puzzle(player):
-    return
+    if player.current_location.name != "Andrew 1":
+        for i in player.inventory:
+            if i.name == "dynamite" and i.ability == True:
+                print(
+                    "You lit the dynamite in a room with nothing to place it in or on to effectively shield the blast. Any last words...?"
+                )
+                player.HP = 0
 
 
 # Andrew room 2
 def blow_out_torch(player):
     """Mystical gust of winds blows out torch in room 2 if already lit, or if player attempts to light torch in room 2."""
     return
+
+
+# Andrew room 4
+# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
+def animal_puzzle(player):
+    python_puzzle = False
+    eagle_puzzle = False
+    alligator_puzzle = False
+
+    if player.current_location.name == "Andrew 4":
+        for items in player.current_location.in_room:
+            if items.name == "python_solved":
+                python_puzzle = True
+            if items.name == "eagle_solved":
+                eagle_puzzle = True
+            if items.name == "alligator_solved":
+                alligator_puzzle = True
+
+    if player.current_location.name == "Andrew 4":
+        for items in player.current_location.in_room:
+            if items.name == "python pedestal" and python_puzzle == False:
+                for i in items.contains:
+                    if i.name == "python figurine" or i.name == "alligator figurine":
+                        print(
+                            "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
+                        )
+                        print("You lost 5 HP points.")
+                        player.HP -= 5
+
+                    elif i.name == "eagle figurine":
+                        print(
+                            "The eagle's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                        )
+                        python_solved = Item("python_solved")
+                        player.current_location.add_item_to_room(python_solved)
+                        python_puzzle = True
+
+            if items.name == "eagle pedestal" and eagle_puzzle == False:
+                for i in items.contains:
+                    if i.name == "python figurine" or i.name == "eagle figurine":
+                        print(
+                            "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
+                        )
+                        print("You lost 5 HP points.")
+                        player.HP -= 5
+
+                    elif i.name == "alligator figurine":
+                        print(
+                            "The alligator's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                        )
+                        eagle_solved = Item("eagle_solved")
+                        player.current_location.add_item_to_room(eagle_solved)
+                        eagle_puzzle = True
+
+            if items.name == "alligator pedestal" and alligator_puzzle == False:
+                for i in items.contains:
+                    if i.name == "alligator figurine" or i.name == "eagle figurine":
+                        print(
+                            "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
+                        )
+                        print("You lost 5 HP points.")
+                        player.HP -= 5
+
+                    elif i.name == "python figurine":
+                        print(
+                            "The python's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                        )
+                        alligator_solved = Item("alligator_solved")
+                        player.current_location.add_item_to_room(alligator_solved)
+                        alligator_puzzle = True
+
+    if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True:
+        print(
+            "A hole in the ceiling appears and a diamond key falls right into the palm of your hand. Seems useful... but where? Better keep it for now"
+        )
+        diamond_key_one = Item("Diamond Key 1")
+        diamond_key_one.toggle_can_pick_up()
+        player.add_to_inventory(diamond_key_one)
+
+        description = (
+            "You spot what appears to be an "
+            + (Fore.CYAN + "animal carving")
+            + "\033[39m on the wall. Perhaps you should inspect this further?"
+            + "\nPedestals lie across the room with animal figures that you placed on top of each. Every figurine has glowing eyes, seemingly indicating your accomplishment."
+            + "\nTo the south lies a passage to the coffin room"
+            + (Fore.YELLOW + " (southern hole).")
+            + "\033[39m"
+        )
+        player.current_location.add_shorter_description(description)
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
