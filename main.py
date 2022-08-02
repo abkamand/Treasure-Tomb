@@ -10,9 +10,10 @@ from colorama import Fore, Back, Style
 colorama.init()
 
 
-# finish my rooms, help with other rooms
-# language parser
-# pick up/ take
+# lan parser
+# combat
+
+
 
 
 

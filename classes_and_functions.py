@@ -69,7 +69,7 @@ class Room:
 
         # print the enemies in the room
         for enemies in self.enemies:
-            if not enemies.is_dead:
+            if not enemies.is_dead and enemies.e_description is not None:
                 print(enemies.e_description)
 
         # set the room as visited
@@ -107,13 +107,33 @@ class Room:
 
     def check_room_conditions(self, player, user_input):
 
-        # ----------------Connecting MAIN CHAMBER to ash cluster room 1 ---------------------------------
+        # ----------------Connecting Main Chamber to Water Room ---------------------------------
 
         if player.current_location.name == "Main Chamber" and user_input[2] == "eastern door":
             user_input[2] = "Water Room"
         if player.current_location.name == "Water Room" and user_input[2] == "western door":
             user_input[2] = "Main Chamber"
         # -------------------------------------------------------------------------------------------------
+        # ----------------Connecting Water Room to Green Room ---------------------------------
+
+        if player.current_location.name == "Water Room" and user_input[2] == "southern door":
+            user_input[2] = "Green Room"
+        if player.current_location.name == "Green Room" and user_input[2] == "northern door":
+            user_input[2] = "Water Room"
+            # -------------------------------------------------------------------------------------------------
+            # ----------------Connecting Green Room to Blacksmith Room ---------------------------------
+
+        if player.current_location.name == "Green Room" and user_input[2] == "passageway":
+            user_input[2] = "Blacksmith Room"
+        if player.current_location.name == "Blacksmith Room" and user_input[2] == "passageway":
+            user_input[2] = "Green Room"
+            # -------------------------------------------------------------------------------------------------
+            # ----------------Connecting Blacksmith Room to Main Chamber ---------------------------------
+
+        if player.current_location.name == "Blacksmith Room" and user_input[2] == "slide":
+            user_input[2] = "Main Chamber"
+        # -------------------------------------------------------------------------------------------------
+
         return user_input
 
     def add_long_description(self, description):
