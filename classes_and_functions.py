@@ -86,6 +86,16 @@ class Room:
             input("Press Enter to return")
             user_input = input()
         user_input = user_input.split()
+        if (
+            user_input[0] == "go"
+            and user_input[1] == "to"
+            and player.in_combat is not None
+        ):
+            print("You can't run away!")
+            print("What will you do?")
+            return self.take_input(player)
+        # user_input = self.converter(user_input)
+
         if len(user_input) > 2 and user_input[0] == "go" and user_input[1] == "to":
             if len(user_input) == 4:
                 user_input[2] = str(user_input[2]) + " " + str(user_input[3])
@@ -117,44 +127,7 @@ class Room:
             and user_input[2] == "western door"
         ):
             user_input[2] = "Main Chamber"
-        # ----------------Connecting Andrew 1 to Andrew 2 ---------------------------------
-        if (
-            player.current_location.name == "Andrew 1"
-            and user_input[2] == "northern corridor"
-        ):
-            user_input[2] = "Andrew 2"
-        if (
-            player.current_location.name == "Andrew 2"
-            and user_input[2] == "southern corridor"
-            or user_input[2] == "back"
-        ):
-            user_input[2] = "Andrew 1"
-        # ----------------Connecting Andrew 1 to Andrew 3 ---------------------------------
-        if (
-            player.current_location.name == "Andrew 1"
-            and user_input[2] == "eastern corridor"
-        ):
-            user_input[2] = "Andrew 3"
-        if (
-            player.current_location.name == "Andrew 3"
-            and user_input[2] == "western corridor"
-            or user_input[2] == "back"
-        ):
-            user_input[2] = "Andrew 1"
-        # ----------------Connecting Andrew 3 to Andrew 4 ---------------------------------
-        # this should be tied to jumping puzzle
-        if (
-            player.current_location.name == "Andrew 3"
-            and user_input[2] == "northern corridor"
-        ):
-            user_input[2] = "Andrew 4"
-        if (
-            player.current_location.name == "Andrew 4"
-            and user_input[2] == "southern hole"
-            or user_input[2] == "back"
-        ):
-            user_input[2] = "Andrew 3"
-
+        # -------------------------------------------------------------------------------------------------
         return user_input
 
     def add_long_description(self, description):
@@ -236,6 +209,15 @@ class Player:
             print("Please enter an input")
             input("Press Enter to return")
             return
+        if len(user_input) == 1 and user_input[0] == "look":
+            self.current_location.visited = False
+            return
+        if len(user_input) == 1 and user_input[0] == "whistle":
+            print(
+                "You whistle an old tune from one of your favorite movies, Indiana Jones.\nThe tune echoes back before dying off.\nWith your boredom now at bay, it's probably best to start being productive."
+            )
+            input("Press Enter to return to game")
+            return
 
         # ----------------------------------- PUT ___ IN ____  -------------------------------------------------------
         # if we are doing command "put ___ in ___" we need to do some special parsing of the command to make it work
@@ -259,14 +241,17 @@ class Player:
             for items in self.current_location.in_room:
                 if items.name == o1:
                     i1 = items
+            if i1 is None:
+                print("action not permitted")
+                return
             for items in self.inventory:
                 if items.name == o2 and items.can_contain == True:
                     items.contains.append(i1)
                     for i in self.inventory:
-                        if i.name == o1:
+                        if i.name == i1.name:
                             self.inventory.remove(i)
                     for p in self.current_location.in_room:
-                        if p.name == o1:
+                        if p.name == i1.name:
                             self.current_location.in_room.remove(p)
                     print("Done")
                     input("Press Enter to return")
@@ -275,28 +260,16 @@ class Player:
                 if items.name == o2 and items.can_contain == True:
                     items.contains.append(i1)
                     for i in self.inventory:
-                        if i.name == o1:
+                        if i.name == i1.name:
                             self.inventory.remove(i)
                     for p in self.current_location.in_room:
-                        if p.name == o1:
+                        if p.name == i1.name:
                             self.current_location.in_room.remove(p)
                     print("Done")
                     input("Press Enter to return")
                     return
             print("action not permitted")
             return
-
-        # if the command is more than 3 words, for example "pick up red sword". In this case, user_input[2] = "red"
-        # and user_input[3] = "sword". For the purposes of this function, we need to combine these to make "red sword" in
-        # user_input[2]
-        if len(user_input) == 4:
-            user_input[2] = str(user_input[2]) + " " + str(user_input[3])
-
-        # the same concept described above applies for commands that make up 5 words. Example: pick up red rusted sword
-        if len(user_input) == 5:
-            user_input[2] = (
-                str(user_input[2]) + " " + str(user_input[3]) + " " + str(user_input[4])
-            )
 
         # ------------------------------------------SAVE GAME-------------------------------------------------------------------------
         # when user enters 'savegame' the game state is pickled into a file
@@ -338,6 +311,24 @@ class Player:
             print("invalid input")
             input("Press Enter to return")
             return
+
+        if user_input[0] == "look" and user_input[1] == "at":
+            for x in range(3, len(user_input)):
+                user_input[2] = user_input[2] + " " + user_input[x]
+        if user_input[0] == "pick" and user_input[1] == "up":
+            for x in range(3, len(user_input)):
+                user_input[2] = user_input[2] + " " + user_input[x]
+        if (
+            user_input[0] == "drop"
+            or user_input[0] == "activate"
+            or user_input[0] == "consume"
+            or user_input[0] == "equip"
+            or user_input[0] == "unequip"
+            or user_input[0] == "deactivate"
+            or user_input[0] == "attack"
+        ):
+            for x in range(2, len(user_input)):
+                user_input[1] = user_input[1] + " " + user_input[x]
 
         # ----------------------------------------LOOK AT--------------------------------------------------------------------------
         # when the user enters 'look at item', first the inventory is checked for that item, and then the room is checked for
