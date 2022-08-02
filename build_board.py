@@ -368,21 +368,584 @@ def build_the_board():
     Blacksmith_Room.add_adjacent_room("north", Main_Chamber)
 
 
+#--------------------------------ANDREW ROOMS -----------------------------------------------------------------
+
+    # create andrew room 1
+    West_one = Room("Andrew 1")
+
+    # create long description
+    description = (
+            "You find yourself in a dark chamber with coffins strewn about. There are cobwebs everywhere and the walls are covered with dust and mold. "
+            + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears"
+            + (Fore.CYAN + " wooden")
+            + "\033[39m"
+            + " and ripped open, one is"
+            + (Fore.CYAN + " metallic")
+            + "\033[39m"
+            + ", and the third is"
+            + (Fore.CYAN + " small")
+            + "\033[39m"
+            + " and molded over."
+            + "\nPerhaps you should take a closer look at the coffins for anything useful?"
+            # darkness puzzle room
+            + "\nOn the northern wall, there is an open narrow passage that leads into a pitch black corridor ("
+            + (Fore.YELLOW + "northern corridor")
+            + "\033[39m"
+            + ")."
+            + " A giant"
+            + (Fore.CYAN + " boulder")
+            + "\033[39m"
+            + " blocks the way to the eastern chamber.\nYou'll need some way of removing it... explosives maybe? In the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
+                        Fore.YELLOW + "southern staircase") + "\033[39m" + ")."
+    )
+    # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
+    West_one.add_long_description(description)
+
+    # create the shortened description for the room, will be displayed when you are visiting a room you have been to
+    description = (
+            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
+            + (Fore.CYAN + "wooden coffin")
+            + "\033[39m)"
+            + " and ripped open, one appears metallic ("
+            + (Fore.CYAN + " metallic coffin")
+            + "\033[39m)"
+            + ", and the third appears to be small ("
+            + (Fore.CYAN + "small coffin")
+            + "\033[39m)"
+            + " and molded over."
+            + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
+            + (Fore.YELLOW + "northern corridor")
+            + "\033[39m"
+            + "). A "
+            + (Fore.CYAN + "boulder")
+            + "\033[39m"
+            + " blocks the way to the eastern chamber. In the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
+                        Fore.YELLOW + "southern staircase") + "\033[39m" + ")."
+    )
+    # now add the description to the shortened_description attribute of the room
+    West_one.add_shorter_description(description)
+
+    # create wooden coffin
+    wooden_coffin = Item("wooden coffin")
+    # give the wooden coffin a description
+    wooden_coffin.add_description(
+        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse."
+    )
+    # since the wooden coffin cannot be picked up, we don't need to give it an e_description
+
+    # create metallic coffin
+    metallic_coffin = Item("metallic coffin")
+    # give the metallic coffin a description
+    metallic_coffin.add_description(
+        "The coffin is coated in a metal of some sort... gold... silver.. platinum? It's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
+    )
+
+    # create small coffin
+    small_coffin = Item("small coffin")
+    # give the small coffin a description
+    small_coffin.add_description(
+        "The coffin is similar in construction to the cracked, wooden coffin, albeit its much smaller... wait, does that mean its just a Box?\nIt appears to contain an assortment of golden platewear."
+    )
+
+    # create boulder
+    boulder = Item("boulder")
+    boulder.add_description = "A giant boulder."
+    # boulder.can_activate_ability = True
+    boulder.can_contain = True
+
+    # now add the items into the room
+    # items are read in the order added
+    West_one.add_item_to_room(wooden_coffin)
+    West_one.add_item_to_room(metallic_coffin)
+    West_one.add_item_to_room(small_coffin)
+    West_one.add_item_to_room(boulder)
+
+    # -----------------------------------------------------------------------------------------------------------------------------------------------------
+    # Andrew's room 2
+    # Pitch black chamber, contains darkness puzzle, player wades through 2d matrix representing location in room until they reach the correct index
+    # after completing puzzle, player can pick up dynamite
+
+    # create room 2
+    West_two = Room("Andrew 2")
+
+    # create long description + add it to the room
+    description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
+    West_two.add_long_description(description)
+
+    # create shortened description + add it to the room
+    description = "Darkness is everywhere. I need to move!"
+    West_two.add_shorter_description(description)
+
+    # required to put in 1 hidden item placeholder to make darkness_puzzle fire off correctly in conditions.py
+    item_placeholder = Item("item_placeholder")
+    West_two.add_item_to_room(item_placeholder)
+
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # Andrew's room 3
+    # JUMPING PUZZLE ROOM, need to implement "jump" action
+    # Player must jump onto small pillar --> medium pillar --> box --> large pillar in that order to progress to next room
+
+    # create room 3
+    West_three = Room("Andrew 3")
+
+    # create long description
+    description = (
+            "The dynamite you used earlier has left half this room in shambles. You cough as a smoky cloud of ash and dust greet you.\nThere's rubble everywhere."
+            + " The explosion seems to have opened a hole "
+            + "in the roof of the chamber towards the northern end, leading to another chamber."
+            + "\nThere's a "
+            + (Fore.CYAN + "short pillar")
+            + "\033[39m"
+            + ", a"
+            + (Fore.CYAN + " medium pillar")
+            + "\033[39m"
+            + ", and a third"
+            + (Fore.CYAN + " large pillar")
+            + "\033[39m"
+            + " leading straight to the newly revealed chamber."
+            + "\nTo the west lies a passage to the coffin room ("
+            + (Fore.YELLOW + "western corridor")
+            + "\033[39m)."
+    )
+
+    West_three.add_long_description(description)
+
+    # create short description
+    description = (
+            "There's rubble and dust everywhere."
+            + "A hole in the northern roof of the chamber leads to another room."
+            + "\nThere's a "
+            + (Fore.CYAN + "short pillar")
+            + "\033[39m"
+            + ", a"
+            + (Fore.CYAN + " medium pillar")
+            + "\033[39m"
+            + ", and a third"
+            + (Fore.CYAN + " large pillar")
+            + "\033[39m"
+            + " leading straight to thenewly revealed chamber."
+            + "\nTo the west lies a passage to the coffin room ("
+            + (Fore.YELLOW + "western corridor")
+            + "\033[39m)."
+    )
+
+    West_three.add_shorter_description(description)
+
+    # Create room 3 items
+    # create short pillar
+    short_pillar = Item("short_pillar")
+    # add description
+    short_pillar.add_description(
+        "A short pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
+    )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
+    short_pillar.can_activate_ability = True
+
+    # create medium pillar
+    medium_pillar = Item("medium_pillar")
+    # add description
+    medium_pillar.add_description(
+        "A medium pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
+    )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
+    medium_pillar.can_activate_ability = True
+
+    # create large pillar
+    large_pillar = Item("large_pillar")
+    # add description
+    large_pillar.add_description(
+        "A large pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
+    )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
+    large_pillar.can_activate_ability = True
+
+    # add items to room
+    West_three.add_item_to_room(short_pillar)
+    West_three.add_item_to_room(medium_pillar)
+    West_three.add_item_to_room(large_pillar)
+
+    # ---------------------------------------------------------------------------------------------------------------------------------------
+    # Andrew's room #4
+    # Animal/Predator puzzle room
+    # Contains an animal carving that depicts the key to solving the puzzle
+    # Contains figurines of a python, eagle, and alligator
+    # Beneath each is a pedestal which depicts said animal, but dead, with a figurine held on top of said pedestal
+    # The player must pickup and place the figurines on the "correct" pedestals to solve the puzzle and receive a diamond key
+    # Correct pedestal pairings: Python figurine - Alligator pedestal | Alligator figurine - Eagle pedestal | Eagle figurine - Python pedestal
+
+    # create room 4
+    West_four = Room("Andrew 4")
+
+    # create long description
+    description = (
+            "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
+            + "From afar, you spot what appears to be an "
+            + (Fore.CYAN + "animal carving")
+            + "\033[39m on the wall. Perhaps you should inspect this further?"
+            + "\nPedestals lie in front of each carving -- an "
+            + (Fore.CYAN + "eagle pedestal")
+            + "\033[39m"
+            + ", a"
+            + (Fore.CYAN + " snake pedestal")
+            + "\033[39m"
+            + ", and an "
+            + (Fore.CYAN + "alligator pedestal")
+            + "\033[39m"
+            + "\nTo the south lies a passage to the coffin room ("
+            + (Fore.YELLOW + "southern hole")
+            + "\033[39m)."
+    )
+
+    West_four.add_long_description(description)
+
+    # create short description
+    description = (
+            "You spot what appears to be an "
+            + (Fore.CYAN + "animal carving")
+            + "\033[39m on the wall. Perhaps you should inspect this further?"
+            + "\nPedestals lie in front of each carving -- an"
+            + (Fore.CYAN + "eagle pedestal")
+            + "\033[39m"
+            + ", a"
+            + (Fore.CYAN + "snake pedestal")
+            + "\033[39m"
+            + ", and an "
+            + (Fore.CYAN + "alligator pedestal")
+            + "\033[39m"
+            + "\nTo the south lies a passage to the coffin room ("
+            + (Fore.YELLOW + "southern hole")
+            + "\033[39m)."
+    )
+
+    West_four.add_shorter_description(description)
+
+    # Create the item objects we will need for the Python, Alligator, Eagle puzzle to be implemented in conditions.py
+    # Player must pick up the python, alligator, and eagle figurines. Player must place the eagle figurine on the Python pedestal,
+    # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
+
+    # create animal carving that depicts the solution
+    animal_carving = Item("python carving")
+    # add description
+    animal_carving.add_description(
+        "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
+        + "an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
+    )
+
+    # create python figurine object
+    python_figurine = Item("python figurine")
+    # add description
+    python_figurine.add_description(
+        "An ornate figurine of a very large snake, presumably a python or anaconda."
+    )
+    python_figurine.add_env_description(
+        "A figurine of a long and menacing python ("
+        + (Fore.GREEN + "python_figurine")
+        + "\033[39m)"
+        + ", rests on the floor."
+    )
+    # allow figurine to be picked up
+    python_figurine.toggle_can_pick_up()
+
+    # create python pedestal
+    python_pedestal = Item("python pedestal")
+    # add description
+    python_pedestal.add_description(
+        "A pedestal with an open space made for an object. The base of the pedestal depicts a dead python with a prominent skull front and center."
+    )
+    # allow items sto be placed in the pedestal
+    python_pedestal.can_contain = True
+
+    # Create the item objects we will need for the Python, Alligator, Eagle puzzle
+
+    # create alligator figurine object
+    alligator_figurine = Item("alligator figurine")
+    # add description
+    alligator_figurine.add_description(
+        "An ornate figurine of a very large reptile, presumably an alligator or crocodile."
+    )
+    # add environmental description
+    alligator_figurine.add_env_description(
+        "A figurine of a powerful lively alligator ("
+        + (Fore.GREEN + "alligator figurine")
+        + "\033[39m)"
+        + " rests on the floor."
+    )
+    # allow figurine to be picked up
+    alligator_figurine.toggle_can_pick_up()
+
+    # create alligator pedestal
+    alligator_pedestal = Item("alligator pedestal")
+    # add description
+    alligator_pedestal.add_description(
+        "A pedestal with an open space made for an object. The base of the pedestal depicts a dead alligator with a prominent skull front and center."
+    )
+    # allow items to be placed in the pedestal
+    alligator_pedestal.can_contain = True
+
+    # create eagle figurine object
+    eagle_figurine = Item("eagle figurine")
+    # add description
+    eagle_figurine.add_description(
+        "An ornate figurine of a very large eagle, presumably an eagle."
+    )
+    # add environmental description
+    eagle_figurine.add_env_description(
+        "A figurine of a proud tall eagle ("
+        + (Fore.GREEN + "eagle figurine")
+        + "\033[39m)"
+        + ", rests on the floor."
+    )
+    # allow figurine to be picked up
+    eagle_figurine.toggle_can_pick_up()
+
+    # create eagle pedestal
+    eagle_pedestal = Item("eagle pedestal")
+    # add description
+    eagle_pedestal.add_description(
+        "A pedestal with an open space made for an object. The base of the pedestal depicts a dead eagle with a prominent skull front and center."
+    )
+    # allow items to be placed in the pedestal
+    eagle_pedestal.can_contain = True
+
+    # add items to the room
+    West_four.add_item_to_room(animal_carving)
+    West_four.add_item_to_room(eagle_pedestal)
+    West_four.add_item_to_room(eagle_figurine)
+    West_four.add_item_to_room(alligator_pedestal)
+    West_four.add_item_to_room(alligator_figurine)
+    West_four.add_item_to_room(python_pedestal)
+    West_four.add_item_to_room(python_figurine)
+
+    # -----------------------------------------------------------------------------------------------------------------------------------------
+    # Connect all the rooms together
+
+    # connect Main Chamber to room 1
+    Main_Chamber.add_adjacent_room("north", West_one)
+    West_one.add_adjacent_room("south", Main_Chamber)
+
+    # room 1 to 3
+    West_one.add_adjacent_room("east", West_three)
+
+    # room 3 to 1
+    West_three.add_adjacent_room("west", West_one)
+
+    # 1 to 2
+    West_one.add_adjacent_room("north", West_two)
+
+    # 2 to 1
+    West_two.add_adjacent_room("south", West_one)
+
+    # 3 to 4
+    West_three.add_adjacent_room("north", West_four)
+
+    # 4 to 3
+    West_four.add_adjacent_room("south", West_three)
+
+    # -------------------------------------------------------------------------------------------------
+    # --------------------CODE FOR MERES CLUSTER STARTING HERE-----------------------------------------
+    # create the first room
+    Mere_Room_1 = Room("mere cluster room 1")
+
+    # create the long description
+    description = "This is the room to the west of the Main Chamber. It smells dusty and damp.\nThere are large pillars lining the walls.\nIt feels like the entrance to an ancient temple.\nThere is a " + (
+                Fore.WHITE + "black patch") + '\033[39m' + " on the floor in the corner." \
+                                                           "\nThere is a row of " + (
+                              Fore.WHITE + "candles") + '\033[39m' + " along the southern wall.\nThere is a blue door on the northern wall (" + (
+                          Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a small wooden door on the western wall (" + (
+                          Fore.YELLOW + "western door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
+                          Fore.YELLOW + "eastern door") + '\033[39m' + ")."
+    Mere_Room_1.add_long_description(description)
+
+    # create the shortened description for the room
+    description = "This is the room to the west of the Main Chamber. \nThere is a " + (
+                Fore.WHITE + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
+                              Fore.WHITE + "candles") + '\033[39m' + " along " \
+                                                                     "the southern wall. \nThere is a blue door on the northern wall (" + (
+                              Fore.YELLOW + "northern door") + '\033[39m' + ").\n" \
+                                                                            "There is a small wooden door on the western wall (" + (
+                              Fore.YELLOW + "western door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
+                          Fore.YELLOW + "eastern door") + '\033[39m' + ")."
+    Mere_Room_1.add_shorter_description(description)
+
+    # add the candles to the room
+    candles = Item("candles")
+    # give them a description
+    candles.add_description(
+        "There is a shallow alcove with 4 candles arranged in a line. \nEach candle is a different color: red, blue, green, and orange.\nThere is a long match nearby."
+    )
+    # the candles can be activated to trigger a puzzle
+    candles.toggle_can_activate_ability()
+    candles.add_ability_on_description(
+        "You stare at the row of candles, studying them thoughtfully. Something prompts you to pick up the matchstick.")
+    candles.add_ability_off_description(
+        "You decide to put the matchstick back. You aren't sure if you should light the candles.")
+
+    # add the firepit to the room
+    firepit = Item("black patch")
+    # give it a description
+    firepit.add_description(
+        "The floor is scorched, and has small particles of soot all around. It smells faintly smoky.\nYou think there was probably a fire here."
+    )
+
+    # add the items to the room
+    Mere_Room_1.add_item_to_room(candles)
+    Mere_Room_1.add_item_to_room(firepit)
+
+    # connect the main chamber with Mere_Room_1
+    # use the add_adjacent_room function to add Mere_Room_1 as the room on the west wall of the Main Chamber
+    Main_Chamber.add_adjacent_room("west", Mere_Room_1)
+    # since Mere_Room_1 is on the west wall of the main chamber, that means the Main Chamber is east of Mere_Room_1
+    Mere_Room_1.add_adjacent_room("east", Main_Chamber)
+
+    # this is the code for mere's room 2
+    # create the room
+    Mere_Room_2 = Room("mere cluster room 2")
+
+    # create the long description
+    description = "This room is littered with small sticks and feathers.\nThere is a dark doorway on the northern wall (" + (
+            Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
+                          Fore.YELLOW + "southern door") + '\033[39m' + ")."
+    Mere_Room_2.add_long_description(description)
+
+    # create the shortened description for the room
+    description = "This room is littered with sticks and feathers. \nThere is a dark doorway on the northern wall (" + (
+            Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
+                          Fore.YELLOW + "southern door") + '\033[39m' + ")."
+    Mere_Room_2.add_shorter_description(description)
+
+    # create the sphinx
+    sphinx = Enemy("sphinx")
+    # add description
+    sphinx.add_description("A fierce sphinx with golden fur.\nShe has black hair and amber eyes.")
+    # add environmental description
+    sphinx.add_env_description("A fierce " + (
+                Fore.RED + "sphinx") + '\033[39m' + " reclines in the center of the room.\nShe has the body of a lion, the wings of an eagle, and the head of a woman.\nShe rises as you enter the room")
+    # set its HP
+    sphinx.set_HP(10000)
+    # set its moves and their descriptions and damage
+    sphinx.set_moves_and_power(1, "The sphinx slashes at you with her claws!", 500)
+    sphinx.set_moves_and_power(2, "The sphinx slashes at you with her claws!", 500)
+    sphinx.set_moves_and_power(3, "The sphinx slashes at you with her claws!", 500)
+    sphinx.set_moves_and_power(4, "The sphinx slashes at you with her claws!", 500)
+    # add the enemy into the room
+    Mere_Room_2.add_enemy_to_room(sphinx)
+
+    # connect Mere_Room_2 with Mere_Room_1
+    # use the add_adjacent_room function to add Mere_Room_2 as the room on the north wall of Mere_Room_1
+    Mere_Room_1.add_adjacent_room("north", Mere_Room_2)
+    # since Mere_Room_2 is on the north wall of Mere_Room_1, that means Mere_Room_1 is south of Mere_Room_2
+    Mere_Room_2.add_adjacent_room("south", Mere_Room_1)
+
+    # this is the code for mere's room 3
+    # create the room
+    Mere_Room_3 = Room("mere cluster room 3")
+
+    # create the long description
+    description = "It is very dark and oppressive.\nYou can't go further without a light."
+    Mere_Room_3.add_long_description(description)
+
+    # create the shortened description for the room
+    description = "It is very dark and oppressive.\nYou can't go further without a light."
+    Mere_Room_3.add_shorter_description(description)
+
+    # create the rocks
+    rocks = Item("rocks")
+    # add description
+    rocks.add_description("A bunch of rocks. They are smooth, grey, and a bit damp.")
+    # add environmental description
+    rocks.add_env_description("There is a pile of " + (
+            Fore.WHITE + "rocks") + '\033[39m' + " in the corner. It looks like it was placed there on purpose.")
+    rocks.toggle_can_pick_up()
+    # add the rocks into the room
+    Mere_Room_3.add_item_to_room(rocks)
+
+    # create the soil
+    soil = Item("soil")
+    # add description
+    soil.add_description("A patch of wet earth. It looks like it was recently disturbed.")
+    # add environmental description
+    soil.add_env_description("There is a wet patch of " + (
+            Fore.WHITE + "soil") + '\033[39m' + " near the wall. It looks like it was recently disturbed.")
+    soil.toggle_can_pick_up()
+    # add the soil into the room
+    Mere_Room_3.add_item_to_room(soil)
+
+    # create the figurine
+    figurine = Item("figurine")
+    # add description
+    figurine.add_description("A small figure of a cat. It is black, with a gold necklace.")
+    # add environmental description
+    figurine.add_env_description("There is a small " + (
+            Fore.WHITE + "figurine") + '\033[39m' + " lying on the floor. It looks like a black cat.")
+    figurine.toggle_can_pick_up()
+    # add the figurine into the room
+    Mere_Room_3.add_item_to_room(figurine)
+
+    # connect Mere_Room_3 with Mere_Room_2
+    # use the add_adjacent_room function to add Mere_Room_3 as the room on the north wall of Mere_Room_2
+    Mere_Room_2.add_adjacent_room("north", Mere_Room_3)
+    # since Mere_Room_3 is on the north wall of Mere_Room_2, that means Mere_Room_2 is south of Mere_Room_3
+    Mere_Room_3.add_adjacent_room("south", Mere_Room_2)
+
+    # this is the code for mere's room 4
+    # create the room
+    Mere_Room_4 = Room("mere cluster room 4")
+
+    # create the long description
+    description = "This room is very long and skinny. It looks twice as long as the other rooms.\nYou smell fresh air and hear a breeze far above you.\nYou can barely make out the shapes of bats fluttering far overhead.\nThere must be an opening to the outside somewhere.\n" \
+                  "There is a large " + (
+                          Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room stretching from wall to wall.\nThere is a wooden bar above the chasm, but it's too high to reach.\nThere is a small wooden door on the eastern wall (" + (
+                          Fore.YELLOW + "eastern door") + '\033[39m' + ")."
+    Mere_Room_4.add_long_description(description)
+
+    # create the shortened description for the room
+    description = "You hear the wind somewhere high overhead.\nThere is a large " + (
+            Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room.\nThere is a small wooden door on the eastern wall (" + (
+                          Fore.YELLOW + "eastern door") + '\033[39m' + ")."
+    Mere_Room_4.add_shorter_description(description)
+
+    # create the whip
+    whip = Item("whip")
+    # add description
+    whip.add_description(
+        "A long leather whip. It looks strong and flexible.\nYou could use it to attack, or to grab something far away.\nPower: 15")
+    # add environmental description
+    whip.add_env_description("There is a coiled " + (
+            Fore.MAGENTA + "whip") + '\033[39m' + " on the floor. Perhaps it was left behind by some other explorer.")
+    whip.toggle_can_pick_up()
+    # we need to set it as a weapon
+    whip.toggle_is_weapon()
+    # we need to set the power of the whip
+    whip.set_weapon_power(15)
+    # add the whip into the room
+    Mere_Room_4.add_item_to_room(whip)
+
+    # create the chasm
+    chasm = Item("chasm")
+    # add description
+    chasm.add_description("A dark chasm. You can't see the bottom.\nIt's too large to jump across.")
+    # add the chasm to the room
+    Mere_Room_4.add_item_to_room(chasm)
+
+    # connect Mere_Room_4 with Mere_Room_1
+    # use the add_adjacent_room function to add Mere_Room_4 as the room on the west wall of Mere_Room_1
+    Mere_Room_1.add_adjacent_room("west", Mere_Room_4)
+    # since Mere_Room_4 is on the west wall of Mere_Room_1, that means Mere_Room_1 is east of Mere_Room_4
+    Mere_Room_4.add_adjacent_room("east", Mere_Room_1)
 
 
 
-    # ------------------------------ ASHWIN ROOM 4: RIDDLE ROOM -----------------------------------------------------
-    # a plain room
-    # there is a mummy standing at the far end
-    # he speaks to you. He warns you not to fight him because he is unkillable
-    # he says that he is supposed to give you a riddle, but really just wants a warm, homecooked meal
-    # in exchange he will give you the eagle key
-    # you have to use the recipe you got from the buried traveler
-    # get the water from the water room pool
-    # get the plants from the green room
-    # use the furnace in the furnace room
-    # this results in a nice stew you can give the guy
-    # if you do, he gives you the eagle key and opens a door back to the main chamber
+
+
+
+
+
+
+
+
+
+
+
 
     player = Player()
 

@@ -133,6 +133,54 @@ class Room:
         if player.current_location.name == "Blacksmith Room" and user_input[2] == "slide":
             user_input[2] = "Main Chamber"
         # -------------------------------------------------------------------------------------------------
+        # -----------------THIS IS A DUMMY CONNECTION FOR ANDREW --- UPDATE DESCRIPTION IN ANDREW'S BUILD BOARD
+        # Connecting Main Chamber to Andrew 1 --------------------------------------------------------------------
+        if player.current_location.name == "Main Chamber" and user_input[2] == "northern staircase":
+                user_input[2] = "Andrew 1"
+        if player.current_location.name == "Andrew 1" and user_input[2] == "southern staircase" or user_input[2] == "back":
+            user_input[2] = "Main Chamber"
+
+            # ----------------Connecting Andrew 1 to Andrew 2 ---------------------------------
+        if player.current_location.name == "Andrew 1" and user_input[2] == "northern corridor":
+                user_input[2] = "Andrew 2"
+        if player.current_location.name == "Andrew 2" and user_input[2] == "southern corridor" or user_input[2] == "back":
+            user_input[2] = "Andrew 1"
+
+        # ----------------Connecting Andrew 1 to Andrew 3 ---------------------------------
+        if player.current_location.name == "Andrew 1" and user_input[2] == "eastern corridor":
+            user_input[2] = "Andrew 3"
+        if player.current_location.name == "Andrew 3" and user_input[2] == "western corridor" or user_input[2] == "back":
+            user_input[2] = "Andrew 1"
+        # ----------------Connecting Andrew 3 to Andrew 4 ---------------------------------
+        # this should be tied to jumping puzzle
+        if player.current_location.name == "Andrew 3" and user_input[2] == "northern corridor":
+            user_input[2] = "Andrew 4"
+        if player.current_location.name == "Andrew 4" and user_input[2] == "southern hole" or user_input[2] == "back":
+            user_input[2] = "Andrew 3"
+
+            # ----------------Connecting MAIN CHAMBER to mere cluster room 1 ---------------------------------
+        if player.current_location.name == "Main Chamber" and user_input[2] == "western door":
+            user_input[2] = "mere cluster room 1"
+        if player.current_location.name == "mere cluster room 1" and user_input[2] == "eastern door":
+            user_input[2] = "Main Chamber"
+            # ----------------Connecting mere cluster room 1 to MERE CLUSTER ROOM 2----------------------------
+        if player.current_location.name == "mere cluster room 1" and user_input[2] == "northern door":
+            user_input[2] = "mere cluster room 2"
+        if player.current_location.name == "mere cluster room 2" and user_input[2] == "southern door":
+            user_input[2] = "mere cluster room 1"
+            # ----------------Connecting mere cluster room 2 to MERE CLUSTER ROOM 3----------------------------
+        if player.current_location.name == "mere cluster room 2" and user_input[2] == "northern door":
+            user_input[2] = "mere cluster room 3"
+        if player.current_location.name == "mere cluster room 3" and user_input[2] == "southern door":
+            user_input[2] = "mere cluster room 2"
+            # ----------------Connecting MERE CLUSTER room 4 to MERE CLUSTER ROOM 1----------------------------
+        if player.current_location.name == "mere cluster room 4" and user_input[2] == "eastern door":
+            user_input[2] = "mere cluster room 1"
+        if player.current_location.name == "mere cluster room 1" and user_input[2] == "western door":
+            user_input[2] = "mere cluster room 4"
+            # -------------------------------------------------------------------------------------------------
+
+
 
         return user_input
 
