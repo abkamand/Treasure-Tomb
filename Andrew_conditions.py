@@ -10,7 +10,7 @@ colorama.init()
 
 def check_conditions(player):
 
-    # Andrew's Rooms
+    # Andrew's Rooms conditions
     darkness_puzzle(player)
     explode_boulder(player)
     jump_puzzle(player)
