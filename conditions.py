@@ -137,9 +137,9 @@ def animal_puzzle(player):
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
             + "\nPedestals lie across the room with animal figures that you placed on top of each. Every figurine has glowing eyes, seemingly indicating your accomplishment."
-            + "\nTo the south lies a passage to the coffin room"
-            + (Fore.YELLOW + " (southern hole).")
-            + "\033[39m"
+            + "\nTo the south lies a passage to the coffin room ("
+            + (Fore.YELLOW + "southern hole")
+            + "\033[39m )."
         )
         player.current_location.add_shorter_description(description)
 
@@ -264,7 +264,7 @@ def darkness_puzzle(player):
         # create environmental description
         dynamite.add_env_description(
             "A stick of explosive "
-            + (Fore.MAGENTA + "dynamite")
+            + (Fore.GREEN + "dynamite")
             + "\033[39m lies on the floor in front of you. Better be careful not to accidentally light it without a purpose... "
         )
 
@@ -286,22 +286,22 @@ def darkness_puzzle(player):
         description = (
             "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird."
             + "There appears to be a "
-            + (Fore.MAGENTA + "mural")
+            + (Fore.CYAN + "mural")
             + "\033[39m on the wall. I should probably inspect it before leaving."
-            + "\nTo the south lies a doorway to the coffin room"
-            + (Fore.YELLOW + " (southern corridor).")
-            + "\033[39m"
+            + "\nTo the south lies a doorway to the coffin room ("
+            + (Fore.YELLOW + "southern corridor")
+            + "\033[39m)."
         )
         player.current_location.add_long_description(description)
 
         description = (
             "You're in a room illuminated by a mystical light source."
             + "There appears to be a "
-            + (Fore.MAGENTA + "mural")
+            + (Fore.CYAN + "mural")
             + "\033[39m on the wall. I should probably inspect it before leaving."
-            + "\nTo the south lies a doorway to the coffin room"
-            + (Fore.YELLOW + " (southern corridor).")
-            + "\033[39m"
+            + "\nTo the south lies a doorway to the coffin room ("
+            + (Fore.YELLOW + "southern corridor")
+            + "\033[39m)."
         )
         player.current_location.add_shorter_description(description)
 
@@ -405,9 +405,9 @@ def explode_boulder(player):
                             + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
                             + (Fore.YELLOW + "northern corridor")
                             + "\033[39m"
-                            + ").\nOn the eastern wall, where the boulder used to be, you spot a newly revealed eastern passage"
-                            + (Fore.YELLOW + " (eastern corridor).")
-                            + "\033[39m"
+                            + ").\nOn the eastern wall, where the boulder used to be, you spot a newly revealed eastern passage ("
+                            + (Fore.YELLOW + "eastern corridor")
+                            + "\033[39m)."
                         )
                         # now add the description to the shortened_description attribute of the room
                         player.current_location.add_shorter_description(description)
