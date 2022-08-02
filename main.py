@@ -10,7 +10,9 @@ from colorama import Fore, Back, Style
 colorama.init()
 
 
-# locked in combat
+# finish my rooms, help with other rooms
+# language parser
+# pick up/ take
 
 
 def main():
@@ -97,8 +99,11 @@ def main():
             player.current_location.build_description()
         if player.in_combat is not None:
             player.fight(player.in_combat)
-            input("Press Enter to return")
-            print("What will you do?")
+            if player.HP < 0 or player.HP == 0:
+                return
+            if player.HP > 0:
+                input("Press Enter to return")
+                print("What will you do?")
         time.sleep(0.25)
         user_inputted_command = player.current_location.take_input(player)
         time.sleep(0.25)
@@ -106,9 +111,8 @@ def main():
         time.sleep(0.25)
         check_conditions(player)
         time.sleep(0.25)
-        if player.HP == 0:
+        if player.HP == 0 or player.HP < 0:
             player.is_dead = True
-        if player.is_dead:
             return
         if player.has_won:
             print("Congratulations, you have found the treasure and won the game!")
