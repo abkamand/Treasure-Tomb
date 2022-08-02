@@ -13,6 +13,8 @@ def check_conditions(player):
     item_under_soil(player)
     jackal_from_fish(player)
     give_jackal_fish(player)
+    cross_chasm(player)
+    item_under_tile(player)
     return
   
  # ------------------------------MERE's CLUSTER CONDITIONS ------------------------------------------------------
@@ -298,3 +300,27 @@ def cross_chasm(player):
             tile.toggle_can_pick_up()
             # add the tile to the room
             player.current_location.add_item_to_room(tile)
+
+def item_under_tile(player):
+    """
+    When the user picks up the tile in "mere cluster room 4", they find a sphinx medallion
+    """
+    if player.current_location.name == "mere cluster room 4":       #check to see if the player is in the right room
+        for item in player.inventory:                               #check all the items in the player inventory
+            if item.name == "tile":                                 #if the soil has been picked up
+                #print some description about the tile revealing the sphinx medallion used in Main Chamber
+                print("The tile is stuck to the floor, but wiggles when you touch it. You hear something rattle underneath.")
+                print("You pull harder. With a jolt, the tile comes off. The force sends it flying out of your fingers and into the chasm.\nThere is a hole where the tile was. You see something metal inside.")
+                input("Press Enter to return")
+                player.inventory.remove(item)
+
+                #create the brass sphinx, for the Main Chamber puzzle
+                medallion = Item("medallion")
+                #give the medallion a description
+                medallion.add_description("It's a medallion in the shape of a sphinx. It looks like it's made of brass. You found it across the chasm, under a tile.")
+                #give the fish an environmental description
+                medallion.add_env_description("There is a brass " + (Fore.WHITE + "medallion") + '\033[39m' + " in a shallow hole. It was buried underneath the tile.")
+                #make it so you can pick up the medallion
+                medallion.toggle_can_pick_up()
+                #add the fish to the room
+                player.current_location.add_item_to_room(medallion)
