@@ -15,11 +15,12 @@ colorama.init()
 # This loop continues until the game ends. However, before the game can begin the board must be
 # built. Each one of us will create our clusters and connect it to the Main Chamber (or whatever we want to call it)
 
-#  regular items are white
-#  consumable items are blue
-#  weapon items are magenta
-#  rooms are yellow
-#  enemies are red
+# regular items that can be picked up = GREEN
+# item objects in rooms that can't be picked up = CYAN
+#  consumable items = BLUE
+#  weapon items = MAGENTA
+#  rooms = YELLOW
+#  enemies = RED
 
 
 def build_the_board():
@@ -27,16 +28,12 @@ def build_the_board():
     # Andrew Room 1
     # Fairly standard room:
     # Eastern Wall blocked by giant stone boulder than can be blown up by dynamite
-    # Northern Wall leads to room 2, which is pitch black and contains the dynamite
-    # Room contains some coffins, upon inspecting one, the player can pick up a red ruby, PURPOSE UNDECIDED !!!
+    # Northern Wall leads to room 2, which is the darkness puzzle minigame and contains the dynamite
+
+    # create andrew room 1
     West_one = Room("Andrew 1")
 
-    # you can color code using this format " first part of sentence" + (Fore.Color + "item") + '\033[39m' + " rest of the sentence"
-    # keep in mind that any item that can be removed from the room (can be picked up) should not be contained in this
-    # description. Their description will be in their own e_description of their own object. Notice how the mosaic described
-    # in the description is an item that can't be picked up. The rooms that are connected to the current room are also described
-    # in the description.
-
+    # create long description
     description = (
         "You find yourself in a dark chamber with coffins strewn about. There are cobwebs everywhere and the walls are covered with dust and mold."
         + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears"
@@ -65,17 +62,16 @@ def build_the_board():
 
     # create the shortened description for the room, will be displayed when you are visiting a room you have been to
     description = (
-        "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears"
-        + (Fore.CYAN + " wooden")
-        + "\033[39m"
-        + " and ripped open, one appears"
-        + (Fore.CYAN + " metallic")
-        + "\033[39m"
-        + ", and the third appears to be"
-        + (Fore.CYAN + " small")
-        + "\033[39m"
+        "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
+        + (Fore.CYAN + "wooden coffin")
+        + "\033[39m)"
+        + " and ripped open, one appears metallic ("
+        + (Fore.CYAN + " metallic coffin")
+        + "\033[39m)"
+        + ", and the third appears to be small ("
+        + (Fore.CYAN + "small coffin")
+        + "\033[39m)"
         + " and molded over."
-        + "\nPerhaps you should take a closer look at the coffins for anything useful?"
         + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
         + (Fore.YELLOW + "northern corridor")
         + "\033[39m"
@@ -87,9 +83,7 @@ def build_the_board():
     # now add the description to the shortened_description attribute of the room
     West_one.add_shorter_description(description)
 
-    # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    # create items
-
+    # create wooden coffin
     wooden_coffin = Item("wooden coffin")
     # give the wooden coffin a description
     wooden_coffin.add_description(
@@ -97,12 +91,14 @@ def build_the_board():
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
+    # create metallic coffin
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
         "The coffin is coated in a metal of some sort... gold... silver.. platinum? It's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
     )
 
+    # create small coffin
     small_coffin = Item("small coffin")
     # give the small coffin a description
     small_coffin.add_description(
@@ -124,37 +120,33 @@ def build_the_board():
 
     # -----------------------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 2
-    # Pitch black chamber, contains darkness puzzle
-    # crux of the puzzle still undecided
+    # Pitch black chamber, contains darkness puzzle, player wades through 2d matrix representing location in room until they reach the correct index
     # after completing puzzle, player can pick up dynamite
 
+    # create room 2
     West_two = Room("Andrew 2")
 
     # create long description + add it to the room
     description = "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
-
     West_two.add_long_description(description)
 
     # create shortened description + add it to the room
     description = "Darkness is everywhere. I need to move!"
     West_two.add_shorter_description(description)
 
-    # -----------------------------------------------------------------------------------------------------------------------------------------
-    # create items
-    # moved dynamite to conditions.py
-    # create dynamite
-
     # required to put in 1 hidden item placeholder to make darkness_puzzle fire off correctly in conditions.py
     item_placeholder = Item("item_placeholder")
-
     West_two.add_item_to_room(item_placeholder)
 
     # ------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 3
     # JUMPING PUZZLE ROOM, need to implement "jump" action
     # Player must jump onto small pillar --> medium pillar --> box --> large pillar in that order to progress to next room
+
+    # create room 3
     West_three = Room("Andrew 3")
 
+    # create long description
     description = (
         "The dynamite you used earlier has left half this room in shambles. You cough as a smoky cloud of ash and dust greet you.\nThere's rubble everywhere."
         + " The explosion seems to have opened a hole "
@@ -176,6 +168,7 @@ def build_the_board():
 
     West_three.add_long_description(description)
 
+    # create short description
     description = (
         "There's rubble and dust everywhere."
         + "A hole in the northern roof of the chamber leads to another room."
@@ -196,15 +189,14 @@ def build_the_board():
 
     West_three.add_shorter_description(description)
 
-    # ---------------------------------------------------------------------------------------------------------------------------------------
     # Create room 3 items
-
     # create short pillar
     short_pillar = Item("short_pillar")
     # add description
     short_pillar.add_description(
         "A short pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
     short_pillar.can_activate_ability = True
 
     # create medium pillar
@@ -213,6 +205,7 @@ def build_the_board():
     medium_pillar.add_description(
         "A medium pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
     medium_pillar.can_activate_ability = True
 
     # create large pillar
@@ -221,6 +214,7 @@ def build_the_board():
     large_pillar.add_description(
         "A large pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
     )
+    # toggle ability for the puzzle in conditions, so can track if player jumps on it
     large_pillar.can_activate_ability = True
 
     # add items to room
@@ -231,13 +225,16 @@ def build_the_board():
     # ---------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room #4
     # Animal/Predator puzzle room
-    # Contains carvings of a python, alligator, and eagle
+    # Contains an animal carving that depicts the key to solving the puzzle
+    # Contains figurines of a python, eagle, and alligator
     # Beneath each is a pedestal which depicts said animal, but dead, with a figurine held on top of said pedestal
     # The player must pickup and place the figurines on the "correct" pedestals to solve the puzzle and receive a diamond key
     # Correct pedestal pairings: Python figurine - Alligator pedestal | Alligator figurine - Eagle pedestal | Eagle figurine - Python pedestal
 
+    # create room 4
     West_four = Room("Andrew 4")
 
+    # create long description
     description = (
         "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
         + "From afar, you spot what appears to be an "
@@ -259,6 +256,7 @@ def build_the_board():
 
     West_four.add_long_description(description)
 
+    # create short description
     description = (
         "You spot what appears to be an "
         + (Fore.CYAN + "animal carving")
@@ -279,16 +277,16 @@ def build_the_board():
 
     West_four.add_shorter_description(description)
 
-    # ---------------------------------------------------------------------------------------------------------------------------------------
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle to be implemented in conditions.py
     # Player must pick up the python, alligator, and eagle figurines. Player must place the eagle figurine on the Python pedestal,
     # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
 
-    # create python wall carving item object
+    # create animal carving that depicts the solution
     animal_carving = Item("python carving")
     # add description
     animal_carving.add_description(
-        "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator, an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
+        "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
+        + "an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
     )
 
     # create python figurine object
@@ -303,7 +301,7 @@ def build_the_board():
         + "\033[39m)"
         + ", rests on the floor."
     )
-
+    # allow figurine to be picked up
     python_figurine.toggle_can_pick_up()
 
     # create python pedestal
@@ -312,6 +310,7 @@ def build_the_board():
     python_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead python with a prominent skull front and center."
     )
+    # allow items sto be placed in the pedestal
     python_pedestal.can_contain = True
 
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
@@ -329,7 +328,7 @@ def build_the_board():
         + "\033[39m)"
         + " rests on the floor."
     )
-
+    # allow figurine to be picked up
     alligator_figurine.toggle_can_pick_up()
 
     # create alligator pedestal
@@ -338,9 +337,8 @@ def build_the_board():
     alligator_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead alligator with a prominent skull front and center."
     )
+    # allow items to be placed in the pedestal
     alligator_pedestal.can_contain = True
-
-    # Create the item objects we will need for the Python, Alligator, Eagle puzzle
 
     # create eagle figurine object
     eagle_figurine = Item("eagle figurine")
@@ -355,7 +353,7 @@ def build_the_board():
         + "\033[39m)"
         + ", rests on the floor."
     )
-
+    # allow figurine to be picked up
     eagle_figurine.toggle_can_pick_up()
 
     # create eagle pedestal
@@ -364,6 +362,7 @@ def build_the_board():
     eagle_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead eagle with a prominent skull front and center."
     )
+    # allow items to be placed in the pedestal
     eagle_pedestal.can_contain = True
 
     # add items to the room
@@ -378,7 +377,6 @@ def build_the_board():
     # -----------------------------------------------------------------------------------------------------------------------------------------
     # Connect all the rooms together
 
-    # this room is blocked until the player blows up the boulder, connect it in conditions?
     # room 1 to 3
     West_one.add_adjacent_room("east", West_three)
 
