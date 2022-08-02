@@ -447,7 +447,7 @@ def blow_out_torch(player):
     """If a player activates their torch in Andrew room 2 or has it active while entering said room, a mystical
     gust of wind will de-activate it to ensure the integrity of the darkness puzzle :)"""
     # check if player is in Andrew room 2
-    if player.current_location.name != "Andrew 2":
+    if player.current_location.name == "Andrew 2":
         # check if torch is active
         for i in player.inventory:
             if i.name == "torch" and i.ability == True:
