@@ -22,39 +22,49 @@ def check_conditions(player):
 
 
 # ------------------------------Andrew's CLUSTER CONDITIONS ------------------------------------------------------
-# Andrew to-do list:
-# if player lights the dynamite and throws it at the wrong object (dynamite bounces back and blows you up)
 def dead_to_dynamite(player):
+    """If a player lights dynamite in a location outside of Andrew room 1, they will have nowhere to place/throw it and it will blow up in
+    their face, killing them."""
+    # check if player is in Andrew room 1
     if player.current_location.name != "Andrew 1":
+        # check if dynamite is lit
         for i in player.inventory:
             if i.name == "dynamite" and i.ability == True:
                 print(
                     "You lit the dynamite in a room with nothing to place it in or on to effectively shield the blast. Any last words...?"
                 )
+                # kill the player
                 player.HP = 0
 
 
-# Andrew room 2
 def blow_out_torch(player):
-    """Mystical gust of winds blows out torch in room 2 if already lit, or if player attempts to light torch in room 2."""
+    """If a player activates their torch in Andrew room 2 or has it active while entering said room, a mystical
+    gust of wind will de-activate it to ensure the integrity of the darkness puzzle :)"""
+    # check if player is in Andrew room 2
     if player.current_location.name != "Andrew 2":
+        # check if torch is active
         for i in player.inventory:
             if i.name == "torch" and i.ability == True:
                 print(
                     "A mystical gust of wind blows out your torch... creepy. You'll just have to feel your way through the darkness."
                 )
+                # de-activate torch
                 i.ability = False
 
 
-# Andrew room 4
-# Player must pick up python, alligator, eagle figurines, and place them on the correct pedestals to unlock diamond key
 def animal_puzzle(player):
+    """In Andrew Room 4, player must pick up the python, alligator, and eagle figurine, and place them on the correct pedestal, solving
+    an ouroboros predator trifecta of sorts. The correct pairings: Python Pedestal: Eagle Figurine | Eagle Pedestal: Alligator Figurine |
+    Alligator Pedestal: Python Figurine. Upon completion, player is rewarded with a diamond key item."""
+    # used to track puzzle status since player can independently solve each pedestal
     python_puzzle = False
     eagle_puzzle = False
     alligator_puzzle = False
 
+    # check if player is in Andrew room 4
     if player.current_location.name == "Andrew 4":
         for items in player.current_location.in_room:
+            # check which puzzles have been solved already by scanning for hidden items added to room that indicate puzzle status
             if items.name == "python_solved":
                 python_puzzle = True
             if items.name == "eagle_solved":
@@ -64,8 +74,10 @@ def animal_puzzle(player):
 
     if player.current_location.name == "Andrew 4":
         for items in player.current_location.in_room:
+            # check if python pedestal is solved or if the player has placed a figurine upon it
             if items.name == "python pedestal" and python_puzzle == False:
                 for i in items.contains:
+                    # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "alligator figurine":
                         print(
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
@@ -74,18 +86,21 @@ def animal_puzzle(player):
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
-
+                    # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
+                    # on eagle figurine to prevent player from picking it up again
                     elif i.name == "eagle figurine":
                         print(
-                            "The eagle's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                            "The eagle's eyes light up and it locks in place the second you placed it on the python pedestal... seems like you did something right."
                         )
                         python_solved = Item("python_solved")
                         player.current_location.add_item_to_room(python_solved)
                         python_puzzle = True
                         i.toggle_can_pick_up()
 
+            # check if eagle pedestal is solved or figurine placed
             if items.name == "eagle pedestal" and eagle_puzzle == False:
                 for i in items.contains:
+                    # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "eagle figurine":
                         print(
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
@@ -94,18 +109,21 @@ def animal_puzzle(player):
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
-
+                    # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
+                    # on eagle figurine to prevent player from picking it up again
                     elif i.name == "alligator figurine":
                         print(
-                            "The alligator's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                            "The alligator's eyes light up and it locks in place the second you placed it on the python pedestal... seems like you did something right."
                         )
                         eagle_solved = Item("eagle_solved")
                         player.current_location.add_item_to_room(eagle_solved)
                         eagle_puzzle = True
                         i.toggle_can_pick_up()
 
+            # check if eagle pedestal is solved or figurine placed
             if items.name == "alligator pedestal" and alligator_puzzle == False:
                 for i in items.contains:
+                    # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "alligator figurine" or i.name == "eagle figurine":
                         print(
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
@@ -114,16 +132,18 @@ def animal_puzzle(player):
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
-
+                    # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
+                    # on eagle figurine to prevent player from picking it up again
                     elif i.name == "python figurine":
                         print(
-                            "The python's eyes light up the second you placed it on the python pedestal... seems like you did something right."
+                            "The python's eyes light and it locks in place up the second you placed it on the python pedestal... seems like you did something right."
                         )
                         alligator_solved = Item("alligator_solved")
                         player.current_location.add_item_to_room(alligator_solved)
                         alligator_puzzle = True
                         i.toggle_can_pick_up()
 
+    # check if all 3 puzzles have been solved, if so, give the player the diamond key and update room description
     if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True:
         print(
             "A hole in the ceiling appears and a diamond key falls right into the palm of your hand. Seems useful... but where? Better keep it for now"
@@ -144,10 +164,12 @@ def animal_puzzle(player):
         player.current_location.add_shorter_description(description)
 
 
-# ---------------------------------------------------------------------------------------------------------------------------------------
-
-
 def darkness_puzzle(player):
+    """When the player enters Andrew room 2, a darkness puzzle minigame fires off. Essentially the player must input 'move right', 'move left',
+    'move up', or 'move down' to make their way through a dark labrynth represented by a 2d matrix. Certain indeces are blocked which means
+    the player cannot traverse that direction. It simulates a player fumbling through darkness, feeling their way through. Upon completion
+    when the player reaches the correct index, the room lights up and the minigame ends."""
+
     def valid(curr, prev, mov, board):
         """Checks if a player movement is valid or not, to be used down below in the crux of the darkness_puzzle gameplay loop."""
         update_row = curr[0] + mov[0]
@@ -258,7 +280,7 @@ def darkness_puzzle(player):
 
         # give dynamite a description
         dynamite.add_description(
-            "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it..."
+            "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it and where I place it..."
         )
 
         # create environmental description
@@ -273,7 +295,7 @@ def darkness_puzzle(player):
         # add ability to dynamite
         dynamite.can_activate_ability = True
         dynamite.ability_on_description = (
-            "The dynamite is lit, quick, throw it at something!"
+            "The dynamite is lit, quick, place it on something!"
         )
         dynamite.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
         player.current_location.add_item_to_room(dynamite)
@@ -305,7 +327,7 @@ def darkness_puzzle(player):
         )
         player.current_location.add_shorter_description(description)
 
-        # create boulder carving item and add to room
+        # create boulder carving item and add to room, essentially a mural that depicts how they should use the dynamite should they inspect it
         # create boulder_carving
         boulder_carving = Item("mural")
 
@@ -317,16 +339,20 @@ def darkness_puzzle(player):
         player.current_location.add_item_to_room(boulder_carving)
 
 
-# Andrew room 3
-# player must jump onto small pillar, medium pillar, box, large pillar in that order to progress to next room
 def jump_puzzle(player):
+    """In Andrew Room 3, the player must jump to pillars in the correct order to make it to the next room. There is a short pillar, medium pillar,
+    and large pillar. The jump puzzle is fairly straight forward, the player must jump to the short pillar, then the medium, then the large. Upon
+    doing so, they will transition to the next room. If they jump in the incorrect order, they will fall and take some damage."""
+    # create variables to check pillar jump status
     in_room = False
     short_pillar = False
     medium_pillar = False
     large_pillar = False
 
+    # check if player is in Andrew room 3
     if player.current_location.name == "Andrew 3":
         in_room = True
+    # check if player has jumped onto a pillar
     for items in player.current_location.in_room:
         if items.name == "short_pillar" and items.ability == True:
             short_pillar = True
@@ -338,27 +364,34 @@ def jump_puzzle(player):
     if in_room == True and (
         short_pillar == True or medium_pillar == True or large_pillar == True
     ):
+        # if player's first move is not to jump to short pillar, print message and subtract hp
         if short_pillar == False:
-            print("You jump and fall back to the floor, ouch")
+            print("You jump and fall back to the floor, ouch (-5 HP).")
             # lower player HP
+            player.HP -= 5
             return
 
+        # else, print message and receive user input for next jump
         print("You are standing on top of the short pillar")
         print("What will you do next?")
         response = input()
+        # if player fails to jump to medium pillar, print fall message and subtract hp, repeat for large pillar jump next
         if response != "activate medium_pillar":
-            print("You jump and fall back to the floor, ouch")
+            print("You jump and fall back to the floor, ouch (-7 HP)")
+            player.HP -= 7
             return
 
         print("You are standing on top of the medium pillar")
         print("What will you do next?")
         response = input()
         if response != "activate large_pillar":
-            print("You jump and fall back to the floor, ouch")
+            print("You jump and fall back to the floor, ouch (-10 HP)")
+            player.HP -= 10
             return
 
         print(
-            "You made it to the roof chamber. You find a rope nearby and lower it so you can slide down quickly... not sure you have the strength to climb back up the rope though."
+            "You made it to the roof chamber. You find a rope nearby and lower it so you can slide down quickly..."
+            + " not sure you have the strength to climb back up the rope though."
         )
         # move the player into the next room
         for items in player.current_location.in_room:
@@ -366,27 +399,32 @@ def jump_puzzle(player):
         player.current_location = player.current_location.north_wall
 
 
-# Andrew room 1
-# blow up the stone blocking a door in room 1 by lighting dynamite on the rock
 def explode_boulder(player):
+    """If the player is in Andrew room 1 and activates dynamite, then places it in or on the boulder, the boulder will explode and reveal
+    a door to a new room (Andrew room 3)."""
+    # check if the player is in Andrew room 1
     if player.current_location.name == "Andrew 1":
         for items in player.current_location.in_room:
             if items.name == "boulder":
                 for i in items.contains:
+                    # if the player placed the dynamite in the boulder without lighting it, print message and return dynamite to room
                     if i.name == "dynamite" and i.ability == False:
+                        print(
+                            "There's not much point in placing unlit dynamite on the boulder, perhaps I should pick it up and light it..."
+                        )
+                        player.current_location.add_item_to_room(i)
+                        items.remove_item_from_container(i)
                         return
-                        # ask ashwin!
-                        # add dynamite back to player inventory
-                        # print "maybe you should light the dynamite first"
+
+                    # if the player correctly lights the dynamite and places it on the boulder, update room description to reveal the door
                     if i.name == "dynamite" and i.ability == True:
                         print(
-                            "You place the stick of dynamite near the rock, and run. The rock explodes, leaving an open doorway. \nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings in the northern room... \nit must be in complete disarray."
+                            "You place the stick of dynamite near the rock, and run. The rock explodes, leaving an open doorway."
+                            + "\nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings in the northern room..."
+                            + "\nit must be in complete disarray."
                         )
+                        # remove the boulder from the room
                         player.current_location.in_room.remove(items)
-
-                        """for items in player.current_location.in_room:
-                            if items.name == "boulder":
-                                player.current_location.in_room.remove(items)"""
 
                         # CONNECT west_three to west_one now that the boulder is gone
                         # create the shortened description for the room, will be displayed when you are visiting a room you have been to
