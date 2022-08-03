@@ -305,6 +305,7 @@ def blacksmith_room_fire_arrows(player):
                     fire_bow.is_weapon = True
                     fire_bow.set_weapon_power(30)
                     fire_bow.can_pick_up = True
+                    player.inventory.append(fire_bow)
                     player.equipped = fire_bow
                     items.contains = []
 
