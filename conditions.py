@@ -305,6 +305,7 @@ def blacksmith_room_fire_arrows(player):
                     fire_bow.is_weapon = True
                     fire_bow.set_weapon_power(30)
                     fire_bow.can_pick_up = True
+                    player.inventory.append(fire_bow)
                     player.equipped = fire_bow
                     items.contains = []
 
@@ -615,11 +616,10 @@ def darkness_puzzle(player):
         # 0 = can move, 1 = wall, 2 = destination
         # start = (0, 0)
         board = [
-            [0, 1, 0, 0, 0],
-            [0, 0, 0, 1, 0],
-            [0, 1, 0, 0, 1],
-            [0, 1, 0, 0, 1],
-            [1, 1, 0, 0, 2],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1],
+            [0, 1, 0, 1],
+            [0, 1, 0, 2],
         ]
 
         # create directional movement representations
