@@ -743,7 +743,11 @@ def build_the_board():
     West_four.add_adjacent_room("south", West_three)
 
     # -------------------------------------------------------------------------------------------------
-    # --------------------CODE FOR MERES CLUSTER STARTING HERE-----------------------------------------
+    # --------------------------------- Mere ROOM 1 : CANDLE ROOM -------------------------------------
+    #  this is the first room down the western door with the sphinx
+    #  this room has a row of candles along the wall that must be lit in order
+    #  connected to the Main Chamber to the east, sphinx room to the north, chasm room to the west
+
     # create the first room
     Mere_Room_1 = Room("mere cluster room 1")
 
@@ -798,7 +802,12 @@ def build_the_board():
     # since Mere_Room_1 is on the west wall of the main chamber, that means the Main Chamber is east of Mere_Room_1
     Mere_Room_1.add_adjacent_room("east", Main_Chamber)
 
-    # this is the code for mere's room 2
+
+    # --------------------------------- Mere ROOM 2 : SPHINX ROOM -------------------------------------
+    #  this is the second room down the western door with the sphinx
+    #  this room has a sphinx that must be defeated by correctly answering a riddle
+    #  connected to the candle room to the south, dark room to the north
+
     # create the room
     Mere_Room_2 = Room("mere cluster room 2")
 
@@ -809,7 +818,7 @@ def build_the_board():
     Mere_Room_2.add_long_description(description)
 
     # create the shortened description for the room
-    description = "This room is littered with sticks and feathers. \nThere is a dark doorway on the northern wall (" + (
+    description = "This room is littered with sticks and feathers. \nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is a dark doorway on the northern wall (" + (
             Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
                           Fore.YELLOW + "southern door") + '\033[39m' + ")."
     Mere_Room_2.add_shorter_description(description)
@@ -831,13 +840,26 @@ def build_the_board():
     # add the enemy into the room
     Mere_Room_2.add_enemy_to_room(sphinx)
 
+    # add the nest to the room
+    nest = Item("nest")
+    # give it a description
+    nest.add_description(
+        "There is a large nest made of twigs and bits of cloth. There are many feathers lying in and around.\nYou think this must be where the sphinx slept.")
+    # add the nest to the room
+    Mere_Room_2.add_item_to_room(nest)
+
     # connect Mere_Room_2 with Mere_Room_1
     # use the add_adjacent_room function to add Mere_Room_2 as the room on the north wall of Mere_Room_1
     Mere_Room_1.add_adjacent_room("north", Mere_Room_2)
     # since Mere_Room_2 is on the north wall of Mere_Room_1, that means Mere_Room_1 is south of Mere_Room_2
     Mere_Room_2.add_adjacent_room("south", Mere_Room_1)
 
-    # this is the code for mere's room 3
+
+    # --------------------------------- Mere ROOM 3 : DARK ROOM -------------------------------------
+    #  this is the third room down the western door with the sphinx
+    #  this room is very dark and must be illuminated with the torch activated
+    #  connected to the sphinx room to the south
+
     # create the room
     Mere_Room_3 = Room("mere cluster room 3")
 
@@ -887,6 +909,12 @@ def build_the_board():
     Mere_Room_2.add_adjacent_room("north", Mere_Room_3)
     # since Mere_Room_3 is on the north wall of Mere_Room_2, that means Mere_Room_2 is south of Mere_Room_3
     Mere_Room_3.add_adjacent_room("south", Mere_Room_2)
+
+
+    # --------------------------------- Mere ROOM 4 : CHASM ROOM -------------------------------------
+    #  this is the fourth room down the western door with the sphinx
+    #  this room has a chasm that can be crossed by equipping the whip
+    #  connected to the candle room to the west
 
     # this is the code for mere's room 4
     # create the room
