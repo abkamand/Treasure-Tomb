@@ -631,7 +631,7 @@ def darkness_puzzle(player):
         # create tuples representing current player location, previous, destination
         prev_location = (0, 0)
         curr_location = (0, 0)
-        destination = (4, 4)
+        destination = (3, 3)
 
         # print gameplay prompt for the user
         print(
