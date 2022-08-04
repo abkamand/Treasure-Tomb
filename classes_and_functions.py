@@ -86,6 +86,7 @@ class Room:
             print("invalid command")
             input("Press Enter to return")
             user_input = input()
+        user_input = self.language_parser(user_input)
         user_input = user_input.split()
         if user_input[0] == "go" and user_input[1] == "to" and player.in_combat is not None:
             print("You can't run away!")
@@ -104,6 +105,92 @@ class Room:
             user_input = self.check_room_conditions(player, user_input)
         return user_input
 
+    def language_parser(self, user_input):
+        activate_replacements_one_word = ["use", "light", "cut", "ignite", "dig", "chop", "shoot", "talk", "speak"]
+        activate_replacements_multiple_word = ["jump to", "talk to", "interact with", "turn on", "switch on",
+                                               "cut down",
+                                               "dig up", "shoot at", "chop down", "speak to"]
+        replaced = False
+        for words in activate_replacements_multiple_word:
+            if words in user_input:
+                user_input = user_input.replace(words, "activate", 1)
+                replaced = True
+        if not replaced:
+            for words in activate_replacements_one_word:
+                if words in user_input:
+                    user_input = user_input.replace(words, "activate", 1)
+                    replaced = True
+
+        user_input = user_input.split(" ")
+        if not replaced:
+            if "place" in user_input and "in" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "place":
+                        user_input[x] = "put"
+                replaced = True
+        if not replaced:
+            if "place" in user_input and "on" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "place":
+                        user_input[x] = "put"
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "on":
+                        user_input[x] = "in"
+                replaced = True
+        if not replaced:
+            if "put" in user_input and "on" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "on":
+                        user_input[x] = "in"
+                replaced = True
+        if not replaced:
+            if "pour" in user_input and "in" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "pour":
+                        user_input[x] = "put"
+        if not replaced:
+            if "set" in user_input and "on" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "set":
+                        user_input[x] = "put"
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "on":
+                        user_input[x] = "in"
+                replaced = True
+        if not replaced:
+            if "set" in user_input and "in" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "set":
+                        user_input[x] = "put"
+
+        if not replaced:
+            if "lay" in user_input and "on" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "lay":
+                        user_input[x] = "put"
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "on":
+                        user_input[x] = "in"
+                replaced = True
+        if not replaced:
+            if "insert" in user_input and "in" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "insert":
+                        user_input[x] = "put"
+        if not replaced:
+            if "attach" in user_input and "to" in user_input:
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "attach":
+                        user_input[x] = "put"
+                for x in range(0, len(user_input)):
+                    if user_input[x] == "to":
+                        user_input[x] = "in"
+                replaced = True
+        for x in range(1, len(user_input)):
+            user_input[0] = user_input[0] + " " + user_input[x]
+        user_input = user_input[0]
+
+        return user_input
 
     def check_room_conditions(self, player, user_input):
 
