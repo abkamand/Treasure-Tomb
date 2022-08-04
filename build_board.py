@@ -6,11 +6,12 @@ import random
 colorama.init()
 
 
-#  regular items are white
-#  consumable items are blue
-#  weapon items are magenta
-#  rooms are yellow
-#  enemies are red
+#  regular items that can be picked up = GREEN
+#  item objects in rooms that can't be picked up = CYAN
+#  consumable items = BLUE
+#  weapon items = MAGENTA
+#  rooms = YELLOW
+#  enemies = RED
 
 def build_the_board():
     # -----------------------------------------------MAIN CHAMBER---------------------------------------------------
@@ -376,15 +377,15 @@ def build_the_board():
     # create long description
     description = (
             "You find yourself in a dark chamber with coffins strewn about. There are cobwebs everywhere and the walls are covered with dust and mold. "
-            + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears"
-            + (Fore.CYAN + " wooden")
-            + "\033[39m"
-            + " and ripped open, one is"
-            + (Fore.CYAN + " metallic")
-            + "\033[39m"
-            + ", and the third is"
-            + (Fore.CYAN + " small")
-            + "\033[39m"
+            + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears wooden ("
+            + (Fore.CYAN + "wooden coffin")
+            + "\033[39m)"
+            + " and ripped open, one is metallic ("
+            + (Fore.CYAN + " metallic coffin")
+            + "\033[39m)"
+            + ", and the third is small ("
+            + (Fore.CYAN + "small coffin")
+            + "\033[39m)"
             + " and molded over."
             + "\nPerhaps you should take a closer look at the coffins for anything useful?"
             # darkness puzzle room
@@ -395,7 +396,7 @@ def build_the_board():
             + " A giant"
             + (Fore.CYAN + " boulder")
             + "\033[39m"
-            + " blocks the way to the eastern chamber.\nYou'll need some way of removing it... explosives maybe? In the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
+            + " blocks the way to the eastern chamber.\nYou'll need some way of removing it... explosives maybe?\nIn the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
                         Fore.YELLOW + "southern staircase") + "\033[39m" + ")."
     )
     # now add the description to the long_description attribute of the room. This is the description that will pop up the first time you enter the room
@@ -407,7 +408,7 @@ def build_the_board():
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
             + " and ripped open, one appears metallic ("
-            + (Fore.CYAN + " metallic coffin")
+            + (Fore.CYAN + "metallic coffin")
             + "\033[39m)"
             + ", and the third appears to be small ("
             + (Fore.CYAN + "small coffin")
@@ -419,7 +420,7 @@ def build_the_board():
             + "). A "
             + (Fore.CYAN + "boulder")
             + "\033[39m"
-            + " blocks the way to the eastern chamber. In the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
+            + " blocks the way to the eastern chamber.\nIn the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
                         Fore.YELLOW + "southern staircase") + "\033[39m" + ")."
     )
     # now add the description to the shortened_description attribute of the room
@@ -437,7 +438,7 @@ def build_the_board():
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
-        "The coffin is coated in a metal of some sort... gold... silver.. platinum? It's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
+        "The coffin is coated in a metal of some sort... gold... silver.. platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
     )
 
     # create small coffin
