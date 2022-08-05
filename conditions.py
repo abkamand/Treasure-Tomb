@@ -3,6 +3,7 @@ from build_board import *
 import colorama
 from colorama import Fore, Back, Style
 import random
+import time
 
 colorama.init()
 
@@ -499,6 +500,7 @@ def animal_puzzle(player):
                         print(
                             "The eagle's eyes light up and it locks in place the second you placed it on the python pedestal... seems like you did something right."
                         )
+                        time.sleep(1)
                         python_solved = Item("python_solved")
                         player.current_location.add_item_to_room(python_solved)
                         python_puzzle = True
@@ -522,6 +524,7 @@ def animal_puzzle(player):
                         print(
                             "The alligator's eyes light up and it locks in place the second you placed it on the python pedestal... seems like you did something right."
                         )
+                        time.sleep(1)
                         eagle_solved = Item("eagle_solved")
                         player.current_location.add_item_to_room(eagle_solved)
                         eagle_puzzle = True
@@ -545,6 +548,7 @@ def animal_puzzle(player):
                         print(
                             "The python's eyes light and it locks in place up the second you placed it on the python pedestal... seems like you did something right."
                         )
+                        time.sleep(1)
                         alligator_solved = Item("alligator_solved")
                         player.current_location.add_item_to_room(alligator_solved)
                         alligator_puzzle = True
@@ -555,6 +559,7 @@ def animal_puzzle(player):
         print(
             "A hole in the ceiling appears and a diamond key falls right into the palm of your hand. Seems useful... but where? Better keep it for now"
         )
+        time.sleep(1)
         diamond_key_one = Item("Diamond Key 1")
         diamond_key_one.toggle_can_pick_up()
         player.add_to_inventory(diamond_key_one)
@@ -564,9 +569,9 @@ def animal_puzzle(player):
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
             + "\nPedestals lie across the room with animal figures that you placed on top of each. Every figurine has glowing eyes, seemingly indicating your accomplishment."
-            + "\nTo the south lies a passage to the coffin room ("
+            + "\nTo the south lies a rope leading to the pillar room ("
             + (Fore.YELLOW + "southern hole")
-            + "\033[39m )."
+            + "\033[39m)."
         )
         player.current_location.add_shorter_description(description)
 
@@ -715,19 +720,20 @@ def darkness_puzzle(player):
             "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird."
             + "There appears to be a "
             + (Fore.CYAN + "mural")
-            + "\033[39m on the wall. I should probably inspect it before leaving."
+            + "\033[39m on the wall.\nI should probably inspect it before leaving."
             + "\nTo the south lies a doorway to the coffin room ("
             + (Fore.YELLOW + "southern corridor")
             + "\033[39m)."
         )
+        time.sleep(1)
         player.current_location.add_long_description(description)
 
         description = (
             "You're in a room illuminated by a mystical light source."
-            + "There appears to be a "
+            + " There appears to be a "
             + (Fore.CYAN + "mural")
             + "\033[39m on the wall. I should probably inspect it before leaving."
-            + "\nTo the south lies a doorway to the coffin room ("
+            + " To the south lies a doorway to the coffin room ("
             + (Fore.YELLOW + "southern corridor")
             + "\033[39m)."
         )
@@ -772,26 +778,28 @@ def jump_puzzle(player):
     ):
         # if player's first move is not to jump to short pillar, print message and subtract hp
         if short_pillar == False:
-            print("You jump and fall back to the floor, ouch (-5 HP).")
+            print("You jump and miss your target, falling back to the floor, ouch (-5 HP).")
             # lower player HP
             player.HP -= 5
             return
 
         # else, print message and receive user input for next jump
-        print("You are standing on top of the short pillar")
+        print("You are standing on top of the short pillar.")
+        time.sleep(.25)
         print("What will you do next?")
         response = input()
         # if player fails to jump to medium pillar, print fall message and subtract hp, repeat for large pillar jump next
-        if response != "activate medium_pillar":
-            print("You jump and fall back to the floor, ouch (-7 HP)")
+        if response != "activate medium pillar" or response != "jump to medium pillar" or response != "jump medium pillar":
+            print("You jump and miss your target, falling back to the floor, ouch (-7 HP).")
             player.HP -= 7
             return
 
         print("You are standing on top of the medium pillar")
+        time.sleep(.25)
         print("What will you do next?")
         response = input()
-        if response != "activate large_pillar":
-            print("You jump and fall back to the floor, ouch (-10 HP)")
+        if response != "activate large pillar" or response != "jump to large pillar" or response != "jump large pillar":
+            print("You jump and miss your target, falling back to the floor, ouch (-10 HP).")
             player.HP -= 10
             return
 
@@ -830,22 +838,22 @@ def explode_boulder(player):
                             + "\nit must be in complete disarray."
                         )
                         # remove the boulder from the room
+                        time.sleep(1)
                         player.current_location.in_room.remove(items)
 
                         # CONNECT west_three to west_one now that the boulder is gone
                         # create the shortened description for the room, will be displayed when you are visiting a room you have been to
                         description = (
-                            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears"
-                            + (Fore.MAGENTA + " wooden")
-                            + "\033[39m"
-                            + " and ripped open, one appears"
-                            + (Fore.MAGENTA + " metallic")
-                            + "\033[39m"
-                            + ", and the third appears to be"
-                            + (Fore.MAGENTA + " small")
-                            + "\033[39m"
+                            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
+                            + (Fore.MAGENTA + "wooden coffin")
+                            + "\033[39m)"
+                            + " and ripped open, one appears metallic ("
+                            + (Fore.MAGENTA + "metallic coffin")
+                            + "\033[39m)"
+                            + ", and the third appears to be small ("
+                            + (Fore.MAGENTA + "small coffin")
+                            + "\033[39m)"
                             + " and molded over."
-                            + "\nPerhaps you should take a closer look at the coffins for anything useful?"
                             + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("
                             + (Fore.YELLOW + "northern corridor")
                             + "\033[39m"

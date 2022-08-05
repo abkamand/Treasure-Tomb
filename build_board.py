@@ -381,7 +381,7 @@ def build_the_board():
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
             + " and ripped open, one is metallic ("
-            + (Fore.CYAN + " metallic coffin")
+            + (Fore.CYAN + "metallic coffin")
             + "\033[39m)"
             + ", and the third is small ("
             + (Fore.CYAN + "small coffin")
@@ -503,7 +503,7 @@ def build_the_board():
             + ", and a third"
             + (Fore.CYAN + " large pillar")
             + "\033[39m"
-            + " leading straight to the newly revealed chamber."
+            + " leading straight to the newly revealed chamber in the ceiling.\nYou'll have to make a series of jumps to get up there."
             + "\nTo the west lies a passage to the coffin room ("
             + (Fore.YELLOW + "western corridor")
             + "\033[39m)."
@@ -534,7 +534,7 @@ def build_the_board():
 
     # Create room 3 items
     # create short pillar
-    short_pillar = Item("short_pillar")
+    short_pillar = Item("short pillar")
     # add description
     short_pillar.add_description(
         "A short pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
@@ -543,7 +543,7 @@ def build_the_board():
     short_pillar.can_activate_ability = True
 
     # create medium pillar
-    medium_pillar = Item("medium_pillar")
+    medium_pillar = Item("medium pillar")
     # add description
     medium_pillar.add_description(
         "A medium pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
@@ -552,7 +552,7 @@ def build_the_board():
     medium_pillar.can_activate_ability = True
 
     # create large pillar
-    large_pillar = Item("large_pillar")
+    large_pillar = Item("large pillar")
     # add description
     large_pillar.add_description(
         "A large pillar stands out among the rubble, looks particularly sturdy if someone were to jump on..."
@@ -591,8 +591,8 @@ def build_the_board():
             + "\033[39m"
             + ", and an "
             + (Fore.CYAN + "alligator pedestal")
-            + "\033[39m"
-            + "\nTo the south lies a passage to the coffin room ("
+            + "\033[39m."
+            + "\nTo the south lies a rope leading down into the pillar room ("
             + (Fore.YELLOW + "southern hole")
             + "\033[39m)."
     )
@@ -604,16 +604,16 @@ def build_the_board():
             "You spot what appears to be an "
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
-            + "\nPedestals lie in front of each carving -- an"
+            + "\nPedestals lie in front of each carving -- an "
             + (Fore.CYAN + "eagle pedestal")
             + "\033[39m"
             + ", a"
-            + (Fore.CYAN + "snake pedestal")
+            + (Fore.CYAN + " snake pedestal")
             + "\033[39m"
             + ", and an "
             + (Fore.CYAN + "alligator pedestal")
-            + "\033[39m"
-            + "\nTo the south lies a passage to the coffin room ("
+            + "\033[39m."
+            + "\nTo the south lies a rope leading down into the pillar room ("
             + (Fore.YELLOW + "southern hole")
             + "\033[39m)."
     )
@@ -625,7 +625,7 @@ def build_the_board():
     # the Alligator figurine on the eagle pedestal, and the Python figurine on the Alligator pedestal to unlock the diamond key.
 
     # create animal carving that depicts the solution
-    animal_carving = Item("python carving")
+    animal_carving = Item("animal carving")
     # add description
     animal_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
@@ -640,7 +640,7 @@ def build_the_board():
     )
     python_figurine.add_env_description(
         "A figurine of a long and menacing python ("
-        + (Fore.GREEN + "python_figurine")
+        + (Fore.GREEN + "python figurine")
         + "\033[39m)"
         + ", rests on the floor."
     )
