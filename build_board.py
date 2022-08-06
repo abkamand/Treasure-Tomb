@@ -40,6 +40,8 @@ def build_the_board():
 
     mosaic.add_description(
         "This mosaic depicts a pharaoh standing on a stage above his subordinates.\nHe is holding a large, red diamond above his head.\nThe crowd amassed at his feet appears to be worshipping him.\nAbove the diamond, there are 3 indentations in the shape of an eagle, a crocodile, and a sphinx.\nIt looks like you could fill in those indentations with the right piece of the mosaic...")
+    mosaic.can_contain = True
+    mosaic.container_type = "contains"
 
     corpse = Item("corpse")
     corpse.add_description(
@@ -430,7 +432,7 @@ def build_the_board():
     wooden_coffin = Item("wooden coffin")
     # give the wooden coffin a description
     wooden_coffin.add_description(
-        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of " 
+        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of "
         + (Fore.MAGENTA + "matches") + "\033[39m."
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
