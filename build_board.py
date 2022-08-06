@@ -430,7 +430,8 @@ def build_the_board():
     wooden_coffin = Item("wooden coffin")
     # give the wooden coffin a description
     wooden_coffin.add_description(
-        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse."
+        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of " 
+        + (Fore.MAGENTA + "matches") + "\033[39m."
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
@@ -448,6 +449,11 @@ def build_the_board():
         "The coffin is similar in construction to the cracked, wooden coffin, albeit its much smaller... wait, does that mean its just a Box?\nIt appears to contain an assortment of golden platewear."
     )
 
+    matches = Item("matches")
+    matches.add_description("A box of matches that can be used to light dynamite.")
+    matches.toggle_can_pick_up()
+    matches.add_env_description("")
+
     # create boulder
     boulder = Item("boulder")
     boulder.add_description("A giant boulder.")
@@ -460,6 +466,7 @@ def build_the_board():
     West_one.add_item_to_room(metallic_coffin)
     West_one.add_item_to_room(small_coffin)
     West_one.add_item_to_room(boulder)
+    West_one.add_item_to_room(matches)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------------------
     # Andrew's room 2
