@@ -755,6 +755,7 @@ def jump_puzzle(player):
     """In Andrew Room 3, the player must jump to pillars in the correct order to make it to the next room. There is a short pillar, medium pillar,
     and large pillar. The jump puzzle is fairly straight forward, the player must jump to the short pillar, then the medium, then the large. Upon
     doing so, they will transition to the next room. If they jump in the incorrect order, they will fall and take some damage."""
+    
     # create variables to check pillar jump status
     in_room = False
     short_pillar = False
@@ -766,11 +767,11 @@ def jump_puzzle(player):
         in_room = True
     # check if player has jumped onto a pillar
     for items in player.current_location.in_room:
-        if items.name == "short_pillar" and items.ability == True:
+        if items.name == "short pillar" and items.ability == True:
             short_pillar = True
-        elif items.name == "medium_pillar" and items.ability == True:
+        elif items.name == "medium pillar" and items.ability == True:
             medium_pillar = True
-        elif items.name == "large_pillar" and items.ability == True:
+        elif items.name == "large pillar" and items.ability == True:
             large_pillar = True
 
     if in_room == True and (
@@ -781,6 +782,15 @@ def jump_puzzle(player):
             print("You jump and miss your target, falling back to the floor, ouch (-5 HP).")
             # lower player HP
             player.HP -= 5
+
+            for items in player.current_location.in_room:
+                if items.name == "short pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "medium pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "large pillar" and items.ability == True:
+                    items.ability = False
+
             return
 
         # else, print message and receive user input for next jump
@@ -789,18 +799,38 @@ def jump_puzzle(player):
         print("What will you do next?")
         response = input()
         # if player fails to jump to medium pillar, print fall message and subtract hp, repeat for large pillar jump next
-        if response != "activate medium pillar" or response != "jump to medium pillar" or response != "jump medium pillar":
+        valid_list_medium = ["activate medium pillar", "jump to medium pillar", "jump medium pillar"]
+        valid_list_large= ["activate large pillar", "jump to large pillar", "jump large pillar"]
+        if response not in valid_list_medium:
+            print(response)
             print("You jump and miss your target, falling back to the floor, ouch (-7 HP).")
             player.HP -= 7
+
+            for items in player.current_location.in_room:
+                if items.name == "short pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "medium pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "large pillar" and items.ability == True:
+                    items.ability = False
             return
 
         print("You are standing on top of the medium pillar")
         time.sleep(.25)
         print("What will you do next?")
         response = input()
-        if response != "activate large pillar" or response != "jump to large pillar" or response != "jump large pillar":
+        if response not in valid_list_large:
+            print(response)
             print("You jump and miss your target, falling back to the floor, ouch (-10 HP).")
             player.HP -= 10
+
+            for items in player.current_location.in_room:
+                if items.name == "short pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "medium pillar" and items.ability == True:
+                    items.ability = False
+                elif items.name == "large pillar" and items.ability == True:
+                    items.ability = False
             return
 
         print(
