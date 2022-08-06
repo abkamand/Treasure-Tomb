@@ -42,6 +42,7 @@ def check_conditions(player):
     explode_boulder(player)
     jump_puzzle(player)
     animal_puzzle(player)
+    light_dynamite(player)
     dead_to_dynamite(player)
     blow_out_torch(player)
 
@@ -438,6 +439,7 @@ def dead_to_dynamite(player):
         # check if dynamite is lit
         for i in player.inventory:
             if i.name == "dynamite" and i.ability == True:
+                print(i.ability)
                 print(
                     "You lit the dynamite in a room with nothing to place it in or on to effectively shield the blast. Any last words...?"
                 )
@@ -575,6 +577,19 @@ def animal_puzzle(player):
         )
         player.current_location.add_shorter_description(description)
 
+def light_dynamite(player):
+    for i in player.inventory:
+        if i.name == "matches":
+            for items in player.inventory:
+                if items.name == "dynamite":
+                    # add ability to dynamite
+                    items.can_activate_ability = True
+                    items.ability_on_description = (
+                        "You need matches to light the dynamite..."
+                    )
+                    items.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
+                    items.ability_on_description = ("The dynamite is lit... quick, place it on something!")
+
 
 def darkness_puzzle(player):
     """When the player enters Andrew room 2, a darkness puzzle minigame fires off. Essentially the player must input 'move right', 'move left',
@@ -593,7 +608,7 @@ def darkness_puzzle(player):
         curr_col = curr[1]
 
         # movement is invalid, player hits a wall
-        if curr_row < 0 or curr_col < 0 or board[curr_row][curr_col] == 1:
+        if curr_row < 0 or curr_col < 0 or board[curr_row][curr_col] == 1 or curr_row > 3 or curr_col > 3:
             print("You run into something hard, ouch! Can't move that way.")
             curr = prev
             return curr
@@ -621,10 +636,11 @@ def darkness_puzzle(player):
         # 0 = can move, 1 = wall, 2 = destination
         # start = (0, 0)
         board = [
-            [0, 1, 0, 0],
+            [0, 1, 0, 1],
             [0, 0, 0, 1],
             [0, 1, 0, 1],
             [0, 1, 0, 2],
+            [1, 1, 1, 1]
         ]
 
         # create directional movement representations
@@ -691,7 +707,7 @@ def darkness_puzzle(player):
 
         # give dynamite a description
         dynamite.add_description(
-            "A stick of explosive dynamite. Looks like it's still active, better be careful with fire around it and where I place it..."
+            "A stick of explosive dynamite. Looks like it's still active, but I'll need matches in my inventory to light it."
         )
 
         # create environmental description
@@ -703,12 +719,7 @@ def darkness_puzzle(player):
 
         # allow dynamite to be picked up
         dynamite.toggle_can_pick_up()
-        # add ability to dynamite
-        dynamite.can_activate_ability = True
-        dynamite.ability_on_description = (
-            "The dynamite is lit, quick, place it on something!"
-        )
-        dynamite.ability_off_description = "The dynamite is unlit... perhaps that's for the best unless I find something that needs blowing up. A giant rock maybe?"
+
         player.current_location.add_item_to_room(dynamite)
 
         # create darkness puzzle item to act as a pseudo breakout of the function so player doesn't have to replay this minigame
