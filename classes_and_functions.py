@@ -986,6 +986,13 @@ class Item:
             return
         self.weapon_power = integer
 
+    def remove_item_from_container(self, item):
+        """
+        Used to remove an item from its item container
+        """
+        if item in self.contains:
+            self.contains.remove(item)
+
 
 class Enemy:
     """
