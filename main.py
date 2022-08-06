@@ -10,12 +10,6 @@ from colorama import Fore, Back, Style
 colorama.init()
 
 
-# lan parser
-# combat
-
-
-
-
 
 def main():
     #    TREASURE TOMB
