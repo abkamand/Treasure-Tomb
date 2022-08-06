@@ -116,10 +116,10 @@ def water_room_statue(player):
                             Fore.YELLOW + "southern door") + '\033[39m' + ").")
                     input("Press Enter to return")
                     player.current_location.long_description = "The room has been flooded. All that remains is a pool of glistening " + (
-                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall(" + (
+                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
                                                                        Fore.YELLOW + "southern door") + '\033[39m' + ")."
                     player.current_location.shortened_description = "The room has been flooded. All that remains is a pool of glistening " + (
-                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall(" + (
+                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
                                                                             Fore.YELLOW + "southern door") + '\033[39m' + ")."
                     player.current_location.in_room = []
                     water = Item("water")
@@ -145,7 +145,7 @@ def green_room_mummy(player):
                 player.current_location.enemies.remove(enemies)
                 axe = Item("axe")
                 axe.add_description(
-                    "A powerful axe that fell from a vanquished mummy. Might come in handy. \n Power: 35")
+                    "A powerful axe that fell from a vanquished mummy. Might come in handy.\nPower: 35")
                 axe.toggle_can_pick_up()
                 axe.toggle_on_floor()
                 axe.toggle_is_weapon()
@@ -253,7 +253,7 @@ def green_room_patch(player):
     adventurer.add_description("The rotting corpse of an unlucky traveler.")
     packet = Item("packet")
     packet.add_description(
-        "It looks like a letter is attached to the packet. It's from the adventurer's grandma. It reads:\nMy dearest Jacob,\nI hope you are doing well. I know you are going on a very dangerous exploration, and I'm worried for you.\nWhile you are gone, I want you to be able to remember the taste of home.\nSo, in this packet I'm sending you the spices that go into my famous stew that you always love.\nRemember, all you need to do is add some tomatoes and onions into a bowl with water.\nThen, just add the spices in and put the bowl in the oven for 5 minutes.\n I hope you make it back safely, please come back soon!\n Love,\nGrandma")
+        "It looks like a letter is attached to the packet. It's from the adventurer's grandma. It reads:\nMy dearest Jacob,\nI hope you are doing well. I know you are going on a very dangerous exploration, and I'm worried for you.\nWhile you are gone, I want you to be able to remember the taste of home.\nSo, in this packet I'm sending you the spices that go into my famous stew that you always love.\nRemember, all you need to do is add some tomatoes and onions into a bowl with water.\nThen, just add the spices in and put the bowl in the oven for 5 minutes.\nI hope you make it back safely, please come back soon!\nLove,\nGrandma")
     packet.add_env_description("There is a small " + (
             Fore.WHITE + "packet") + '\033[39m' + " sticking out of the pocket of the dead adventurer's vest")
     packet.toggle_can_pick_up()
@@ -323,25 +323,25 @@ def blacksmith_room_chandelier(player):
     for items in player.current_location.in_room:
         if items.name == "chandelier":
             if items.ability == True:
-                print("You shoot your fiery arrows into the chandelier, lighting the candle at the center")
-                print("Suddenly, the room begins shaking! From the blazing furnace, an creature emerges!")
+                print("You shoot your fiery arrows into the chandelier, lighting the candle at the center.")
+                print("Suddenly, the room begins shaking! From the blazing furnace, a creature emerges!")
                 print("The creature has the head of an eagle, but the body of a man. He towers over you menacingly.")
                 print(
                     '"You should be proud of yourself, human. You have survived where none of your kind ever could," the creature says.')
                 print(
-                    '"However, your journey ends here. I am a guardian of this tomb, and a representative of the great goddess Nekhbet"')
+                    '"However, your journey ends here. I am a guardian of this tomb, and a representative of the great goddess Nekhbet."')
                 print(
                     '"While your courage has been admirable, I must perform my duty and slay you where you stand. Unless..."')
                 print("The guardian pauses for a moment.")
                 print('"By any chance do you know how to cook?" he asks curiously.')
                 print(
-                    '"I have been performing my duties defending this tomb for hundreds of years. Other than the occasional adventurer, I have not had real food in a long time"')
+                    '"I have been performing my duties defending this tomb for hundreds of years. Other than the occasional adventurer, I have not had real food in a long time."')
                 print(
                     '"If you can get me some good food, I will gladly allow you to live. I will also give you the key that you seek to find the treasure."')
                 print('"Return to me when you have what I want."')
                 input("Press Enter to return")
                 Guardian = Enemy("Guardian")
-                Guardian.description = "This guardian has been tasked with guarding this tomb for hundreds of years.\nHe is a represetnative of Nekhbet, a patron god of Upper Egypt.\nHe looks pretty powerful.I shouldn't mess with him."
+                Guardian.description = "This guardian has been tasked with defending this tomb for hundreds of years.\nHe is a representative of Nekhbet, a patron god of Upper Egypt.\nHe looks pretty powerful. I shouldn't mess with him."
                 Guardian.e_description = "The " + (
                         Fore.RED + "Guardian") + '\033[39m' + " patiently waits for you to retrive what he has requested."
                 Guardian.can_activate_ability = True
@@ -382,7 +382,7 @@ def blacksmith_room_make_stew(player):
         grannys_stew.description = "A delicious stew made with a special spice packet. Served in a helmet"
         grannys_stew.can_pick_up = True
         print("You cook the stew in the furnace for 5 minutes, just like that dead guy's granny said to do.")
-        print("Granny's stew has been added to your inventory")
+        print("Granny's stew has been added to your inventory.")
         input("Press Enter to return")
         player.inventory.append(grannys_stew)
         for items in player.current_location.in_room:
@@ -691,7 +691,7 @@ def darkness_puzzle(player):
 
         # give dynamite a description
         dynamite.add_description(
-            "A stick of explosive dynamite. Looks like its still active, better be careful with fire around it and where I place it..."
+            "A stick of explosive dynamite. Looks like it's still active, better be careful with fire around it and where I place it..."
         )
 
         # create environmental description
@@ -717,10 +717,10 @@ def darkness_puzzle(player):
 
         # update room description post-gameplay completion, room is now illuminated
         description = (
-            "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird."
+            "You are in the previously darkened chamber, which is now illuminated by a mystical light source... weird.\n"
             + "There appears to be a "
             + (Fore.CYAN + "mural")
-            + "\033[39m on the wall.\nI should probably inspect it before leaving."
+            + "\033[39m on the wall. I should probably inspect it before leaving."
             + "\nTo the south lies a doorway to the coffin room ("
             + (Fore.YELLOW + "southern corridor")
             + "\033[39m)."
@@ -745,7 +745,7 @@ def darkness_puzzle(player):
 
         # give boulder_carving a description
         boulder_carving.add_description(
-            "There are two murals on the wall, one, on the left, depicts a stick of dynamite placed on a giant boulder on the left, \nand on the right a mural depicts an open doorway with the boulder shattered to smithereens. Something to keep in mind..."
+            "There are two murals on the wall. One, on the left, depicts a stick of dynamite placed on a giant boulder, \nand on the right a mural depicts an open doorway with the boulder shattered to smithereens. Something to keep in mind..."
         )
 
         player.current_location.add_item_to_room(boulder_carving)
@@ -834,8 +834,8 @@ def explode_boulder(player):
                     if i.name == "dynamite" and i.ability == True:
                         print(
                             "You place the stick of dynamite near the rock, and run. The rock explodes, leaving an open doorway."
-                            + "\nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings in the northern room..."
-                            + "\nit must be in complete disarray."
+                            + "\nDefying the laws of physics, there's almost no damage in your current room, but you hear rumblings to the east..."
+                            + "\nIt must be in complete disarray."
                         )
                         # remove the boulder from the room
                         time.sleep(1)
@@ -859,7 +859,8 @@ def explode_boulder(player):
                             + "\033[39m"
                             + ").\nOn the eastern wall, where the boulder used to be, you spot a newly revealed eastern passage ("
                             + (Fore.YELLOW + "eastern corridor")
-                            + "\033[39m)."
+                            + "\033[39m).\nIn the southern corner of the room, lies a staircase leading back to Main Chamber (" + (
+                        Fore.YELLOW + "southern staircase") + "\033[39m" + ")."
                         )
                         # now add the description to the shortened_description attribute of the room
                         player.current_location.add_shorter_description(description)
