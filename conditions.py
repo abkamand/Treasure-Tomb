@@ -1111,44 +1111,49 @@ def cross_chasm(player):
     """
     When the user encounters the "chasm" in "mere cluster room 4", they must equip the whip to cross
     """
-    if player.current_location.name == "mere cluster room 4":           # check to see if the player is in the right room
-        if player.equipped == "whip":           #if the whip item is found, check if it's equipped
-            #if the whip is equipped, the player can cross the chasm
-            print("You carefully heft the whip in your hand, then take aim at the wooden bar above you.\nThe end of the whip coils around the bar, and you pull it tight.\n"
-                  "You back up a few steps, then run foreward and swing across the chasm.\nYou land safely on the other side, and pull the whip back down behind you.")
-                #brass sphinx should be added to room (on floor?)
-                #maybe a door on the far side of chasm - fake treasure room?
+    if player.current_location.name == "mere cluster room 4":       # check to see if the player is in the right room
+        for item in player.inventory:
+            if item.name == "whip" and player.equipped == item:
+                    for item in player.current_location.in_room: #room check if bridge then return if found
+                        if item.name == "bridge":
+                            return
+                    #if the whip item is found, check if the bridge is in the room
+                    #if the whip is equipped, and bridge not present, the player can cross the chasm
+                    print("You carefully heft the whip in your hand, then take aim at the wooden bar above you.\nThe end of the whip coils around the bar, and you pull it tight.\n"
+                    "You back up a few steps, then run foreward and swing across the chasm.\nYou land safely on the other side, and pull the whip back down behind you.")
+                    #brass sphinx should be added to room (on floor?)
+                    #maybe a door on the far side of chasm - fake treasure room?
 
-            input("Press Enter to return")
-            print("When you land on the far side of the chasm, you hear a click and the tile beneath your feet sinks slightly lower.\nYou hear a loud grinding sound, and a bridge slowly extends from the side of the chasm."
-                  "\nOnce it reaches the other side, it locks into place. The noise stops, and the room is quiet.")
-            input("Press Enter to return")
+                    input("Press Enter to return")
+                    print("When you land on the far side of the chasm, you hear a click and the tile beneath your feet sinks slightly lower.\nYou hear a loud grinding sound, and a bridge slowly extends from the side of the chasm."
+                    "\nOnce it reaches the other side, it locks into place. The noise stops, and the room is quiet.")
+                    input("Press Enter to return")
 
-            # update the shortened description for the room
-            description = "You hear the wind somewhere high overhead.\nThere is a large " + (
-                    Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room, with a bridge stretching across.\nThe " + (
-                    Fore.WHITE + "tile") + '\033[39m' + " at your feet seems a bit loose.\nThere is a small wooden door on the eastern wall (" + (
+                    # update the shortened description for the room
+                    description = "You hear the wind somewhere high overhead.\nThere is a large " + (
+                    Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room. There is a thin " + (
+                    Fore.WHITE + "bridge") + '\033[39m' + " stretching from one side to the other.\nThere is a small wooden door on the eastern wall (" + (
                                   Fore.YELLOW + "eastern door") + '\033[39m' + ")."
-            player.current_location.add_shorter_description(description)
+                    player.current_location.add_shorter_description(description)
 
-            # update the chasm description
-            chasm = Item("chasm")
-            # add description
-            chasm.add_description("A dark chasm. You can't see the bottom.\nThere is a thin bridge stretching from one side to the other.\nYou're not sure what it's made of, but it seems strong.")
-            # add the chasm to the room
-            player.current_location.add_item_to_room(chasm)
+                    # add the bridge
+                    bridge = Item("bridge")
+                    # add description
+                    bridge.add_description("A thin bridge stretching across the chasm. It was operated by some hidden mechanism.\nYou're not sure what it's made of, but it seems strong.")
+                    # add the chasm to the room
+                    player.current_location.add_item_to_room(bridge)
 
-            # add the tile description
-            tile = Item("tile")
-            # add description
-            tile.add_description("A ceramic tile, with a navy and gray pattern. It seems slightly different from all the others.\nIt feels a bit loose. You wonder if you could pick it up.")
-            # We need to give the tile an environmental description, since it can be picked up
-            tile.add_env_description("On the ground at your feet there is a " + (
+                    # add the tile
+                    tile = Item("tile")
+                    # add description
+                    tile.add_description("A ceramic tile, with a navy and gray pattern. It seems slightly different from all the others.\nIt feels a bit loose. You wonder if you could pick it up.")
+                    # We need to give the tile an environmental description, since it can be picked up
+                    tile.add_env_description("On the ground at your feet there is a " + (
                     Fore.WHITE + "tile") + '\033[39m' + " that seems to wobble a little when you step on it.")
-            # make it so we can pick up the tile
-            tile.toggle_can_pick_up()
-            # add the tile to the room
-            player.current_location.add_item_to_room(tile)
+                    # make it so we can pick up the tile
+                    tile.toggle_can_pick_up()
+                    # add the tile to the room
+                    player.current_location.add_item_to_room(tile)
 
 def item_under_tile(player):
     """

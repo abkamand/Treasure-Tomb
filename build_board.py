@@ -818,7 +818,7 @@ def build_the_board():
     Mere_Room_2.add_long_description(description)
 
     # create the shortened description for the room
-    description = "This room is littered with sticks and feathers. \nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is a dark doorway on the northern wall (" + (
+    description = "The room has a messy dirt floor. \nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is an elaborate " + (Fore.WHITE + "painting") + '\033[39m' + " covering the western wall.\nThere is a dark doorway on the northern wall (" + (
             Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
                           Fore.YELLOW + "southern door") + '\033[39m' + ")."
     Mere_Room_2.add_shorter_description(description)
@@ -840,13 +840,21 @@ def build_the_board():
     # add the enemy into the room
     Mere_Room_2.add_enemy_to_room(sphinx)
 
-    # add the nest to the room
+    # create the nest
     nest = Item("nest")
     # give it a description
     nest.add_description(
         "There is a large nest made of twigs and bits of cloth. There are many feathers lying in and around.\nYou think this must be where the sphinx slept.")
     # add the nest to the room
     Mere_Room_2.add_item_to_room(nest)
+
+    # create the painting
+    painting = Item("painting")
+    # give it a description
+    painting.add_description(
+        "There is a colorful painting stretching across the wall. It depicts a sphinx standing in the desert, with people around her.\nYou think it's the same sphinx who had been in the room.")
+    # add the painting to the room
+    Mere_Room_2.add_item_to_room(painting)
 
     # connect Mere_Room_2 with Mere_Room_1
     # use the add_adjacent_room function to add Mere_Room_2 as the room on the north wall of Mere_Room_1
@@ -903,6 +911,14 @@ def build_the_board():
     figurine.toggle_can_pick_up()
     # add the figurine into the room
     Mere_Room_3.add_item_to_room(figurine)
+
+    # create the mushrooms
+    mushrooms = Item("mushrooms")
+    # give it a description
+    mushrooms.add_description(
+        "There is a patch of mushrooms in the southeastern corner. They seem to like the damp earth.\nThe mushrooms are glowing faintly. You think it would be best to leave them alone.")
+    # add the mushrooms to the room
+    Mere_Room_2.add_item_to_room(mushrooms)
 
     # connect Mere_Room_3 with Mere_Room_2
     # use the add_adjacent_room function to add Mere_Room_3 as the room on the north wall of Mere_Room_2
