@@ -107,7 +107,7 @@ class Room:
 
     def language_parser(self, user_input):
         activate_replacements_one_word = ["use", "light", "cut", "ignite", "dig", "chop", "shoot", "talk", "speak"]
-        activate_replacements_multiple_word = ["jump to", "talk to", "interact with", "turn on", "switch on",
+        activate_replacements_multiple_word = ["jump to", "jump on", "talk to", "interact with", "turn on", "switch on",
                                                "cut down",
                                                "dig up", "shoot at", "chop down", "speak to"]
         replaced = False

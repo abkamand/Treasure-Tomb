@@ -235,7 +235,7 @@ def build_the_board():
     onion.toggle_can_consume()
     onion.set_consumable_effect(5)
 
-    tomato = Item("tomato")
+    tomato = Item("tomatoes")
     tomato.add_description("A juicy tomato")
     tomato.add_env_description((Fore.BLUE + "Tomatoes") + '\033[39m' + " hang from vines on the ceiling.")
     tomato.toggle_can_pick_up()
@@ -648,14 +648,14 @@ def build_the_board():
     python_figurine.toggle_can_pick_up()
 
     # create python pedestal
-    python_pedestal = Item("python pedestal")
+    python_pedestal = Item("snake pedestal")
     # add description
     python_pedestal.add_description(
         "A pedestal with an open space made for an object. The base of the pedestal depicts a dead python with a prominent skull front and center."
     )
     # allow items sto be placed in the pedestal
     python_pedestal.can_contain = True
-
+    python_pedestal.container_type = "holding"
     # Create the item objects we will need for the Python, Alligator, Eagle puzzle
 
     # create alligator figurine object
@@ -682,6 +682,7 @@ def build_the_board():
     )
     # allow items to be placed in the pedestal
     alligator_pedestal.can_contain = True
+    alligator_pedestal.container_type = "holding"
 
     # create eagle figurine object
     eagle_figurine = Item("eagle figurine")
@@ -707,6 +708,7 @@ def build_the_board():
     )
     # allow items to be placed in the pedestal
     eagle_pedestal.can_contain = True
+    eagle_pedestal.container_type = "holding"
 
     # add items to the room
     West_four.add_item_to_room(animal_carving)
@@ -977,14 +979,6 @@ def build_the_board():
     Mere_Room_1.add_adjacent_room("west", Mere_Room_4)
     # since Mere_Room_4 is on the west wall of Mere_Room_1, that means Mere_Room_1 is east of Mere_Room_4
     Mere_Room_4.add_adjacent_room("east", Mere_Room_1)
-
-
-
-
-
-
-
-
 
 
 
