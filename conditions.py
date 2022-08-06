@@ -1226,6 +1226,9 @@ def give_jackal_fish(player):
                         player.current_location.add_item_to_room(coin)
                         coin.toggle_can_pick_up()
 
+                        if player.in_combat != None:
+                            player.in_combat = None
+
 
 def cross_chasm(player):
     """
