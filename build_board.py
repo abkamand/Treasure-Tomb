@@ -406,7 +406,7 @@ def build_the_board():
 
     # create the shortened description for the room, will be displayed when you are visiting a room you have been to
     description = (
-            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
+            "You enter a dark room with a pile of coffins and treasures in the corner.\nOne appears wooden ("
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
             + " and ripped open, one appears metallic ("
@@ -823,7 +823,7 @@ def build_the_board():
     Mere_Room_2 = Room("mere cluster room 2")
 
     # create the long description
-    description = "This room is littered with small sticks and feathers.\nThere is a dark doorway on the northern wall (" + (
+    description = "This room has a low ceiling and is littered with small sticks and feathers. It has an irregular floor, with dirt and debris scattered haphazardly around.\nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is an elaborate " + (Fore.WHITE + "painting") + '\033[39m' + " covering the western wall.\nThere is a dark doorway on the northern wall (" + (
             Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
                           Fore.YELLOW + "southern door") + '\033[39m' + ")."
     Mere_Room_2.add_long_description(description)
