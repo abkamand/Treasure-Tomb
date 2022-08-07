@@ -1084,7 +1084,7 @@ def sapphire_from_sphinx(player):
         for enemies in player.current_location.enemies:  # iterate through enemies to see if the sphinx is 'dead'
             if enemies.name == "sphinx" and enemies.is_dead == True:  # name must match and must be dead
                 print(
-                    'The sphinx squawks, "You are correct" and flaps its wings, raising a large cloud of dust.\nYou cough and cover your eyes.\nWhen you look back up, she has vanished.')
+                    'The sphinx squawks, "You are correct" and flaps her wings, raising a large cloud of dust.\nYou cough and cover your eyes.\nWhen you look back up, she has vanished.')
                 print('There is a smooth blue sphere resting on the floor where the sphinx was standing.')
 
                 # now remove the sphinx from the room so that this condition does not trigger again next time you
@@ -1110,8 +1110,8 @@ def check_for_dark_room(player):
     When the user encounters the "dark room" in "mere cluster room 3", they must have the lantern activated to progress
     """
     if player.current_location.name == "mere cluster room 3":  # check to see if the player is in the right room
-        for item in player.inventory:  # check all the items in the player inventory
-            if item.name == "torch" and item.ability == True:  # if the torch item is found, check if it's turned on
+        for item in player.inventory:                           # check all the items in the player inventory
+            if item.name == "torch" and item.ability != False:  # if the torch item is found, check if it's turned on
                 # if the torch item is found and turned on, then the room description should print
                 player.current_location.add_long_description(
                     "The torch lights up the darkness and illuminates the room.\nIt seems to have a rocky floor, and water drips down the walls.\nIt smells a bit dank and unpleasant.\n"
@@ -1120,7 +1120,50 @@ def check_for_dark_room(player):
                 player.current_location.add_shorter_description(
                     "The torch lights up the darkness and illuminates the room.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
                                 Fore.YELLOW + "southern door") + '\033[39m' + ").")
+
+                #if the room is lit up, show all the items
+                # create the rocks
+                rocks = Item("rocks")
+                # add description
+                rocks.add_description("A bunch of rocks. They are smooth, grey, and a bit damp.")
+                # add environmental description
+                rocks.add_env_description("There is a pile of " + (
+                        Fore.WHITE + "rocks") + '\033[39m' + " in the corner. It looks like it was placed there on purpose.")
+                rocks.toggle_can_pick_up()
+                # add the rocks into the room
+                player.current_location.add_item_to_room(rocks)
+
+                # create the soil
+                soil = Item("soil")
+                # add description
+                soil.add_description("A patch of wet earth. It looks like it was recently disturbed.")
+                # add environmental description
+                soil.add_env_description("There is a wet patch of " + (
+                        Fore.WHITE + "soil") + '\033[39m' + " near the wall. It looks like it was recently disturbed.")
+                soil.toggle_can_pick_up()
+                # add the soil into the room
+                player.current_location.add_item_to_room(soil)
+
+                # create the figurine
+                figurine = Item("figurine")
+                # add description
+                figurine.add_description("A small figure of a cat. It is black, with a gold necklace.")
+                # add environmental description
+                figurine.add_env_description("There is a small " + (
+                        Fore.WHITE + "figurine") + '\033[39m' + " lying on the floor. It looks like a black cat.")
+                figurine.toggle_can_pick_up()
+                # add the figurine into the room
+                player.current_location.add_item_to_room(figurine)
+
+                # create the mushrooms
+                mushrooms = Item("mushrooms")
+                # give it a description
+                mushrooms.add_description(
+                    "There is a patch of mushrooms in the southeastern corner. They seem to like the damp earth.\nThe mushrooms are glowing faintly. You think it would be best to leave them alone.")
+                # add the mushrooms to the room
+                player.current_location.add_item_to_room(mushrooms)
                 return
+
         # if the torch item is not found or is not turned on, then only an error message about the darkness
         # also need to show the room they previously came from so they can leave again
         player.current_location.add_long_description(

@@ -888,47 +888,6 @@ def build_the_board():
     description = "It is very dark and oppressive.\nYou can't go further without a light."
     Mere_Room_3.add_shorter_description(description)
 
-    # create the rocks
-    rocks = Item("rocks")
-    # add description
-    rocks.add_description("A bunch of rocks. They are smooth, grey, and a bit damp.")
-    # add environmental description
-    rocks.add_env_description("There is a pile of " + (
-            Fore.WHITE + "rocks") + '\033[39m' + " in the corner. It looks like it was placed there on purpose.")
-    rocks.toggle_can_pick_up()
-    # add the rocks into the room
-    Mere_Room_3.add_item_to_room(rocks)
-
-    # create the soil
-    soil = Item("soil")
-    # add description
-    soil.add_description("A patch of wet earth. It looks like it was recently disturbed.")
-    # add environmental description
-    soil.add_env_description("There is a wet patch of " + (
-            Fore.WHITE + "soil") + '\033[39m' + " near the wall. It looks like it was recently disturbed.")
-    soil.toggle_can_pick_up()
-    # add the soil into the room
-    Mere_Room_3.add_item_to_room(soil)
-
-    # create the figurine
-    figurine = Item("figurine")
-    # add description
-    figurine.add_description("A small figure of a cat. It is black, with a gold necklace.")
-    # add environmental description
-    figurine.add_env_description("There is a small " + (
-            Fore.WHITE + "figurine") + '\033[39m' + " lying on the floor. It looks like a black cat.")
-    figurine.toggle_can_pick_up()
-    # add the figurine into the room
-    Mere_Room_3.add_item_to_room(figurine)
-
-    # create the mushrooms
-    mushrooms = Item("mushrooms")
-    # give it a description
-    mushrooms.add_description(
-        "There is a patch of mushrooms in the southeastern corner. They seem to like the damp earth.\nThe mushrooms are glowing faintly. You think it would be best to leave them alone.")
-    # add the mushrooms to the room
-    Mere_Room_2.add_item_to_room(mushrooms)
-
     # connect Mere_Room_3 with Mere_Room_2
     # use the add_adjacent_room function to add Mere_Room_3 as the room on the north wall of Mere_Room_2
     Mere_Room_2.add_adjacent_room("north", Mere_Room_3)
