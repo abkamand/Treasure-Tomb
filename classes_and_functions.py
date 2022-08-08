@@ -48,7 +48,7 @@ class Room:
 
         # print the items in the room that are not on the floor (original place)
         for items in self.in_room:
-            if not items.on_floor and items.can_pick_up:
+            if not items.on_floor and items.can_pick_up and items.e_description != None:
                 print(items.e_description)
 
         # print the items on the floor
