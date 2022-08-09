@@ -632,6 +632,7 @@ def animal_puzzle(player):
         message_played == True
 
 
+
 def light_dynamite(player):
     matches_in_inventory = False
     dynamite_in_inventory = False
