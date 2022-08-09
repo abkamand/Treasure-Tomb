@@ -161,7 +161,7 @@ def build_the_board():
                                                    "the wall.\nHis body is wrapped in decaying cloth and rusted "
                                                    "armor. He walks menacingly towards you.")
     # set its HP
-    water_mummy.set_HP(25)
+    water_mummy.set_HP(75)
     # set its moves and the moves'
     water_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his sword, slashing downward with its withered hands!",
@@ -252,7 +252,7 @@ def build_the_board():
     green_mummy.add_env_description("You hear a rumbling from underneath you, and a " + (
             Fore.RED + "mummy") + '\033[39m' + " emerges from the soil in front of you. He charges at you with an axe.")
     # set its HP
-    green_mummy.set_HP(25)
+    green_mummy.set_HP(75)
     # set its moves and the moves'
     green_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his axe, slashing downward with its withered hands!",
@@ -349,7 +349,7 @@ def build_the_board():
     armored_mummy.add_env_description("The armored " + (Fore.RED + "mummy") + '\033[39m' + " waits for you to challenge him.")
 
     # set its HP
-    armored_mummy.set_HP(25)
+    armored_mummy.set_HP(100)
     # set its moves and the moves'
     armored_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his broadsword, swinging widly and knocking you down!",
@@ -382,7 +382,7 @@ def build_the_board():
             + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears wooden ("
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
-            + " and ripped open,\none is metallic ("
+            + " and ripped open, one is metallic ("
             + (Fore.CYAN + "metallic coffin")
             + "\033[39m)"
             + ", and the third is small ("
@@ -433,7 +433,7 @@ def build_the_board():
     # give the wooden coffin a description
     wooden_coffin.add_description(
         "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of "
-        + (Fore.GREEN + "matches") + "\033[39m."
+        + (Fore.MAGENTA + "matches") + "\033[39m."
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
@@ -441,7 +441,7 @@ def build_the_board():
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
-        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening."
+        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
     )
 
     # create small coffin
@@ -588,7 +588,7 @@ def build_the_board():
 
     # create long description
     description = (
-            "A luxurious chamber greets you, the floors and walls are pristine.\nThe mummy janitor clearly spent a lot of time here."
+            "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
             + "From afar, you spot what appears to be an "
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
@@ -638,7 +638,7 @@ def build_the_board():
     # add description
     animal_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
-        + "\nan eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
+        + "an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
     )
 
     # create python figurine object
