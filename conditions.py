@@ -510,7 +510,6 @@ def blow_out_torch(player):
                 # de-activate torch
                 i.ability = False
 
-
 def animal_puzzle(player):
     """In Andrew Room 4, player must pick up the python, alligator, and eagle figurine, and place them on the correct pedestal, solving
     an ouroboros predator trifecta of sorts. The correct pairings: Python Pedestal: Eagle Figurine | Eagle Pedestal: Alligator Figurine |
@@ -519,6 +518,7 @@ def animal_puzzle(player):
     python_puzzle = False
     eagle_puzzle = False
     alligator_puzzle = False
+    message_played = False
 
     # check if player is in Andrew room 4
     if player.current_location.name == "Andrew 4":
@@ -534,7 +534,7 @@ def animal_puzzle(player):
     if player.current_location.name == "Andrew 4":
         for items in player.current_location.in_room:
             # check if python pedestal is solved or if the player has placed a figurine upon it
-            if items.name == "snake pedestal" and python_puzzle == False:
+            if items.name == "snake pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "alligator figurine":
@@ -542,23 +542,24 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "eagle figurine":
+                    elif i.name == "eagle figurine" and python_puzzle == False:
                         print(
                             "The eagle's eyes light up and it locks in place the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         python_solved = Item("python_solved")
                         player.current_location.add_item_to_room(python_solved)
                         python_puzzle = True
                         i.toggle_can_pick_up()
 
             # check if eagle pedestal is solved or figurine placed
-            if items.name == "eagle pedestal" and eagle_puzzle == False:
+            if items.name == "eagle pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "eagle figurine":
@@ -566,23 +567,24 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "alligator figurine":
+                    elif i.name == "alligator figurine" and eagle_puzzle == False:
                         print(
                             "The alligator's eyes light up and it locks in place the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         eagle_solved = Item("eagle_solved")
                         player.current_location.add_item_to_room(eagle_solved)
                         eagle_puzzle = True
                         i.toggle_can_pick_up()
 
             # check if eagle pedestal is solved or figurine placed
-            if items.name == "alligator pedestal" and alligator_puzzle == False:
+            if items.name == "alligator pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "alligator figurine" or i.name == "eagle figurine":
@@ -590,27 +592,28 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "python figurine":
+                    elif i.name == "python figurine" and alligator_puzzle == False:
                         print(
                             "The python's eyes light and it locks in place up the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         alligator_solved = Item("alligator_solved")
                         player.current_location.add_item_to_room(alligator_solved)
                         alligator_puzzle = True
                         i.toggle_can_pick_up()
 
     # check if all 3 puzzles have been solved, if so, give the player the diamond key and update room description
-    if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True:
+    if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True and message_played == False:
         print(
-            "A hole in the ceiling appears and a key in the shape of a crocodile falls right into the palm of your hand.\nSeems useful... but where? Better keep it for now"
+            "A hole in the ceiling appears and a key in the shape of a crocodile falls right into the palm of your hand.\nSeems useful... but where? Better keep it for now."
         )
-        time.sleep(1)
+        time.sleep(1.5)
         crocodile_key = Item("Crocodile Key")
         crocodile_key.description = "a bronze key in the shape of a crocodile"
         crocodile_key.toggle_can_pick_up()
@@ -626,6 +629,7 @@ def animal_puzzle(player):
                 + "\033[39m)."
         )
         player.current_location.add_shorter_description(description)
+        message_played == True
 
 
 def light_dynamite(player):
@@ -1272,6 +1276,7 @@ def give_jackal_fish(player):
                         # add the item into the room
                         player.current_location.add_item_to_room(coin)
                         coin.toggle_can_pick_up()
+                        player.in_combat = None
 
 
 def cross_chasm(player):
