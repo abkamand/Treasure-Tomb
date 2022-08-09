@@ -19,20 +19,20 @@ def build_the_board():
     Main_Chamber = Room("Main Chamber")
 
     description = "After hours of trekking through the dank and dangerous caverns, you finally arrive at the tomb you've been looking for.\nYou walk into a large chamber, filled with ornate decorations and paintings on the ceiling.\nThere appears to be a giant " + (
-            Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy golden door with a depiction of an eagle on it (" + (
+            Fore.CYAN + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy golden door with a depiction of an eagle on it (" + (
                           Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
                           Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
                           Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
-                          Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
+                          Fore.CYAN + "corpse") + '\033[39m' + " of a man lays in the center of the room."
 
     Main_Chamber.add_long_description(description)
 
     description = "A vast room full of ornate decorations.\nThere appears to be a giant " + (
-            Fore.WHITE + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy golden door with a depiction of an eagle on it (" + (
+            Fore.CYAN + "mosaic") + '\033[39m' + " on the floor.\nOn the eastern wall, there is a heavy golden door with a depiction of an eagle on it (" + (
                           Fore.YELLOW + "eastern door") + '\033[39m' + ").\nOn the northern wall, there is a staircase leading into the depths of the tomb, with a carving of a crocodile at the top of the stairs (" + (
                           Fore.YELLOW + "northern staircase") + '\033[39m' + ").\nOn the western wall, there is another golden door. This one has the image of a sphinx carved into it (" + (
                           Fore.YELLOW + "western door") + '\033[39m' + ").\nWhat appears to be the " + (
-                          Fore.WHITE + "corpse") + '\033[39m' + " of a man lays in the center of the room."
+                          Fore.CYAN + "corpse") + '\033[39m' + " of a man lays in the center of the room."
 
     Main_Chamber.add_shorter_description(description)
 
@@ -40,6 +40,8 @@ def build_the_board():
 
     mosaic.add_description(
         "This mosaic depicts a pharaoh standing on a stage above his subordinates.\nHe is holding a large, red diamond above his head.\nThe crowd amassed at his feet appears to be worshipping him.\nAbove the diamond, there are 3 indentations in the shape of an eagle, a crocodile, and a sphinx.\nIt looks like you could fill in those indentations with the right piece of the mosaic...")
+    mosaic.can_contain = True
+    mosaic.container_type = "contains"
 
     corpse = Item("corpse")
     corpse.add_description(
@@ -49,7 +51,7 @@ def build_the_board():
     note.add_description(
         "This is a note that was next to the corpse in the Main Chamber.\nIt says TURN BACK OR YOU WILL DIE! ")
     note.add_env_description("On the ground next to the corpse there is a " + (
-            Fore.WHITE + "note") + '\033[39m' + " written on a piece of paper.")
+            Fore.GREEN + "note") + '\033[39m' + " written on a piece of paper.")
     note.toggle_can_pick_up()
 
     sword = Item("sword")
@@ -64,7 +66,7 @@ def build_the_board():
     torch = Item("torch")
     torch.add_description("This is a torch that can be used to illuminate rooms that are dark.")
     torch.add_env_description(
-        "There is a " + (Fore.WHITE + "torch") + '\033[39m' + " on the ground next to the corpse.")
+        "There is a " + (Fore.GREEN + "torch") + '\033[39m' + " on the ground next to the corpse.")
     torch.toggle_can_activate_ability()
     torch.add_ability_on_description("The torch has been lit and is glowing brightly.")
     torch.add_ability_off_description("The torch has been put out.")
@@ -95,11 +97,11 @@ def build_the_board():
     description = "You're in a dim and damp room with white limestone walls surrounding you on all sides. The smell " \
                   "of mildew and death lingers in the air. \nAs the door closes behind you, you hear a low-pitched " \
                   "moan emanate from the corner of the room.\nYou scan the room, making out a large " + (
-                          Fore.WHITE + "statue") + '\033[39m' + " in the center of the room.\n" + (
-                          Fore.WHITE + "Carvings") + '\033[39m' + " adorn the walls of the room, depicting a map of a " \
+                          Fore.CYAN + "statue") + '\033[39m' + " in the center of the room.\n" + (
+                          Fore.CYAN + "Carvings") + '\033[39m' + " adorn the walls of the room, depicting a map of a " \
                                                                   "large river and several inscriptions. Below the " \
                                                                   "statue, there is an ornate " + (
-                          Fore.WHITE + "sink") + '\033[39m' + " with a faucet in the shape of a waterfall.\nHigh above " \
+                          Fore.CYAN + "sink") + '\033[39m' + " with a faucet in the shape of a waterfall.\nHigh above " \
                                                               "you, there is a door on the southern wall. There " \
                                                               "appears to be no way to reach it. On the western wall, " \
                                                               "there is a door leading back to the " + (
@@ -107,9 +109,9 @@ def build_the_board():
     Water_Room.add_long_description(description)
 
     description = "A damp room containing a " + (
-            Fore.WHITE + "statue") + '\033[39m' + " in the center of the room.\nThere is a " + (
-                          Fore.WHITE + "sink") + '\033[39m' + " at the base of the statue.\n" + (
-                          Fore.WHITE + "Carvings") + '\033[39m' + " decorate the walls.\nThere is a door high above " \
+            Fore.CYAN + "statue") + '\033[39m' + " in the center of the room.\nThere is a " + (
+                          Fore.CYAN + "sink") + '\033[39m' + " at the base of the statue.\n" + (
+                          Fore.CYAN + "Carvings") + '\033[39m' + " decorate the walls.\nThere is a door high above " \
                                                                   "you on the southern wall, with no way to get to " \
                                                                   "it. On the western wall, there is a door leading " \
                                                                   "back to the " + (
@@ -142,7 +144,7 @@ def build_the_board():
     chalice = Item("chalice")
     chalice.add_description(
         "A golden chalice. Looks like it used to be fit for a king, but now it's old and rusted.")
-    chalice.add_env_description("In the sink there is a golden " + (Fore.WHITE + "chalice") + '\033[39m' + ".")
+    chalice.add_env_description("In the sink there is a golden " + (Fore.GREEN + "chalice") + '\033[39m' + ".")
     chalice.toggle_can_pick_up()
     chalice.can_contain = True
     chalice.container_type = "holding"
@@ -193,16 +195,16 @@ def build_the_board():
     Green_Room = Room("Green Room")
 
     description = "You're in a large chamber with vegetation and grass covering every inch of the floor and walls.\nHow are all of these things growing down here?\nThere is a large oak " + (
-            Fore.WHITE + "tree") + '\033[39m' + " in the center of the room.\nOn the ground, there is a " + (
-                          Fore.WHITE + "patch") + '\033[39m' + " of grass covered in dirt. Looks like something is buried there.\nThere are " + (
-                          Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+            Fore.CYAN + "tree") + '\033[39m' + " in the center of the room.\nOn the ground, there is a " + (
+                          Fore.CYAN + "patch") + '\033[39m' + " of grass covered in dirt. Looks like something is buried there.\nThere are " + (
+                          Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                           Fore.YELLOW + "northern door") + '\033[39m' + ")."
     Green_Room.add_long_description(description)
 
     description = "A large room filled with grass and vegetation.\nThere is a large oak " + (
-            Fore.WHITE + "tree") + '\033[39m' + " in the center of the room and a " + (
-                          Fore.WHITE + "patch") + '\033[39m' + " of grass covered in dirt that looks like you can dig it up.\nThere are " + (
-                          Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+            Fore.CYAN + "tree") + '\033[39m' + " in the center of the room and a " + (
+                          Fore.CYAN + "patch") + '\033[39m' + " of grass covered in dirt that looks like you can dig it up.\nThere are " + (
+                          Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                           Fore.YELLOW + "northern door") + '\033[39m' + ")."
     Green_Room.add_shorter_description(description)
 
@@ -293,14 +295,14 @@ def build_the_board():
     Blacksmith_Room = Room("Blacksmith Room")
 
     description = 'You enter a sweltering chamber with a stone ' + (
-                Fore.WHITE + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (Fore.YELLOW + "passageway") + '\033[39m' + '.\nA beautiful ' + (
-                              Fore.WHITE + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
-                              Fore.WHITE + "carvings") + '\033[39m' + ' adorn the walls.\nNext to the furnace, a massive armored figure with a dome-shaped helmet hammers a piece of steel on an anvil. As you enter, the figure turns towards you. Another ' + (Fore.RED + "mummy") + '\033[39m' + '. \nThe mummy bellows, "You have desecrated this sacred place! Choose your weapon and challenge me!\nWell, this is not good. Better choose a weapon.\nThese weapons are hanging on the wall beside you: '
+                Fore.CYAN + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (Fore.YELLOW + "passageway") + '\033[39m' + '.\nA beautiful ' + (
+                              Fore.CYAN + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
+                              Fore.CYAN + "carvings") + '\033[39m' + ' adorn the walls.\nNext to the furnace, a massive armored figure with a dome-shaped helmet hammers a piece of steel on an anvil. As you enter, the figure turns towards you. Another ' + (Fore.RED + "mummy") + '\033[39m' + '. \nThe mummy bellows, "You have desecrated this sacred place! Choose your weapon and challenge me!\nWell, this is not good. Better choose a weapon.\nThese weapons are hanging on the wall beside you: '
     Blacksmith_Room.add_long_description(description)
 
-    description = 'A sweltering room with a stone ' + (Fore.WHITE + "furnace") + '\033[39m' + ' at the far end of the room.\nBehind you is the underground ' + (Fore.YELLOW + "passageway") + '\033[39m' + '. A beautiful ' + (
-                              Fore.WHITE + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
-                              Fore.WHITE + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the walls: '
+    description = 'A sweltering room with a stone ' + (Fore.CYAN + "furnace") + '\033[39m' + ' at the far end of the room.\nBehind you is the underground ' + (Fore.YELLOW + "passageway") + '\033[39m' + '. A beautiful ' + (
+                              Fore.CYAN + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
+                              Fore.CYAN + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the walls: '
     Blacksmith_Room.add_shorter_description(description)
 
     furnace = Item("furnace")
@@ -380,7 +382,7 @@ def build_the_board():
             + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears wooden ("
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
-            + " and ripped open, one is metallic ("
+            + " and ripped open,\none is metallic ("
             + (Fore.CYAN + "metallic coffin")
             + "\033[39m)"
             + ", and the third is small ("
@@ -404,7 +406,7 @@ def build_the_board():
 
     # create the shortened description for the room, will be displayed when you are visiting a room you have been to
     description = (
-            "You enter a dark room with a pile of coffins and treasures in the corner.\nOne appears wooden ("
+            "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
             + " and ripped open, one appears metallic ("
@@ -430,8 +432,8 @@ def build_the_board():
     wooden_coffin = Item("wooden coffin")
     # give the wooden coffin a description
     wooden_coffin.add_description(
-        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of " 
-        + (Fore.MAGENTA + "matches") + "\033[39m."
+        "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of "
+        + (Fore.GREEN + "matches") + "\033[39m."
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
@@ -439,7 +441,7 @@ def build_the_board():
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
-        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
+        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening."
     )
 
     # create small coffin
@@ -586,7 +588,7 @@ def build_the_board():
 
     # create long description
     description = (
-            "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
+            "A luxurious chamber greets you, the floors and walls are pristine.\nThe mummy janitor clearly spent a lot of time here."
             + "From afar, you spot what appears to be an "
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
@@ -636,7 +638,7 @@ def build_the_board():
     # add description
     animal_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
-        + "an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
+        + "\nan eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
     )
 
     # create python figurine object
@@ -762,9 +764,9 @@ def build_the_board():
 
     # create the long description
     description = "This is the room to the west of the Main Chamber. It smells dusty and damp.\nThere are large pillars lining the walls.\nIt feels like the entrance to an ancient temple.\nThere is a " + (
-                Fore.WHITE + "black patch") + '\033[39m' + " on the floor in the corner." \
+                Fore.CYAN + "black patch") + '\033[39m' + " on the floor in the corner." \
                                                            "\nThere is a row of " + (
-                              Fore.WHITE + "candles") + '\033[39m' + " along the southern wall.\nThere is a blue door on the northern wall (" + (
+                              Fore.CYAN + "candles") + '\033[39m' + " along the southern wall.\nThere is a blue door on the northern wall (" + (
                           Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a small wooden door on the western wall (" + (
                           Fore.YELLOW + "western door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
                           Fore.YELLOW + "eastern door") + '\033[39m' + ")."
@@ -772,8 +774,8 @@ def build_the_board():
 
     # create the shortened description for the room
     description = "This is the room to the west of the Main Chamber. \nThere is a " + (
-                Fore.WHITE + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
-                              Fore.WHITE + "candles") + '\033[39m' + " along " \
+                Fore.CYAN + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
+                              Fore.CYAN + "candles") + '\033[39m' + " along " \
                                                                      "the southern wall. \nThere is a blue door on the northern wall (" + (
                               Fore.YELLOW + "northern door") + '\033[39m' + ").\n" \
                                                                             "There is a small wooden door on the western wall (" + (
@@ -821,13 +823,13 @@ def build_the_board():
     Mere_Room_2 = Room("mere cluster room 2")
 
     # create the long description
-    description = "This room has a low ceiling and is littered with small sticks and feathers. It has an irregular floor, with dirt and debris scattered haphazardly around.\nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is an elaborate " + (Fore.WHITE + "painting") + '\033[39m' + " covering the western wall.\nThere is a dark doorway on the northern wall (" + (
+    description = "This room is littered with small sticks and feathers.\nThere is a dark doorway on the northern wall (" + (
             Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
                           Fore.YELLOW + "southern door") + '\033[39m' + ")."
     Mere_Room_2.add_long_description(description)
 
     # create the shortened description for the room
-    description = "The room has a messy dirt floor. \nThere is a huge " + (Fore.WHITE + "nest") + '\033[39m' + " in the corner.\nThere is an elaborate " + (Fore.WHITE + "painting") + '\033[39m' + " covering the western wall.\nThere is a dark doorway on the northern wall (" + (
+    description = "The room has a messy dirt floor. \nThere is a huge " + (Fore.CYAN + "nest") + '\033[39m' + " in the corner.\nThere is an elaborate " + (Fore.CYAN + "painting") + '\033[39m' + " covering the western wall.\nThere is a dark doorway on the northern wall (" + (
             Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a blue door on the southern wall (" + (
                           Fore.YELLOW + "southern door") + '\033[39m' + ")."
     Mere_Room_2.add_shorter_description(description)
@@ -888,6 +890,48 @@ def build_the_board():
     description = "It is very dark and oppressive.\nYou can't go further without a light."
     Mere_Room_3.add_shorter_description(description)
 
+    # create the rocks
+    rocks = Item("rocks")
+    # add description
+    rocks.add_description("A bunch of rocks. They are smooth, grey, and a bit damp.")
+    # add environmental description
+    rocks.add_env_description("There is a pile of " + (
+            Fore.GREEN + "rocks") + '\033[39m' + " in the corner. It looks like it was placed there on purpose.")
+    rocks.toggle_can_pick_up()
+    # add the rocks into the room
+    Mere_Room_3.add_item_to_room(rocks)
+
+    # create the soil
+    soil = Item("soil")
+    # add description
+    soil.add_description("A patch of wet earth. It looks like it was recently disturbed.")
+    # add environmental description
+    soil.add_env_description("There is a wet patch of " + (
+            Fore.GREEN + "soil") + '\033[39m' + " near the wall. It looks like it was recently disturbed.")
+    soil.toggle_can_pick_up()
+    # add the soil into the room
+    Mere_Room_3.add_item_to_room(soil)
+
+    # create the figurine
+    figurine = Item("figurine")
+    # add description
+    figurine.add_description("A small figure of a cat. It is black, with a gold necklace.")
+    # add environmental description
+    figurine.add_env_description("There is a small " + (
+            Fore.GREEN + "figurine") + '\033[39m' + " lying on the floor. It looks like a black cat.")
+    figurine.toggle_can_pick_up()
+    # add the figurine into the room
+    Mere_Room_3.add_item_to_room(figurine)
+
+    # create the mushrooms
+    mushrooms = Item("mushrooms")
+    # give it a description
+    mushrooms.add_description(
+        "The mushrooms are glowing faintly. You think it would be best to leave them alone.")
+    mushrooms.add_env_description("There is a patch of " + (Fore.BLUE + "mushrooms") + '\033[39m' + " in the southeastern corner. They seem to like the damp earth.\nThe mushrooms are glowing faintly. You think it would be best to leave them alone.")
+    # add the mushrooms to the room
+    Mere_Room_2.add_item_to_room(mushrooms)
+
     # connect Mere_Room_3 with Mere_Room_2
     # use the add_adjacent_room function to add Mere_Room_3 as the room on the north wall of Mere_Room_2
     Mere_Room_2.add_adjacent_room("north", Mere_Room_3)
@@ -907,13 +951,13 @@ def build_the_board():
     # create the long description
     description = "This room is very long and skinny. It looks twice as long as the other rooms.\nYou smell fresh air and hear a breeze far above you.\nYou can barely make out the shapes of bats fluttering far overhead.\nThere must be an opening to the outside somewhere.\n" \
                   "There is a large " + (
-                          Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room stretching from wall to wall.\nThere is a wooden bar above the chasm, but it's too high to reach.\nThere is a small wooden door on the eastern wall (" + (
+                          Fore.CYAN + "chasm") + '\033[39m' + " in the middle of the room stretching from wall to wall.\nThere is a wooden bar above the chasm, but it's too high to reach.\nThere is a small wooden door on the eastern wall (" + (
                           Fore.YELLOW + "eastern door") + '\033[39m' + ")."
     Mere_Room_4.add_long_description(description)
 
     # create the shortened description for the room
     description = "You hear the wind somewhere high overhead.\nThere is a large " + (
-            Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room.\nThere is a small wooden door on the eastern wall (" + (
+            Fore.CYAN + "chasm") + '\033[39m' + " in the middle of the room.\nThere is a small wooden door on the eastern wall (" + (
                           Fore.YELLOW + "eastern door") + '\033[39m' + ")."
     Mere_Room_4.add_shorter_description(description)
 

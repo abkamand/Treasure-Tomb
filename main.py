@@ -109,7 +109,6 @@ def main():
             player.is_dead = True
             return
         if player.has_won:
-            print("Congratulations, you have found the treasure and won the game!")
             return
         if player.exit:
             print("exiting game")
