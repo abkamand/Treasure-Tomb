@@ -433,7 +433,7 @@ def build_the_board():
     # give the wooden coffin a description
     wooden_coffin.add_description(
         "A putrid smell surrounds the coffin, the wood is rotten, and there is a large hole in the cover revealing a half mummified corpse.\nThe mummy is holding a box of "
-        + (Fore.MAGENTA + "matches") + "\033[39m."
+        + (Fore.GREEN + "matches") + "\033[39m."
     )
     # since the wooden coffin cannot be picked up, we don't need to give it an e_description
 
