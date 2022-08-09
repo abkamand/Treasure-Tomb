@@ -94,6 +94,7 @@ def main():
         if player.in_combat is not None:
             player.fight(player.in_combat)
             if player.HP < 0 or player.HP == 0:
+                print("Your health has been reduced to 0. You died. Game over.")
                 return
             if player.HP > 0:
                 input("Press Enter to return")
@@ -107,6 +108,7 @@ def main():
         time.sleep(.25)
         if player.HP == 0 or player.HP < 0:
             player.is_dead = True
+            print("Your health has been reduced to 0. You died. Game over.")
             return
         if player.has_won:
             return
