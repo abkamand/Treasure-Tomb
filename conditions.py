@@ -492,6 +492,7 @@ def dead_to_dynamite(player):
                 print(
                     "You lit the dynamite in a room with nothing to place it in or on to effectively shield the blast. Any last words...?"
                 )
+                time.sleep(1)
                 # kill the player
                 player.HP = 0
 
@@ -530,6 +531,8 @@ def animal_puzzle(player):
                 eagle_puzzle = True
             if items.name == "alligator_solved":
                 alligator_puzzle = True
+            if items.name == "animal_complete":
+                message_played = True
 
     if player.current_location.name == "Andrew 4":
         for items in player.current_location.in_room:
@@ -610,12 +613,14 @@ def animal_puzzle(player):
 
     # check if all 3 puzzles have been solved, if so, give the player the diamond key and update room description
     if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True and message_played == False:
+        animal_complete = Item("animal_complete")
+        player.current_location.add_item_to_room(animal_complete)
         print(
             "A hole in the ceiling appears and a key in the shape of a crocodile falls right into the palm of your hand.\nSeems useful... but where? Better keep it for now."
         )
         time.sleep(1.5)
         crocodile_key = Item("Crocodile Key")
-        crocodile_key.description = "a bronze key in the shape of a crocodile"
+        crocodile_key.description = "A bronze key in the shape of a crocodile."
         crocodile_key.toggle_can_pick_up()
         player.add_to_inventory(crocodile_key)
 
@@ -654,6 +659,7 @@ def light_dynamite(player):
             if items.name == "dynamite":
                 if items.ability == True:
                     print("The dynamite is lit... quick, place it on something!")
+                    time.sleep(1)
                     for i in player.inventory:
                         if i.name == "matches":
                             player.inventory.remove(i)
@@ -731,7 +737,7 @@ def darkness_puzzle(player):
             "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
         )
         print(
-            "Perhaps you can make your way through the black labrynth off touch, feeling alone. You're blinded, not deaf or immaterial."
+            "Perhaps you can make your way through the black labrynth off touch or feeling, alone. You're blinded, not deaf or immaterial."
             + "\nShould I"
             + (Fore.YELLOW + " move")
             + "\033[39m to the "
@@ -771,7 +777,7 @@ def darkness_puzzle(player):
 
         # labrynth complete
         print(
-            "\nYou hear a clicking noise. Suddenly, a bright light blinds you and the room is illuminated and you hear the southern doorway rumble open once more."
+            "\nYou hear a clicking noise. Suddenly, a bright light blinds you, the room is illuminated, and you hear the southern doorway rumble open once more."
         )
 
         # create dynamite
@@ -809,7 +815,7 @@ def darkness_puzzle(player):
                 + (Fore.YELLOW + "southern corridor")
                 + "\033[39m)."
         )
-        time.sleep(1)
+        time.sleep(1.5)
         player.current_location.add_long_description(description)
 
         description = (
@@ -864,6 +870,7 @@ def jump_puzzle(player):
         # if player's first move is not to jump to short pillar, print message and subtract hp
         if short_pillar == False:
             print("You jump and miss your target, falling back to the floor, ouch (-5 HP).")
+            time.sleep(1)
             # lower player HP
             player.HP -= 5
 
@@ -879,7 +886,7 @@ def jump_puzzle(player):
 
         # else, print message and receive user input for next jump
         print("You are standing on top of the short pillar.")
-        time.sleep(.25)
+        time.sleep(.4)
         print("What will you do next?")
         response = input()
         # if player fails to jump to medium pillar, print fall message and subtract hp, repeat for large pillar jump next
@@ -890,6 +897,7 @@ def jump_puzzle(player):
         if response not in valid_list_medium:
             print(response)
             print("You jump and miss your target, falling back to the floor, ouch (-7 HP).")
+            time.sleep(1)
             player.HP -= 7
 
             for items in player.current_location.in_room:
@@ -902,7 +910,7 @@ def jump_puzzle(player):
             return
 
         print("You are standing on top of the medium pillar")
-        time.sleep(.25)
+        time.sleep(.4)
         print("What will you do next?")
         response = input()
         if response not in valid_list_large:
@@ -923,6 +931,7 @@ def jump_puzzle(player):
             "You made it to the roof chamber. You find a rope nearby and lower it so you can slide down quickly..."
             + " not sure you have the strength to climb back up the rope though."
         )
+        time.sleep(1.5)
         # move the player into the next room
         for items in player.current_location.in_room:
             items.ability = False
@@ -954,20 +963,20 @@ def explode_boulder(player):
                             + "\nIt must be in complete disarray."
                         )
                         # remove the boulder from the room
-                        time.sleep(1)
+                        time.sleep(2)
                         player.current_location.in_room.remove(items)
 
                         # CONNECT west_three to west_one now that the boulder is gone
                         # create the shortened description for the room, will be displayed when you are visiting a room you have been to
                         description = (
                                 "You enter a dark room with a pile of coffins and treaures in the corner.\nOne appears wooden ("
-                                + (Fore.MAGENTA + "wooden coffin")
+                                + (Fore.CYAN + "wooden coffin")
                                 + "\033[39m)"
                                 + " and ripped open, one appears metallic ("
-                                + (Fore.MAGENTA + "metallic coffin")
+                                + (Fore.CYAN + "metallic coffin")
                                 + "\033[39m)"
                                 + ", and the third appears to be small ("
-                                + (Fore.MAGENTA + "small coffin")
+                                + (Fore.CYAN + "small coffin")
                                 + "\033[39m)"
                                 + " and molded over."
                                 + "\nOn the northern wall, there is a narrow passage that leads into a pitch black corridor ("

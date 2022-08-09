@@ -382,7 +382,7 @@ def build_the_board():
             + "\nSquinting at the coffins to get a better glimpse, you spot three total: One appears wooden ("
             + (Fore.CYAN + "wooden coffin")
             + "\033[39m)"
-            + " and ripped open, one is metallic ("
+            + " and ripped open,\none is metallic ("
             + (Fore.CYAN + "metallic coffin")
             + "\033[39m)"
             + ", and the third is small ("
@@ -441,7 +441,7 @@ def build_the_board():
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
-        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening, a weapon of some sort may be needed to get inside..."
+        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself."
     )
 
     # create small coffin
@@ -588,7 +588,7 @@ def build_the_board():
 
     # create long description
     description = (
-            "A luxurious chamber greets you, the floors and walls are pristine. The mummy janitor clearly spent a lot of time here."
+            "A luxurious chamber greets you, the floors and walls are pristine.\nThe mummy janitor clearly spent a lot of time here."
             + "From afar, you spot what appears to be an "
             + (Fore.CYAN + "animal carving")
             + "\033[39m on the wall. Perhaps you should inspect this further?"
@@ -638,7 +638,7 @@ def build_the_board():
     # add description
     animal_carving.add_description(
         "A mystical light illuminates the wall, depicting an ancient carving of what appears to be a very large snake choking an alligator,"
-        + "an eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
+        + "\nan eagle clawing the snake, while the alligator simultaneously snaps at the eagle.\nA predator trifecta ourobouros of sorts... interesting."
     )
 
     # create python figurine object
