@@ -97,7 +97,7 @@ def water_room_create_water(player):
                 water = Item("water")
                 water.add_description("Water has collected at the bottom of the sink")
                 water.add_env_description(
-                    "At the bottom of the sink, a pool of " + (Fore.WHITE + "water") + '\033[39m' + " has accumulated.")
+                    "At the bottom of the sink, a pool of " + (Fore.GREEN + "water") + '\033[39m' + " has accumulated.")
                 water.toggle_can_pick_up()
                 player.current_location.add_item_to_room(water)
 
@@ -119,10 +119,10 @@ def water_room_statue(player):
                             Fore.YELLOW + "southern door") + '\033[39m' + ").")
                     input("Press Enter to return")
                     player.current_location.long_description = "The room has been flooded. All that remains is a pool of glistening " + (
-                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
+                            Fore.CYAN + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
                                                                        Fore.YELLOW + "southern door") + '\033[39m' + ")."
                     player.current_location.shortened_description = "The room has been flooded. All that remains is a pool of glistening " + (
-                            Fore.WHITE + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
+                            Fore.CYAN + "water") + '\033[39m' + ". You can now swim to the door on the southern wall (" + (
                                                                             Fore.YELLOW + "southern door") + '\033[39m' + ")."
                     player.current_location.in_room = []
                     water = Item("water")
@@ -210,27 +210,27 @@ def green_room_cut_tree(player):
                 for i in player.current_location.in_room:
                     if i.name == "packet":
                         player.current_location.shortened_description = "A large room filled with grass and vegetation.\nThere are " + (
-                                Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                                Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                                 Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                                                Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up. Where the tree stood, there is now a " + (
+                                                                                Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up. Where the tree stood, there is now a " + (
                                                                                 Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
                         player.current_location.long_description = "You're in a large chamber covered, with vegetation and grass covering every inch of the floor and walls.\nHow are all of these things growing down here?\nThere are " + (
-                                Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                                Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                            Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                                           Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up. Where the tree stood, there is now a " + (
+                                                                           Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up. Where the tree stood, there is now a " + (
                                                                            Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
                         for p in player.current_location.in_room:
                             if p.name == "tree":
                                 player.current_location.remove_item_from_room(p)
                                 return
                 player.current_location.long_description = "You're in a large chamber covered, with vegetation and grass covering every inch of the floor and walls.\nHow are all of these things growing down here?\nOn the ground, there is a " + (
-                        Fore.WHITE + "patch") + '\033[39m' + " of grass covered in dirt. Looks like something is buried there.\nThere are " + (
-                                                                   Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                        Fore.CYAN + "patch") + '\033[39m' + " of grass covered in dirt. Looks like something is buried there.\nThere are " + (
+                                                                   Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                    Fore.YELLOW + "northern door") + '\033[39m' + "). Where the tree stood, there is now a " + (
                                                                    Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
                 player.current_location.shortened_description = "A large room filled with grass and vegetation.\nThere is a " + (
-                        Fore.WHITE + "patch") + '\033[39m' + " of grass covered in dirt that looks like you can dig it up.\nThere are " + (
-                                                                        Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                        Fore.CYAN + "patch") + '\033[39m' + " of grass covered in dirt that looks like you can dig it up.\nThere are " + (
+                                                                        Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                         Fore.YELLOW + "northern door") + '\033[39m' + "). Where the tree stood, there is now a " + (
                                                                         Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
                 for i in player.current_location.in_room:
@@ -274,7 +274,7 @@ def green_room_patch(player):
     packet.add_description(
         "It looks like a letter is attached to the packet. It's from the adventurer's grandma. It reads:\nMy dearest Jacob,\nI hope you are doing well. I know you are going on a very dangerous exploration, and I'm worried for you.\nWhile you are gone, I want you to be able to remember the taste of home.\nSo, in this packet I'm sending you the spices that go into my famous stew that you always love.\nRemember, all you need to do is add some tomatoes and onions into a bowl with water.\nThen, just add the spices in and put the bowl in the oven for 5 minutes.\nI hope you make it back safely, please come back soon!\nLove,\nGrandma")
     packet.add_env_description("There is a small " + (
-            Fore.WHITE + "packet") + '\033[39m' + " sticking out of the pocket of the dead adventurer's vest")
+            Fore.GREEN + "packet") + '\033[39m' + " sticking out of the pocket of the dead adventurer's vest")
     packet.toggle_can_pick_up()
     player.current_location.add_item_to_room(adventurer)
     player.current_location.add_item_to_room(packet)
@@ -284,25 +284,25 @@ def green_room_patch(player):
     for items in player.current_location.in_room:
         if items.name == "tree":
             player.current_location.shortened_description = "A large room filled with grass and vegetation.\nThere is a large oak " + (
-                    Fore.WHITE + "tree") + '\033[39m' + " in the center of the room.\nThere are " + (
-                                                                    Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                    Fore.CYAN + "tree") + '\033[39m' + " in the center of the room.\nThere are " + (
+                                                                    Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                     Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                                    Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up."
+                                                                    Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up."
             player.current_location.long_description = "You're in a large chamber covered, with vegetation and grass covering every inch of the floor and walls.\nHow are all of these things growing down here?\nThere is a large oak " + (
-                    Fore.WHITE + "tree") + '\033[39m' + " in the center of the room.\nThere are " + (
-                                                               Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+                    Fore.CYAN + "tree") + '\033[39m' + " in the center of the room.\nThere are " + (
+                                                               Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                                Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                               Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up."
+                                                               Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up."
             return
     player.current_location.shortened_description = "A large room filled with grass and vegetation.\nThere are " + (
-            Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+            Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                             Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                            Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up.\nWhere the tree stood, there is now a " + (
+                                                            Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up.\nWhere the tree stood, there is now a " + (
                                                             Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
     player.current_location.long_description = "You're in a large chamber covered, with vegetation and grass covering every inch of the floor and walls.\nHow are all of these things growing down here?\nThere are " + (
-            Fore.WHITE + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
+            Fore.CYAN + "pictures") + '\033[39m' + " carved into the moss on the walls. I should take a closer look.\nOn the northern wall, there is a door that leads back to the flooded room (" + (
                                                        Fore.YELLOW + "northern door") + '\033[39m' + "). On the ground lies the body of an " + (
-                                                       Fore.WHITE + "adventurer") + '\033[39m' + " that you dug up.\nWhere the tree stood, there is now a " + (
+                                                       Fore.CYAN + "adventurer") + '\033[39m' + " that you dug up.\nWhere the tree stood, there is now a " + (
                                                        Fore.YELLOW + "passageway") + '\033[39m' + " leading underground."
 
     return
@@ -324,10 +324,10 @@ def blacksmith_room_mummy_helmet(player):
             dome_helmet.can_pick_up = True
             player.current_location.add_item_to_room(dome_helmet)
             player.current_location.long_description = 'You enter a sweltering chamber with a stone ' + (
-                    Fore.WHITE + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (
+                    Fore.CYAN + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (
                                                                Fore.YELLOW + "passageway") + '\033[39m' + '.  A beautiful ' + (
-                                                               Fore.WHITE + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
-                                                               Fore.WHITE + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the wall beside you: '
+                                                               Fore.CYAN + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
+                                                               Fore.CYAN + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the wall beside you: '
 
 
 def blacksmith_room_fire_arrows(player):
@@ -464,17 +464,17 @@ def blacksmith_room_stew_success(player):
                 if e.name == "Guardian":
                     player.current_location.enemies.remove(e)
             player.current_location.long_description = 'You enter a sweltering chamber with a stone ' + (
-                    Fore.WHITE + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (
+                    Fore.CYAN + "furnace") + '\033[39m' + ' at the far end of the room. Behind you is the underground ' + (
                                                                Fore.YELLOW + "passageway") + '\033[39m' + '. In the center of the room, there is a ' + (
                                                                Fore.YELLOW + "slide") + '\033[39m' + ' leading somewhere. A beautiful ' + (
-                                                               Fore.WHITE + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
-                                                               Fore.WHITE + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the wall beside you: '
+                                                               Fore.CYAN + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
+                                                               Fore.CYAN + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the wall beside you: '
             player.current_location.shortened_description = 'A sweltering room with a stone ' + (
-                    Fore.WHITE + "furnace") + '\033[39m' + ' at the far end of the room.\nBehind you is the underground ' + (
+                    Fore.CYAN + "furnace") + '\033[39m' + ' at the far end of the room.\nBehind you is the underground ' + (
                                                                     Fore.YELLOW + "passageway") + '\033[39m' + '. In the center of the room, there is a ' + (
                                                                     Fore.YELLOW + "slide") + '\033[39m' + ' leading somewhere. A beautiful ' + (
-                                                                    Fore.WHITE + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
-                                                                    Fore.WHITE + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the walls: '
+                                                                    Fore.CYAN + "chandelier") + '\033[39m' + ' with a large, unlit candle hangs from the ceiling and intricate ' + (
+                                                                    Fore.CYAN + "carvings") + '\033[39m' + ' adorn the walls.\nThese weapons are hanging on the walls: '
 
 
 # ------------------------------------------ANDREW CONDITIONS ------------------------------------------------------
@@ -519,6 +519,7 @@ def animal_puzzle(player):
     python_puzzle = False
     eagle_puzzle = False
     alligator_puzzle = False
+    message_played = False
 
     # check if player is in Andrew room 4
     if player.current_location.name == "Andrew 4":
@@ -534,7 +535,7 @@ def animal_puzzle(player):
     if player.current_location.name == "Andrew 4":
         for items in player.current_location.in_room:
             # check if python pedestal is solved or if the player has placed a figurine upon it
-            if items.name == "snake pedestal" and python_puzzle == False:
+            if items.name == "snake pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "alligator figurine":
@@ -542,23 +543,24 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "eagle figurine":
+                    elif i.name == "eagle figurine" and python_puzzle == False:
                         print(
                             "The eagle's eyes light up and it locks in place the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         python_solved = Item("python_solved")
                         player.current_location.add_item_to_room(python_solved)
                         python_puzzle = True
                         i.toggle_can_pick_up()
 
             # check if eagle pedestal is solved or figurine placed
-            if items.name == "eagle pedestal" and eagle_puzzle == False:
+            if items.name == "eagle pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "python figurine" or i.name == "eagle figurine":
@@ -566,23 +568,24 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "alligator figurine":
+                    elif i.name == "alligator figurine" and eagle_puzzle == False:
                         print(
                             "The alligator's eyes light up and it locks in place the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         eagle_solved = Item("eagle_solved")
                         player.current_location.add_item_to_room(eagle_solved)
                         eagle_puzzle = True
                         i.toggle_can_pick_up()
 
             # check if eagle pedestal is solved or figurine placed
-            if items.name == "alligator pedestal" and alligator_puzzle == False:
+            if items.name == "alligator pedestal":
                 for i in items.contains:
                     # if the player places the wrong figurine, print message, add figurine back to room, subtract hp from player
                     if i.name == "alligator figurine" or i.name == "eagle figurine":
@@ -590,27 +593,28 @@ def animal_puzzle(player):
                             "The room shakes and a sharp dart seems to strike you out of nowhere. Ouch!\nSome supernatural force clearly did not like your choice of pedestal... Perhaps you should pick up the figurine from the pedestal and try another?"
                         )
                         print("You lost 5 HP points.")
+                        time.sleep(2)
                         player.HP -= 5
                         player.current_location.add_item_to_room(i)
                         items.remove_item_from_container(i)
                     # if the player places the correct figurine, print message, add hidden item to room to indicate completion and toggle off pick-up
                     # on eagle figurine to prevent player from picking it up again
-                    elif i.name == "python figurine":
+                    elif i.name == "python figurine" and alligator_puzzle == False:
                         print(
                             "The python's eyes light and it locks in place up the second you placed it on the snake pedestal... seems like you did something right."
                         )
-                        time.sleep(1)
+                        time.sleep(1.5)
                         alligator_solved = Item("alligator_solved")
                         player.current_location.add_item_to_room(alligator_solved)
                         alligator_puzzle = True
                         i.toggle_can_pick_up()
 
     # check if all 3 puzzles have been solved, if so, give the player the diamond key and update room description
-    if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True:
+    if alligator_puzzle == True and python_puzzle == True and eagle_puzzle == True and message_played == False:
         print(
-            "A hole in the ceiling appears and a key in the shape of a crocodile falls right into the palm of your hand.\nSeems useful... but where? Better keep it for now"
+            "A hole in the ceiling appears and a key in the shape of a crocodile falls right into the palm of your hand.\nSeems useful... but where? Better keep it for now."
         )
-        time.sleep(1)
+        time.sleep(1.5)
         crocodile_key = Item("Crocodile Key")
         crocodile_key.description = "a bronze key in the shape of a crocodile"
         crocodile_key.toggle_can_pick_up()
@@ -626,6 +630,7 @@ def animal_puzzle(player):
                 + "\033[39m)."
         )
         player.current_location.add_shorter_description(description)
+        message_played == True
 
 
 def light_dynamite(player):
@@ -726,7 +731,7 @@ def darkness_puzzle(player):
             "You enter a pitch black chamber. Darkness is everywhere. Is it even a chamber? Hallway? Death trap?\nYou hear the doorway slam shut behind you."
         )
         print(
-            "Perhaps you can make your way through the black labrynth off touch, feeling alone. You're blinded, not deaf or immaterial."
+            "Perhaps you can make your way through the black labrynth off touch or feeling, alone. You're blinded, not deaf or immaterial."
             + "\nShould I"
             + (Fore.YELLOW + " move")
             + "\033[39m to the "
@@ -804,7 +809,7 @@ def darkness_puzzle(player):
                 + (Fore.YELLOW + "southern corridor")
                 + "\033[39m)."
         )
-        time.sleep(1)
+        time.sleep(1.5)
         player.current_location.add_long_description(description)
 
         description = (
@@ -859,6 +864,7 @@ def jump_puzzle(player):
         # if player's first move is not to jump to short pillar, print message and subtract hp
         if short_pillar == False:
             print("You jump and miss your target, falling back to the floor, ouch (-5 HP).")
+            time.sleep(1)
             # lower player HP
             player.HP -= 5
 
@@ -874,7 +880,7 @@ def jump_puzzle(player):
 
         # else, print message and receive user input for next jump
         print("You are standing on top of the short pillar.")
-        time.sleep(.25)
+        time.sleep(.5)
         print("What will you do next?")
         response = input()
         # if player fails to jump to medium pillar, print fall message and subtract hp, repeat for large pillar jump next
@@ -885,6 +891,7 @@ def jump_puzzle(player):
         if response not in valid_list_medium:
             print(response)
             print("You jump and miss your target, falling back to the floor, ouch (-7 HP).")
+            time.sleep(1)
             player.HP -= 7
 
             for items in player.current_location.in_room:
@@ -897,12 +904,13 @@ def jump_puzzle(player):
             return
 
         print("You are standing on top of the medium pillar")
-        time.sleep(.25)
+        time.sleep(.5)
         print("What will you do next?")
         response = input()
         if response not in valid_list_large:
             print(response)
             print("You jump and miss your target, falling back to the floor, ouch (-10 HP).")
+            time.sleep(1)
             player.HP -= 10
 
             for items in player.current_location.in_room:
@@ -918,6 +926,7 @@ def jump_puzzle(player):
             "You made it to the roof chamber. You find a rope nearby and lower it so you can slide down quickly..."
             + " not sure you have the strength to climb back up the rope though."
         )
+        time.sleep(1.5)
         # move the player into the next room
         for items in player.current_location.in_room:
             items.ability = False
@@ -949,7 +958,7 @@ def explode_boulder(player):
                             + "\nIt must be in complete disarray."
                         )
                         # remove the boulder from the room
-                        time.sleep(1)
+                        time.sleep(2)
                         player.current_location.in_room.remove(items)
 
                         # CONNECT west_three to west_one now that the boulder is gone
@@ -1025,8 +1034,8 @@ def light_candles(player):
                         "The candles flare up, then you hear a small click. A drawer slides open in the wall below the candles.")
                     player.current_location.remove_item_from_room(item)
                     description = "This is the room to the west of the Main Chamber.\nThere is a " + (
-                            Fore.WHITE + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
-                                          Fore.WHITE + "candles") + '\033[39m' + " along the southern wall.\nThey are burning cheerfully and light up the room.\nThere is a blue door on the northern wall (" + (
+                            Fore.CYAN + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
+                                          Fore.CYAN + "candles") + '\033[39m' + " along the southern wall.\nThey are burning cheerfully and light up the room.\nThere is a blue door on the northern wall (" + (
                                           Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
                                           Fore.YELLOW + "eastern door") + '\033[39m' + ")."
                     player.current_location.add_shorter_description(description)
@@ -1037,7 +1046,7 @@ def light_candles(player):
                         "A red orb left behind when you lit the candles.\nIt looks like a ruby. It's as big as your fist!")
                     # We need to add an environmental description, since it can be picked up
                     red_orb.add_env_description("In the open drawer next to the candles, there is a " + (
-                            Fore.WHITE + "red orb") + '\033[39m' + ". It is smooth and glitters in the candlelight.")
+                            Fore.GREEN + "red orb") + '\033[39m' + ". It is smooth and glitters in the candlelight.")
                     red_orb.toggle_can_pick_up()
                     # add the orb to the room
                     player.current_location.add_item_to_room(red_orb)
@@ -1120,7 +1129,7 @@ def sapphire_from_sphinx(player):
                 blue_orb.toggle_can_pick_up()
                 # We need to add an environmental description, since it can be picked up
                 blue_orb.add_env_description("In the place where the sphinx was standing, there is a " + (
-                        Fore.WHITE + "blue orb") + '\033[39m' + ". It is smooth and glitters faintly.")
+                        Fore.GREEN + "blue orb") + '\033[39m' + ". It is smooth and glitters faintly.")
                 # add the orb to the room
                 player.current_location.add_item_to_room(blue_orb)
 
@@ -1244,7 +1253,7 @@ def give_jackal_fish(player):
                             "A shiny gold coin. It looks old and valuable. It was buried in the jackal's room.")
                         # add an environmental description
                         coin.add_env_description("A gold " + (
-                                Fore.WHITE + "coin") + '\033[39m' + " glitters in the dirt. It was uncovered when the jackal left.")
+                                Fore.GREEN + "coin") + '\033[39m' + " glitters in the dirt. It was uncovered when the jackal left.")
                         # add the item into the room
                         player.current_location.add_item_to_room(coin)
                         coin.toggle_can_pick_up()
@@ -1279,8 +1288,8 @@ def cross_chasm(player):
 
                 # update the shortened description for the room
                 description = "You hear the wind somewhere high overhead.\nThere is a large " + (
-                        Fore.WHITE + "chasm") + '\033[39m' + " in the middle of the room. There is a thin " + (
-                                      Fore.WHITE + "bridge") + '\033[39m' + " stretching from one side to the other.\nThere is a small wooden door on the eastern wall (" + (
+                        Fore.CYAN + "chasm") + '\033[39m' + " in the middle of the room. There is a thin " + (
+                                      Fore.CYAN + "bridge") + '\033[39m' + " stretching from one side to the other.\nThere is a small wooden door on the eastern wall (" + (
                                       Fore.YELLOW + "eastern door") + '\033[39m' + ")."
                 player.current_location.add_shorter_description(description)
 
@@ -1299,7 +1308,7 @@ def cross_chasm(player):
                     "A ceramic tile, with a navy and gray pattern. It seems slightly different from all the others.\nIt feels a bit loose. You wonder if you could pick it up.")
                 # We need to give the tile an environmental description, since it can be picked up
                 tile.add_env_description("On the ground at your feet there is a " + (
-                        Fore.WHITE + "tile") + '\033[39m' + " that seems to wobble a little when you step on it.")
+                        Fore.GREEN + "tile") + '\033[39m' + " that seems to wobble a little when you step on it.")
                 # make it so we can pick up the tile
                 tile.toggle_can_pick_up()
                 # add the tile to the room
@@ -1328,7 +1337,7 @@ def item_under_tile(player):
                     "It's a medallion in the shape of a sphinx. It looks like it's made of brass. You found it across the chasm, under a tile.")
                 # give the fish an environmental description
                 medallion.add_env_description("There is a brass " + (
-                        Fore.WHITE + "medallion") + '\033[39m' + " in a shallow hole. It was buried underneath the tile.")
+                        Fore.GREEN + "medallion") + '\033[39m' + " in a shallow hole. It was buried underneath the tile.")
                 # make it so you can pick up the medallion
                 medallion.toggle_can_pick_up()
                 # add the fish to the room
