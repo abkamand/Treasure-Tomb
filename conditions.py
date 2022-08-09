@@ -1034,9 +1034,10 @@ def light_candles(player):
                         "The candles flare up, then you hear a small click. A drawer slides open in the wall below the candles.")
                     player.current_location.remove_item_from_room(item)
                     description = "This is the room to the west of the Main Chamber.\nThere is a " + (
+
                             Fore.CYAN + "black patch") + '\033[39m' + " on the floor in the corner.\nThere is a row of " + (
                                           Fore.CYAN + "candles") + '\033[39m' + " along the southern wall.\nThey are burning cheerfully and light up the room.\nThere is a blue door on the northern wall (" + (
-                                          Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
+                                          Fore.YELLOW + "northern door") + '\033[39m' + ").\nThere is a small wooden door on the western wall (" + (Fore.YELLOW + "western door") + '\033[39m' + ").\nThere is a door on the eastern wall leading back to the Main Chamber (" + (
                                           Fore.YELLOW + "eastern door") + '\033[39m' + ")."
                     player.current_location.add_shorter_description(description)
 
@@ -1143,7 +1144,7 @@ def check_for_dark_room(player):
     """
     if player.current_location.name == "mere cluster room 3":  # check to see if the player is in the right room
         for item in player.inventory:  # check all the items in the player inventory
-            if item.name == "torch" and item.ability == True:  # if the torch item is found, check if it's turned on
+            if item.name == "torch" and item.ability != False:  # if the torch item is found, check if it's turned on
                 # if the torch item is found and turned on, then the room description should print
                 player.current_location.add_long_description(
                     "The torch lights up the darkness and illuminates the room.\nIt seems to have a rocky floor, and water drips down the walls.\nIt smells a bit dank and unpleasant.\n"
@@ -1151,17 +1152,41 @@ def check_for_dark_room(player):
                             Fore.YELLOW + "southern door") + '\033[39m' + ").")
                 player.current_location.add_shorter_description(
                     "The torch lights up the darkness and illuminates the room.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
-                            Fore.YELLOW + "southern door") + '\033[39m' + ").")
+                        Fore.YELLOW + "southern door") + '\033[39m' + ").")
+                for i in player.current_location.in_room:
+                    if i.name == "rocks":
+                        i.e_description = "There is a pile of " + (Fore.WHITE + "rocks") + '\033[39m' + " in the corner. It looks like it was placed there on purpose."
+                for i in player.current_location.in_room:
+                    if i.name == "soil":
+                        i.e_description = "There is a wet patch of " + (Fore.WHITE + "soil") + '\033[39m' + " near the wall. It looks like it was recently disturbed."
+                for i in player.current_location.in_room:
+                    if i.name == "figurine":
+                        i.e_description = "There is a small " + (Fore.WHITE + "figurine") + '\033[39m' + " lying on the floor. It looks like a black cat."
+                for i in player.current_location.in_room:
+                    if i.name == "mushrooms":
+                        i.e_description ="There is a patch of " + (Fore.BLUE + "mushrooms") + '\033[39m' + " in the southeastern corner. They seem to like the damp earth.\nThe mushrooms are glowing faintly. You think it would be best to leave them alone."
                 return
-        # if the torch item is not found or is not turned on, then only an error message about the darkness
-        # also need to show the room they previously came from so they can leave again
-        player.current_location.add_long_description(
-            "It is very dark and oppressive. You can't go further without a light.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
-                    Fore.YELLOW + "southern door") + '\033[39m' + ").")
-        player.current_location.add_shorter_description(
-            "It is very dark and oppressive. You can't go further without a light.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
-                    Fore.YELLOW + "southern door") + '\033[39m' + ").")
-        return
+            player.current_location.add_long_description(
+                "It is very dark and oppressive. You can't go further without a light.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
+                        Fore.YELLOW + "southern door") + '\033[39m' + ").")
+            player.current_location.add_shorter_description(
+                "It is very dark and oppressive. You can't go further without a light.\nThere is a dark doorway on the southern wall, leading back the way you came (" + (
+                        Fore.YELLOW + "southern door") + '\033[39m' + ").")
+            for i in player.current_location.in_room:
+                if i.name == "rocks":
+                    i.e_description = None
+            for i in player.current_location.in_room:
+                if i.name == "soil":
+                    i.e_description = None
+            for i in player.current_location.in_room:
+                if i.name == "figurine":
+                    i.e_description = None
+            for i in player.current_location.in_room:
+                if i.name == "mushrooms":
+                    i.e_description = None
+            return
+
+
 
 
 def item_under_soil(player):
@@ -1258,9 +1283,6 @@ def give_jackal_fish(player):
                         player.current_location.add_item_to_room(coin)
                         coin.toggle_can_pick_up()
 
-                        if player.in_combat != None:
-                            player.in_combat = None
-
 
 def cross_chasm(player):
     """
@@ -1331,17 +1353,17 @@ def item_under_tile(player):
                 player.inventory.remove(item)
 
                 # create the brass sphinx, for the Main Chamber puzzle
-                medallion = Item("medallion")
+                sphinx_key = Item("Sphinx Key")
                 # give the medallion a description
-                medallion.add_description(
-                    "It's a medallion in the shape of a sphinx. It looks like it's made of brass. You found it across the chasm, under a tile.")
+                sphinx_key.add_description(
+                    "It's a key in the shape of a sphinx. It looks like it's made of brass. You found it across the chasm, under a tile.")
                 # give the fish an environmental description
-                medallion.add_env_description("There is a brass " + (
-                        Fore.GREEN + "medallion") + '\033[39m' + " in a shallow hole. It was buried underneath the tile.")
+                sphinx_key.add_env_description("There is a brass key in a shallow hole. It's shaped like a sphinx, so it must be the " + (Fore.GREEN + "Sphinx Key") + '\033[39m' + "!")
+
                 # make it so you can pick up the medallion
-                medallion.toggle_can_pick_up()
+                sphinx_key.toggle_can_pick_up()
                 # add the fish to the room
-                player.current_location.add_item_to_room(medallion)
+                player.current_location.add_item_to_room(sphinx_key)
 
 
 def final_condition(player):
@@ -1366,7 +1388,7 @@ def final_condition(player):
         print("In the center of the bare room, there is a wooden chest.")
         print("You approach the chest and pry the rusted top off of it.")
         print("Lying alone on a velvet cushion is the most magnificent jewel. A ruby fit for a king.")
-        print("CONGRATULATIONS, YOU HAVE COMPLETED THE GAME")
+        print("CONGRATULATIONS, YOU HAVE COMPLETED THE GAME!")
         player.has_won = True
 
 

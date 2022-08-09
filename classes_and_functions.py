@@ -48,7 +48,7 @@ class Room:
 
         # print the items in the room that are not on the floor (original place)
         for items in self.in_room:
-            if not items.on_floor and items.can_pick_up:
+            if not items.on_floor and items.can_pick_up and items.e_description != None:
                 print(items.e_description)
 
         # print the items on the floor
@@ -746,20 +746,22 @@ class Player:
         print("\n")
         print("In each room, you will be presented with a description of your surroundings.")
         print("Items and Enemies that may be interacted with are color-coded: ")
-        print("regular items are white")
+        print("regular items that cannot be picked up are cyan")
+        print("regular items that can be picked up are green")
         print("consumable items are blue")
         print("weapon items are magenta")
         print("rooms are yellow")
         print("enemies are red")
         print("\n")
         print("You may interact with certain objects in your environment using player-inputted commands.")
-        print("Warning: commands must be inputted exactly as they are listed here")
-        print("List of supported commands:")
+        print("You may use a variety of action commands. Please reference the manual for an extensive list of commands")
+        print("List of basic supported commands:")
         print("savegame   : saves the current state of the game")
         print("help    : shows this help screen")
         print("inventory    : shows you the items in your inventory")
         print("exit     : exits the game. Make sure to save before using this command")
         print("HP     : shows you your current HP")
+        print("put __ in ___ : allows you to place an item within another item")
         print("look at _____  :  Allows you to see a description of any item or enemy in the room.")
         print("pick up _____  : Allows you to pick up an item, as long as that item can be picked up. It "
               "will be placed in your inventory")
