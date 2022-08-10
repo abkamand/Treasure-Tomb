@@ -1107,9 +1107,9 @@ def solve_sphinx_riddle(player):
                 else:
                     print(
                         "The sphinx whips her tail angrily and flexes her claws.\n'WRONG!' She yells, and lunges towards you.\nAs she spreads her wings, your vision fades to black.")
-                    print("GAME OVER!")
+                    #print("GAME OVER!")
                     input("Press Enter to return")
-                    player.is_dead = True
+                    player.HP = 0
 
 
 def sapphire_from_sphinx(player):
@@ -1248,7 +1248,7 @@ def jackal_from_fish(player):
                 jackal.set_HP(25)
                 # set moves and their power/descriptions
                 jackal.set_moves_and_power(1, "The jackal jumps at your leg and bites your foot!", 10)
-                jackal.set_moves_and_power(2, "The jackal lunges at you, but missed", 0)
+                jackal.set_moves_and_power(2, "The jackal lunges at you, but misses", 0)
                 jackal.set_moves_and_power(3, "The jackal extends his claws and scratches you!", 5)
                 jackal.set_moves_and_power(4, "The jackal howls and charges into you!", 5)
                 # add the enemy into the room
