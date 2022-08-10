@@ -65,7 +65,7 @@ class Room:
                     elif items.can_consume:
                         print((Fore.BLUE + items.name) + '\033[39m')
                     else:
-                        print((Fore.WHITE + items.name) + '\033[39m')
+                        print((Fore.GREEN + items.name) + '\033[39m')
 
         # print the enemies in the room
         for enemies in self.enemies:

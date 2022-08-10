@@ -161,7 +161,7 @@ def build_the_board():
                                                    "the wall.\nHis body is wrapped in decaying cloth and rusted "
                                                    "armor. He walks menacingly towards you.")
     # set its HP
-    water_mummy.set_HP(25)
+    water_mummy.set_HP(75)
     # set its moves and the moves'
     water_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his sword, slashing downward with its withered hands!",
@@ -252,7 +252,7 @@ def build_the_board():
     green_mummy.add_env_description("You hear a rumbling from underneath you, and a " + (
             Fore.RED + "mummy") + '\033[39m' + " emerges from the soil in front of you. He charges at you with an axe.")
     # set its HP
-    green_mummy.set_HP(25)
+    green_mummy.set_HP(75)
     # set its moves and the moves'
     green_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his axe, slashing downward with its withered hands!",
@@ -349,7 +349,7 @@ def build_the_board():
     armored_mummy.add_env_description("The armored " + (Fore.RED + "mummy") + '\033[39m' + " waits for you to challenge him.")
 
     # set its HP
-    armored_mummy.set_HP(25)
+    armored_mummy.set_HP(100)
     # set its moves and the moves'
     armored_mummy.set_moves_and_power(1,
                                     "The mummy lunges at you with his broadsword, swinging widly and knocking you down!",
@@ -441,7 +441,7 @@ def build_the_board():
     metallic_coffin = Item("metallic coffin")
     # give the metallic coffin a description
     metallic_coffin.add_description(
-        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself.\nIt doesn't have a clear opening."
+        "The coffin is coated in a metal of some sort... gold... silver... platinum?\nIt's difficult to discern in the dark, the metal is reflective, greeting you with a blurred silhouette of yourself."
     )
 
     # create small coffin
